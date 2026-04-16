@@ -1,0 +1,43 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Open Citadel — A Knowledge Companion for Founders & Thinkers",
+  description = "Collect, organise, and action insights from books, blogs, and podcasts. Open Citadel is your personal archive for deep work and serious thinking.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="/app-icon.png" />
+    <title>{title}</title>
+
+    <!-- Google Fonts: Newsreader (display) + Manrope (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=Manrope:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Restore saved theme before paint to avoid flash -->
+    <script is:inline>
+      (function () {
+        const t = localStorage.getItem('oc-theme');
+        if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+      })();
+    </script>
+  </head>
+  <body class="bg-obsidian text-parchment font-body">
+    <slot />
+  </body>
+</html>

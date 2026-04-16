@@ -1,0 +1,144 @@
+---
+// Features — "Your Personal Intellectual Den"
+// 4 full-width rows: copy left, phone right with per-feature positioning
+
+// Import screenshots - inverted for light mode show dark screenshots and vice versa
+import timelineLight from '../assets/screenshots/light/timeline-light.png';
+import timelineDark from '../assets/screenshots/dark/timeline-dark.png';
+import library2Light from '../assets/screenshots/light/library-2-light.png';
+import library2Dark from '../assets/screenshots/dark/library-2-dark.png';
+import readerLight from '../assets/screenshots/light/reader-light.png';
+import readerDark from '../assets/screenshots/dark/reader-dark.png';
+import samwellLight from '../assets/screenshots/light/samwell-light.png';
+import samwellDark from '../assets/screenshots/dark/samwell-dark.png';
+
+const features = [
+  {
+    id: "timeline",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h10"/><path d="M6 12h9"/><path d="M11 18h7"/></svg>`,
+    title: "Timeline",
+    description:
+      "A chronological feed of your highlights and thoughts — filterable, tagged, and always linked to the source.",
+    features: ["Unified chronological feed", "Tags & calendar filtering", "Freeform thoughts"],
+    bg: "bg-surface-low",
+    phoneStyle: "transform: translateY(-20px);",
+    darkImg: timelineLight.src,
+    lightImg: timelineDark.src,
+  },
+  {
+    id: "library",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg>`,
+    title: "Library",
+    description:
+      "Your centralised home for every EPUB. Sync books from local device folders, track reading progress, mark favourites, and organise collections — all in one place.",
+    features: ["Folder sync via Android SAF", "Automatic metadata & covers", "Collections & archive"],
+    bg: "bg-obsidian",
+    phoneStyle: "transform: translateY(-20px);",
+    darkImg: library2Light.src,
+    lightImg: library2Dark.src,
+  },
+  {
+    id: "reader",
+
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/><path d="M6 8h2"/><path d="M6 12h2"/><path d="M16 8h2"/><path d="M16 12h2"/></svg>`,
+    title: "EPUB Reader",
+    description:
+      "A focused reading environment for deep immersion. Colour-coded highlights with tags, bookmarking, and built-in Text-to-Speech that follows your reading position — in dark, light, or sepia.",
+    features: ["TTS follows reading position", "Colour-coded highlight tagging", "Bookmarking"],
+    bg: "bg-surface-low",
+    phoneStyle: "transform: translateY(-20px);",
+    darkImg: readerLight.src,
+    lightImg: readerDark.src,
+  },
+  {
+    id: "samwell",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>`,
+    title: "Samwell",
+    description:
+      "Interact with your knowledge. Chat with your highlights and surface hidden connections across different sources through privacy first AI.",
+    features: ["On-device LLM (offline & private)", "Chat from any highlight", "Attach books for context"],
+    bg: "bg-obsidian",
+    phoneStyle: "transform: translateY(-20px);",
+    darkImg: samwellLight.src,
+    lightImg: samwellDark.src,
+  },
+];
+---
+
+<div id="features">
+  {
+    features.map((f, i) => (
+      <section
+        id={f.id}
+        class={`py-28 md:py-36 px-6 md:px-12 lg:px-20 ${f.bg}`}
+      >
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+
+          <!-- Left: copy -->
+          <div class="flex flex-col gap-5" style="padding: 2.4rem 2rem 2rem 2.6rem;">
+
+            {i === 0 && (
+              <div>
+                <p class="font-body text-xs font-semibold text-gold uppercase tracking-[0.12em] mb-5 m-0">
+                  Core Features
+                </p>
+                <h2
+                  class="font-display text-parchment m-0 mb-10 max-w-xl"
+                  style="font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 400; line-height: 1.15;"
+                >
+                  Your Intellectual Den
+                </h2>
+              </div>
+            )}
+
+            <!-- Icon -->
+            <span class="text-gold" set:html={f.icon} />
+
+            <!-- Title -->
+            <h3
+              class="font-display text-parchment m-0"
+              style="font-size: 1.25rem; font-weight: 400;"
+            >
+              {f.title}
+            </h3>
+
+            <!-- Description -->
+            <p class="font-body text-parchment-dim text-sm leading-relaxed m-0">
+              {f.description}
+            </p>
+
+            <!-- Feature bullets -->
+            <ul class="list-none m-0 p-0 flex flex-col gap-2 mt-auto">
+              {f.features.map((item) => (
+                <li class="flex items-center gap-2.5 font-body text-xs text-parchment-dim">
+                  <span class="text-gold shrink-0" aria-hidden="true">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Right: phone -->
+          <div
+            class="hidden md:flex justify-center items-end relative"
+            style="min-height: 500px;"
+          >
+            <img
+              class="phone-dark"
+              src={f.darkImg}
+              alt={`Open Citadel ${f.title} on Android`}
+              style={`height: 480px; width: auto; object-fit: contain; ${f.phoneStyle}`}
+            />
+            <img
+              class="phone-light"
+              src={f.lightImg}
+              alt={`Open Citadel ${f.title} on Android`}
+              style={`height: 480px; width: auto; object-fit: contain; ${f.phoneStyle}`}
+            />
+          </div>
+
+        </div>
+      </section>
+    ))
+  }
+</div>

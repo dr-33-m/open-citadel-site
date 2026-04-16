@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-obsidian: oklch(18.674% 0.00002 271.152);
+  --color-surface-low: oklch(22.324% 0.00154 16.369);
+  --color-surface-mid: oklch(26.41% 0.0018 106.783);
+  --color-surface-high: oklch(32.861% 0.0017 106.834);
+  --color-gold: oklch(85.189% 0.14404 90.666);
+  --color-gold-deep: oklch(76.652% 0.13861 91.065);
+  --color-parchment: oklch(82.652% 0.03228 84.573);
+  --color-parchment-dim: oklch(60.149% 0.02827 78.767);
+
+  /* Fonts */
+  --font-display: "Newsreader", Georgia, serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+}
+
+/* Base */
+html {
+  background-color: var(--color-obsidian);
+  color: var(--color-parchment);
+  font-family: "Manrope", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Design system rule: no border radius anywhere */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+/* ─── Nav background variable ─────────────────────────────── */
+:root {
+  --nav-bg: oklch(18.674% 0.00002 271.152 / 0.88);
+}
+
+/* ─── Light theme ────────────────────────────────────────── */
+[data-theme="light"] {
+  --color-obsidian: oklch(95.682% 0.01182 79.687);
+  --color-surface-low: oklch(92.386% 0.0148 80.639);
+  --color-surface-mid: oklch(88.504% 0.01955 80.062);
+  --color-surface-high: oklch(83.964% 0.02443 79.687);
+  --color-gold: oklch(69.752% 0.13989 86.062);
+  --color-gold-deep: oklch(61.337% 0.12311 84.869);
+  --color-parchment: oklch(20.983% 0.00827 84.573);
+  --color-parchment-dim: oklch(39.714% 0.02298 82.942);
+  --nav-bg: oklch(95.931% 0.01015 81.702 / 0.92);
+}
+
+/* Ensure gold-gradient buttons always read dark */
+.text-ink {
+  color: #1a1814;
+}
+
+/* Theme toggle icon visibility */
+.icon-sun {
+  display: block;
+}
+.icon-moon {
+  display: none;
+}
+[data-theme="light"] .icon-sun {
+  display: none;
+}
+[data-theme="light"] .icon-moon {
+  display: block;
+}
+
+/* Theme-aware phone image - inverted so dark mode shows light screenshots and vice versa */
+.phone-dark {
+  display: none;
+}
+.phone-light {
+  display: block;
+}
+[data-theme="light"] .phone-dark {
+  display: block;
+}
+[data-theme="light"] .phone-light {
+  display: none;
+}
