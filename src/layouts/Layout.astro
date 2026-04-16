@@ -7,7 +7,7 @@ interface Props {
 }
 
 const {
-  title = "Open Citadel — A Knowledge Companion for Founders & Thinkers",
+  title = "Open Citadel — Your Knowledge Companion",
   description = "Collect, organise, and action insights from books, blogs, and podcasts. Open Citadel is your personal archive for deep work and serious thinking.",
 } = Astro.props;
 ---
@@ -32,8 +32,9 @@ const {
     <!-- Restore saved theme before paint to avoid flash -->
     <script is:inline>
       (function () {
-        const t = localStorage.getItem('oc-theme');
-        if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        const t = localStorage.getItem("oc-theme");
+        if (t === "light")
+          document.documentElement.setAttribute("data-theme", "light");
       })();
     </script>
   </head>
