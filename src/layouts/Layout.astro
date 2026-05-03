@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Analytics from "@vercel/analytics/astro";
 
 interface Props {
   title?: string;
@@ -37,6 +38,7 @@ const {
           document.documentElement.setAttribute("data-theme", "light");
       })();
     </script>
+    <Analytics />
   </head>
   <body class="bg-obsidian text-parchment font-body">
     <slot />
