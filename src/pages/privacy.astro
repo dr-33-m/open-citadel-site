@@ -1,0 +1,295 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const lastUpdated = "July 7, 2026";
+
+const sections = [
+  { id: "who-we-are", label: "Who We Are" },
+  { id: "summary", label: "Summary" },
+  { id: "data-we-collect", label: "Data We Collect" },
+  { id: "permissions", label: "Permissions We Request" },
+  { id: "third-parties", label: "Third-Party Services" },
+  { id: "future-features", label: "Upcoming Paid Features" },
+  { id: "retention", label: "Data Retention & Deletion" },
+  { id: "children", label: "Children's Privacy" },
+  { id: "changes", label: "Changes To This Policy" },
+  { id: "contact", label: "Contact" },
+];
+---
+
+<Layout
+  title="Privacy Policy — Open Citadel"
+  description="How Open Citadel handles your data: what stays on your device, what we never see, and what changes when you opt into paid cloud features."
+>
+  <Nav />
+  <main class="pt-32 pb-24 px-6 md:px-12 lg:px-20 bg-obsidian">
+    <div class="max-w-3xl mx-auto flex flex-col gap-16">
+      <!-- Header -->
+      <header class="flex flex-col gap-4">
+        <p
+          class="font-body text-xs font-semibold text-gold uppercase tracking-[0.12em] m-0"
+        >
+          Legal
+        </p>
+        <h1
+          class="font-display text-parchment m-0 leading-[1.1]"
+          style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 400;"
+        >
+          Privacy Policy
+        </h1>
+        <p class="font-body text-sm text-parchment-dim m-0">
+          Last updated: {lastUpdated}
+        </p>
+      </header>
+
+      <!-- Table of contents -->
+      <nav
+        aria-label="Table of contents"
+        class="bg-surface-low p-6 md:p-8"
+        style="border: 1px solid rgba(208,197,175,0.08);"
+      >
+        <p
+          class="font-body text-xs font-semibold text-gold uppercase tracking-[0.1em] m-0 mb-4"
+        >
+          On this page
+        </p>
+        <ul class="list-none m-0 p-0 grid sm:grid-cols-2 gap-x-8 gap-y-2">
+          {
+            sections.map(({ id, label }) => (
+              <li>
+                <a
+                  href={`#${id}`}
+                  class="font-body text-sm text-parchment-dim hover:text-gold transition-colors no-underline"
+                >
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Body -->
+      <article
+        class="font-body text-parchment-dim leading-relaxed flex flex-col gap-14"
+      >
+        <p class="m-0">
+          Open Citadel is built on a simple premise: your notes, your
+          reading, and your thinking are yours. This policy explains exactly
+          what data the app touches, where it lives, and what — if anything —
+          leaves your device.
+        </p>
+
+        <section id="who-we-are" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Who We Are
+          </h2>
+          <p class="m-0">
+            Open Citadel is developed by <strong class="text-parchment"
+              >Thamsanqa Ncube</strong
+            >, registered as an individual developer on Google Play. There is
+            no separate company entity at this time; this policy will be
+            updated to reflect the responsible entity if that changes in the
+            future.
+          </p>
+        </section>
+
+        <section id="summary" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Summary
+          </h2>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              Everything you create in Open Citadel — books, notes,
+              highlights, timeline entries — is stored in a local database on
+              your device. We do not operate a server that stores your
+              content.
+            </li>
+            <li>
+              The app does not require account creation or sign-in, and we do
+              not collect your name, email, or other personal information.
+            </li>
+            <li>
+              We do not sell data, show ads, or use third-party tracking or
+              advertising SDKs.
+            </li>
+            <li>
+              The app connects to the internet only to download AI models
+              you choose to use (from Hugging Face) — never to transmit your
+              notes or reading data.
+            </li>
+            <li>
+              Paid features (milestone/goal/task tracking, and an optional
+              cloud AI tier) are in development and not yet available. See <a
+                href="#future-features"
+                class="text-gold hover:opacity-80">Upcoming Paid Features</a
+              > for how this policy will change when they ship.
+            </li>
+          </ul>
+        </section>
+
+        <section id="data-we-collect" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Data We Collect
+          </h2>
+          <p class="m-0">
+            As of this version of the app, Open Citadel does not collect,
+            transmit, or store any of your personal data on servers we
+            operate. All content you add — books, highlights, notes,
+            timeline entries, and downloaded AI models — is stored in a local
+            SQLite database on your device, inside the app's private storage.
+            We have no access to this data, and it is never sent anywhere by
+            the app.
+          </p>
+          <p class="m-0">
+            We do not use analytics, crash-reporting, or advertising SDKs
+            inside the app itself.
+          </p>
+        </section>
+
+        <section id="permissions" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Permissions We Request
+          </h2>
+          <p class="m-0">The Android app requests the following:</p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              <strong class="text-parchment">Storage</strong> — to let you import
+              books/documents into your library and export or save images (e.g.
+              highlight cards) to your device's gallery. Files you pick or export
+              are only accessed with your explicit action.
+            </li>
+            <li>
+              <strong class="text-parchment">Internet</strong> — to download
+              AI models you select (served from Hugging Face) and, for the future
+              cloud AI tier described below, to send requests to that service.
+            </li>
+          </ul>
+        </section>
+
+        <section id="third-parties" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Third-Party Services
+          </h2>
+          <p class="m-0">
+            <strong class="text-parchment">Hugging Face</strong> — when you choose
+            to download an on-device AI model (e.g. Gemma, Qwen, DeepSeek), the
+            app downloads that model file directly from Hugging Face's public
+            hosting. This is an anonymous file download; the app does not attach
+            any personal or usage data to these requests.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Google Play Billing</strong> — when
+            paid features launch, purchases will be processed entirely by Google
+            Play. We will not see or store your payment details; Google's own
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gold hover:opacity-80">privacy policy</a
+            > governs that data.
+          </p>
+          <p class="m-0 text-sm" style="opacity: 0.8;">
+            Note: this website (the page you're reading now) uses Vercel Web
+            Analytics to count anonymous, aggregated page views. This is
+            separate from the app and does not use cookies or collect
+            personal data.
+          </p>
+        </section>
+
+        <section id="future-features" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Upcoming Paid Features
+          </h2>
+          <p class="m-0">
+            Open Citadel currently ships as a free, fully on-device app with
+            no accounts. We are building paid features — milestone, goal, and
+            task tracking/review, plus an optional cloud AI tier — which are
+            not yet available. Here is what to expect, and what will change
+            in this policy before each ships:
+          </p>
+          <ul class="flex flex-col gap-3 pl-5 m-0">
+            <li>
+              <strong class="text-parchment"
+                >Milestone, goal, and task tracking</strong
+              > will work the same way your other data does today: stored locally
+              on your device. It does not by itself introduce any new data leaving
+              your device.
+            </li>
+            <li>
+              <strong class="text-parchment">Cloud AI tier</strong> will be an
+              optional, opt-in upgrade for running AI conversations in the cloud
+              instead of on-device. When enabled, the content of your messages
+              and the context needed to generate a response will be sent to <a
+                href="https://openrouter.ai/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-gold hover:opacity-80">OpenRouter</a
+              >, a third-party AI model routing service we use to process
+              those requests. OpenRouter's own privacy policy governs how they
+              handle that data. This feature will be off by default, clearly
+              labeled in the app, and will never be applied to content you
+              haven't explicitly sent to it.
+            </li>
+          </ul>
+          <p class="m-0">
+            Before either feature is released, we will update this policy
+            with the full, specific details (including any additional
+            processors involved and data retention practices) and note the
+            change in the app's update notes.
+          </p>
+        </section>
+
+        <section id="retention" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Data Retention & Deletion
+          </h2>
+          <p class="m-0">
+            Because your content lives in a local database on your device,
+            you are always in control of it. You can delete individual books,
+            models, or notes from within the app, or remove all app data by
+            uninstalling Open Citadel — this permanently deletes the local
+            database, and we have no copy to retain.
+          </p>
+        </section>
+
+        <section id="children" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Children's Privacy
+          </h2>
+          <p class="m-0">
+            Open Citadel is not directed at children under 13, and we do not
+            knowingly collect personal information from children.
+          </p>
+        </section>
+
+        <section id="changes" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Changes To This Policy
+          </h2>
+          <p class="m-0">
+            We may update this policy as the app evolves, particularly as
+            paid features launch. The "Last updated" date at the top of this
+            page will always reflect the most recent revision, and material
+            changes will be called out in the app's release notes.
+          </p>
+        </section>
+
+        <section id="contact" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Contact
+          </h2>
+          <p class="m-0">
+            Questions about this policy or your data can be sent to <a
+              href="mailto:thamsanqa.dev@gmail.com"
+              class="text-gold hover:opacity-80">thamsanqa.dev@gmail.com</a
+            >.
+          </p>
+        </section>
+      </article>
+    </div>
+  </main>
+  <Footer />
+</Layout>
