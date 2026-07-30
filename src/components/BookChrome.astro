@@ -1,0 +1,250 @@
+---
+// The navigation chrome of the book: the app's bottom tab bar on wide screens,
+// and a running foot with page turning on phones. Home page only.
+import { LEAVES } from "../consts";
+---
+
+<div class="swipe-hint" id="swipe-hint" aria-hidden="true">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+    <path d="M5 12h13"></path>
+    <path d="M13 6l6 6-6 6"></path>
+  </svg>
+  Swipe to turn the page
+</div>
+
+<nav class="pager" id="pager" aria-label="Page navigation">
+  <div class="pager-track"><div class="pager-fill" id="pager-fill"></div></div>
+  <div class="pager-row">
+    <button
+      class="pager-btn"
+      id="page-prev"
+      type="button"
+      aria-label="Previous page"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.7"
+        aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg
+      >
+    </button>
+    <p class="pager-label" id="page-label" aria-live="polite"></p>
+    <button class="pager-btn" id="page-next" type="button" aria-label="Next page">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.7"
+        aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg
+      >
+    </button>
+  </div>
+</nav>
+
+<nav class="tabbar" aria-label="Sections">
+  <ul>
+    {
+      LEAVES.map(({ id, tab }) => (
+        <li>
+          <a href={`#${id}`} data-tab={id}>
+            {tab}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<script>
+  import { LEAVES } from "../consts";
+
+  const root = document.documentElement;
+  const book = document.querySelector("main");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
+    .matches;
+
+  if (book) {
+    const leaves = Array.from(book.children) as HTMLElement[];
+    const bookQuery = window.matchMedia("(max-width: 899px)");
+    const isBook = () => root.classList.contains("book") && bookQuery.matches;
+
+    /* ---- Reveals ---- */
+    const revealTargets = document.querySelectorAll(".reveal, .turn");
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      revealTargets.forEach((el) => el.classList.add("in"));
+    } else {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const delay = el.classList.contains("reply") ? 420 : 0;
+            window.setTimeout(() => el.classList.add("in"), delay);
+            io.unobserve(el);
+          });
+        },
+        { threshold: 0.25 },
+      );
+      revealTargets.forEach((el) => io.observe(el));
+    }
+
+    /* ---- Turning the pages ---- */
+    const pagerFill = document.getElementById("pager-fill");
+    const pageLabel = document.getElementById("page-label");
+    const prevBtn = document.getElementById("page-prev") as HTMLButtonElement | null;
+    const nextBtn = document.getElementById("page-next") as HTMLButtonElement | null;
+    const hint = document.getElementById("swipe-hint");
+    let leafIndex = 0;
+
+    const currentLeaf = () =>
+      book.clientWidth > 0 ? Math.round(book.scrollLeft / book.clientWidth) : 0;
+
+    function turnTo(index: number) {
+      const target = Math.max(0, Math.min(leaves.length - 1, index));
+      book!.scrollTo({
+        left: target * book!.clientWidth,
+        behavior: reduceMotion ? "auto" : "smooth",
+      });
+    }
+
+    function readingRatio() {
+      const span = book!.scrollWidth - book!.clientWidth;
+      return span > 0 ? book!.scrollLeft / span : 0;
+    }
+
+    function syncPager() {
+      if (!isBook()) return;
+      leafIndex = currentLeaf();
+      const leaf = LEAVES[leafIndex];
+      if (pageLabel && leaf) {
+        pageLabel.textContent = `${leafIndex + 1} of ${leaves.length}  ·  ${leaf.leaf}`;
+      }
+      if (pagerFill) {
+        pagerFill.style.width = `${Math.round(readingRatio() * 100)}%`;
+      }
+      if (prevBtn) prevBtn.disabled = leafIndex <= 0;
+      if (nextBtn) nextBtn.disabled = leafIndex >= leaves.length - 1;
+    }
+
+    let dismissed = false;
+    function dismissHint() {
+      if (dismissed) return;
+      dismissed = true;
+      hint?.classList.add("gone");
+    }
+
+    let ticking = false;
+    book.addEventListener(
+      "scroll",
+      () => {
+        if (book.scrollLeft > 8) dismissHint();
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(() => {
+          syncPager();
+          ticking = false;
+        });
+      },
+      { passive: true },
+    );
+
+    prevBtn?.addEventListener("click", () => {
+      dismissHint();
+      turnTo(currentLeaf() - 1);
+    });
+    nextBtn?.addEventListener("click", () => {
+      dismissHint();
+      turnTo(currentLeaf() + 1);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (!isBook()) return;
+      const tag = (event.target as HTMLElement)?.tagName?.toLowerCase();
+      if (tag === "input" || tag === "textarea") return;
+      if (event.key === "ArrowRight") {
+        dismissHint();
+        turnTo(currentLeaf() + 1);
+      }
+      if (event.key === "ArrowLeft") {
+        dismissHint();
+        turnTo(currentLeaf() - 1);
+      }
+    });
+
+    // In book mode an in-page link turns to the right leaf instead of scrolling.
+    const leafForHash = (hash: string) => {
+      const id = hash.replace("#", "");
+      if (!id) return -1;
+      return leaves.findIndex((leaf) => leaf.id === id);
+    };
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", (event) => {
+        if (!isBook()) return;
+        const index = leafForHash(anchor.getAttribute("href") ?? "");
+        if (index < 0) return;
+        event.preventDefault();
+        document.getElementById("menu-sheet")?.classList.remove("open");
+        dismissHint();
+        turnTo(index);
+      });
+    });
+
+    // Keep the current leaf aligned when the viewport width changes.
+    let lastWidth = window.innerWidth;
+    window.addEventListener("resize", () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      if (isBook()) book.scrollLeft = leafIndex * book.clientWidth;
+      syncPager();
+    });
+
+    bookQuery.addEventListener("change", () => {
+      leafIndex = 0;
+      book.scrollLeft = 0;
+      window.scrollTo(0, 0);
+      syncPager();
+    });
+
+    window.setTimeout(dismissHint, 8000);
+    syncPager();
+
+    /* ---- The tab bar follows the reader, like the app's active tab ---- */
+    const tabs = Array.from(document.querySelectorAll<HTMLAnchorElement>(".tabbar a"));
+    const tabSections = tabs
+      .map((tab) => document.getElementById(tab.dataset.tab ?? ""))
+      .filter((section): section is HTMLElement => Boolean(section));
+
+    function syncTabs() {
+      if (isBook()) return;
+      const line = window.scrollY + window.innerHeight * 0.35;
+      let activeIndex = 0;
+      tabSections.forEach((section, index) => {
+        if (section.offsetTop <= line) activeIndex = index;
+      });
+      tabs.forEach((tab, index) => {
+        tab.classList.toggle("active", index === activeIndex);
+        if (index === activeIndex) {
+          tab.setAttribute("aria-current", "true");
+        } else {
+          tab.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    let tabTicking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (tabTicking) return;
+        tabTicking = true;
+        window.requestAnimationFrame(() => {
+          syncTabs();
+          tabTicking = false;
+        });
+      },
+      { passive: true },
+    );
+    syncTabs();
+  }
+</script>

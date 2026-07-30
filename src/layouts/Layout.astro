@@ -6,17 +6,24 @@ interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  /**
+   * Turns the page into a swipeable book on phones (one section per leaf).
+   * Only the home page opts in; long documents like privacy and support
+   * must keep normal vertical scrolling.
+   */
+  bookMode?: boolean;
 }
 
 const {
-  title = "Open Citadel — Your Knowledge Companion",
-  description = "Collect, organise, and action insights from books, blogs, and podcasts. Open Citadel is your personal archive for deep work and serious thinking.",
+  title = "Open Citadel: Your Companion in Becoming",
+  description = "Open Citadel helps you reflect on what you learn, connect the ideas that shape you, and turn knowledge into growth. Your personal library, reader, and self-development companion.",
   noindex = false,
+  bookMode = false,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class={bookMode ? "book" : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,7 +50,7 @@ const {
     </script>
     <Analytics />
   </head>
-  <body class="bg-obsidian text-parchment font-body">
+  <body class="bg-obsidian text-parchment font-body book-page">
     <slot />
   </body>
 </html>

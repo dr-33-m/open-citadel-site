@@ -1,0 +1,175 @@
+---
+// Frontispiece: the title page. The visitor writes their own name into the
+// headline, and the library screenshot is mounted as a framed plate.
+import { PLAY_STORE_URL, PLAY_STORE_LIVE } from "../consts";
+import Android from "./icons/Android.astro";
+import libraryLight from "../assets/screenshots/light/library-1-light.webp";
+import libraryDark from "../assets/screenshots/dark/library1-dark.webp";
+
+const ctaTitle = PLAY_STORE_LIVE
+  ? undefined
+  : "Placeholder: the Play Store listing goes live at launch";
+const plateAlt = "The Open Citadel library, showing a book in progress";
+---
+
+<section class="front" id="front">
+  <div class="wrap front-grid">
+    <div class="front-copy">
+      <p class="label reveal">Built in the Open</p>
+
+      <h1 class="reveal">
+        Your Companion in Becoming
+        <span class="name-line">
+          <span class="name-mirror" id="name-mirror" aria-hidden="true"></span>
+          <input
+            class="name-field"
+            id="name-field"
+            type="text"
+            placeholder="your name"
+            aria-label="Your name"
+            autocomplete="given-name"
+            spellcheck="false"
+            maxlength="40"
+          />
+        </span>
+      </h1>
+
+      <p class="name-hint" id="name-hint">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+        </svg>
+        Write your name
+      </p>
+
+      <p class="standfirst">
+        Open Citadel helps you reflect on what you learn, connect the ideas that
+        shape you, and turn knowledge into growth.
+      </p>
+
+      <div class="cta-row">
+        <a class="btn" href={PLAY_STORE_URL} title={ctaTitle}>
+          <Android />
+          Download for Android
+        </a>
+      </div>
+    </div>
+
+    <div class="front-shot">
+      <figure class="plate">
+        <div class="plate-mount">
+          <img
+            class="shot-on-dark"
+            src={libraryLight.src}
+            width={libraryLight.width}
+            height={libraryLight.height}
+            alt={plateAlt}
+          />
+          <img
+            class="shot-on-light"
+            src={libraryDark.src}
+            width={libraryDark.width}
+            height={libraryDark.height}
+            alt={plateAlt}
+          />
+        </div>
+        <figcaption class="plate-caption">Frontispiece &middot; The Library</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="ascent" id="ascent" aria-hidden="true"></div>
+
+  <!-- Kept inside the section: <main>'s direct children must be the five
+       leaves of the book, and Astro emits component scripts in place. -->
+  <script>
+  // The name field grows with what you type. The field and the hidden mirror
+  // must share font AND tracking, or the measured width will be too narrow and
+  // the last glyph clips. Form controls do not reliably inherit letter-spacing,
+  // so both state it explicitly in CSS.
+  const field = document.getElementById("name-field") as HTMLInputElement | null;
+  const mirror = document.getElementById("name-mirror");
+  const hint = document.getElementById("name-hint");
+
+  if (field && mirror) {
+    const line = field.parentElement as HTMLElement;
+    const BASE_EM = 0.84;
+    // Room for the caret plus any right-side bearing on a serif glyph.
+    const CARET_ROOM = 8;
+
+    const chrome = () => {
+      const cs = window.getComputedStyle(field);
+      return (
+        parseFloat(cs.paddingLeft) +
+        parseFloat(cs.paddingRight) +
+        parseFloat(cs.borderLeftWidth) +
+        parseFloat(cs.borderRightWidth)
+      );
+    };
+
+    function sizeField() {
+      if (!field || !mirror) return;
+      mirror.textContent = field.value || field.placeholder || "";
+
+      let em = BASE_EM;
+      const available = line.clientWidth;
+
+      // Size the box to the text, then step the type down if the result would
+      // exceed the column. Settles in a pass or two.
+      for (let attempt = 0; attempt < 4; attempt++) {
+        line.style.fontSize = `${em.toFixed(4)}em`;
+
+        // content-box: this width is the text box, padding sits outside it.
+        let width = Math.ceil(mirror.getBoundingClientRect().width + CARET_ROOM);
+        field.style.width = `${width}px`;
+
+        // Trust the rendered result over the estimate.
+        const shortfall = field.scrollWidth - field.clientWidth;
+        if (shortfall > 0) {
+          width += shortfall + 2;
+          field.style.width = `${width}px`;
+        }
+
+        if (available <= 0) break;
+        const outer = width + chrome();
+        if (outer <= available) break;
+        em = em * (available / outer) * 0.985;
+      }
+    }
+
+    field.addEventListener("input", () => {
+      sizeField();
+      hint?.classList.toggle("hidden", field.value.trim().length > 0);
+    });
+    window.addEventListener("resize", sizeField);
+    document.fonts?.ready.then(sizeField);
+    sizeField();
+  }
+
+  // Ascent motif: hairline steps rising, built here to keep the markup clean.
+  const ascent = document.getElementById("ascent");
+  if (ascent) {
+    for (let i = 0; i < 9; i++) {
+      const step = document.createElement("div");
+      step.className = "step";
+      step.style.width = "46px";
+      step.style.height = "26px";
+      step.style.left = `${i * 34}px`;
+      step.style.bottom = `${i * 26}px`;
+      step.style.opacity = String(0.34 - i * 0.03);
+      ascent.appendChild(step);
+    }
+    const climber = document.createElement("div");
+    climber.className = "climber";
+    climber.style.left = "8px";
+    climber.style.bottom = "4px";
+    ascent.appendChild(climber);
+  }
+</script>
+</section>

@@ -1,0 +1,36 @@
+---
+// A book ends by telling you how it was made.
+import { GITHUB_URL, CONTACT_EMAIL, AUTHOR_NAME } from "../consts";
+
+const year = new Date().getFullYear();
+---
+
+<div class="imprint">
+  <dl>
+    <dt>Author</dt>
+    <dd>Written by {AUTHOR_NAME}</dd>
+  </dl>
+  <dl>
+    <dt>The source</dt>
+    <dd>
+      <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+        View it on GitHub
+      </a>
+    </dd>
+  </dl>
+  <dl>
+    <dt>Elsewhere</dt>
+    <dd class="imprint-links">
+      <a href={`mailto:${CONTACT_EMAIL}`}>Contact</a>
+      <a href="/support">Support</a>
+      <a href="/privacy">Privacy</a>
+    </dd>
+  </dl>
+</div>
+
+<div class="endmark">
+  <p>
+    &copy; {year} Open Citadel. Set in Newsreader and Manrope. Open source
+    software.
+  </p>
+</div>

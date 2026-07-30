@@ -38,9 +38,30 @@ body {
   border-radius: 0 !important;
 }
 
-/* ─── Nav background variable ─────────────────────────────── */
+/* ─── Semantic aliases ────────────────────────────────────────
+   The book layout below is written against short semantic names.
+   They point at the theme tokens above, so the [data-theme="light"]
+   override drives everything with no second palette to maintain. */
 :root {
-  --nav-bg: oklch(18.674% 0.00002 271.152 / 0.88);
+  --bg: var(--color-obsidian);
+  --surface-low: var(--color-surface-low);
+  --surface-mid: var(--color-surface-mid);
+  --gold: var(--color-gold);
+  --gold-deep: var(--color-gold-deep);
+  --text: var(--color-parchment);
+  --text-dim: var(--color-parchment-dim);
+
+  --ink: #1a1814;
+  --hairline: rgba(208, 197, 175, 0.14);
+  --hairline-soft: rgba(208, 197, 175, 0.07);
+  --nav-bg: oklch(18.674% 0.00002 271.152 / 0.9);
+  --chrome-bg: var(--nav-bg);
+  --shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.55);
+
+  /* Highlight hues, lifted from the app's own reader */
+  --hl-green: rgba(120, 200, 165, 0.26);
+  --hl-yellow: rgba(242, 202, 80, 0.26);
+  --hl-blue: rgba(130, 175, 235, 0.26);
 }
 
 /* ─── Light theme ────────────────────────────────────────── */
@@ -53,7 +74,15 @@ body {
   --color-gold-deep: oklch(61.337% 0.12311 84.869);
   --color-parchment: oklch(20.983% 0.00827 84.573);
   --color-parchment-dim: oklch(39.714% 0.02298 82.942);
+
+  --hairline: rgba(28, 21, 16, 0.14);
+  --hairline-soft: rgba(28, 21, 16, 0.07);
   --nav-bg: oklch(95.931% 0.01015 81.702 / 0.92);
+  --shadow: 0 30px 60px -25px rgba(28, 21, 16, 0.25);
+
+  --hl-green: rgba(150, 214, 185, 0.62);
+  --hl-yellow: rgba(247, 226, 150, 0.72);
+  --hl-blue: rgba(178, 208, 240, 0.66);
 }
 
 /* Ensure gold-gradient buttons always read dark */
@@ -75,16 +104,1244 @@ body {
   display: block;
 }
 
-/* Theme-aware phone image - inverted so dark mode shows light screenshots and vice versa */
-.phone-dark {
-  display: none;
-}
-.phone-light {
+/* Paired screenshots. We deliberately pair a light app screenshot with the
+   dark page and vice versa, so the plate always contrasts its ground. */
+.shot-on-dark {
   display: block;
 }
-[data-theme="light"] .phone-dark {
+.shot-on-light {
+  display: none;
+}
+[data-theme="light"] .shot-on-dark {
+  display: none;
+}
+[data-theme="light"] .shot-on-light {
   display: block;
 }
-[data-theme="light"] .phone-light {
+
+/* ═══════════════════════════════════════════════════════════════
+   The book
+   ═══════════════════════════════════════════════════════════════ */
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: 1.4rem;
+}
+@media (min-width: 768px) {
+  .wrap {
+    padding-inline: 3rem;
+  }
+}
+@media (min-width: 1100px) {
+  .wrap {
+    padding-inline: 4.5rem;
+  }
+}
+
+.book-page h1,
+.book-page h2,
+.book-page h3 {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 400;
+  margin: 0;
+  text-wrap: balance;
+}
+.accent {
+  color: var(--gold);
+}
+
+/* Utility layer: the only place Manrope appears in the book */
+.label {
+  font-family: "Manrope", sans-serif;
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0;
+}
+.label-dim {
+  color: var(--text-dim);
+}
+
+/* ─── Running head ──────────────────────────────────────────
+   The app's own chrome, worn by the page. PROGRESS mirrors the
+   reading progress bar on a book card in the app. */
+.runhead {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: var(--chrome-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--hairline-soft);
+}
+.runhead-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.7rem;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.brand img {
+  height: 26px;
+  width: 26px;
+}
+.brand span {
+  font-family: "Newsreader", serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--gold);
+}
+.progress-meter {
   display: none;
+  align-items: center;
+  gap: 0.7rem;
+  flex: 1;
+  max-width: 300px;
+}
+.progress-meter .label {
+  white-space: nowrap;
+}
+.progress-track {
+  flex: 1;
+  height: 2px;
+  background: var(--hairline);
+  position: relative;
+}
+.progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: var(--gold);
+}
+.progress-pct {
+  font-family: "Manrope", sans-serif;
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  min-width: 2.6rem;
+  text-align: right;
+}
+@media (min-width: 900px) {
+  .progress-meter {
+    display: flex;
+  }
+}
+.runhead-right {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: 1px solid var(--hairline);
+  color: var(--text);
+  cursor: pointer;
+}
+.icon-btn:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+.icon-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.4rem;
+  font-family: "Newsreader", serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink);
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+.btn:hover {
+  opacity: 0.9;
+}
+.btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+.btn-sm {
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+}
+.btn-sm svg {
+  width: 14px;
+  height: 14px;
+}
+.runhead .btn {
+  display: none;
+}
+@media (min-width: 620px) {
+  .runhead .btn {
+    display: inline-flex;
+  }
+}
+.menu-btn {
+  display: inline-flex;
+}
+@media (min-width: 900px) {
+  .menu-btn {
+    display: none;
+  }
+}
+
+.menu-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.6rem;
+  padding: 2rem;
+  background: var(--chrome-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+.menu-sheet.open {
+  display: flex;
+}
+.menu-sheet a {
+  font-family: "Newsreader", serif;
+  font-size: 1.9rem;
+  text-decoration: none;
+  color: var(--text);
+}
+.menu-sheet .btn {
+  align-self: flex-start;
+  margin-top: 0.8rem;
+}
+.menu-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ─── Chapter scaffolding ─────────────────────────────────── */
+.chapter {
+  padding-block: 6rem;
+  position: relative;
+}
+@media (min-width: 900px) {
+  .chapter {
+    padding-block: 9rem;
+  }
+}
+.chapter-rule {
+  border-top: 1px solid var(--hairline-soft);
+}
+.chapter-mark {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.chapter-num {
+  font-family: "Newsreader", serif;
+  font-size: 0.95rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+}
+.chapter-mark .rule {
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+}
+
+/* ─── Frontispiece ────────────────────────────────────────── */
+.front {
+  padding-top: 8rem;
+  padding-bottom: 5rem;
+  position: relative;
+  overflow: hidden;
+}
+@media (min-width: 900px) {
+  .front {
+    padding-top: 11rem;
+    padding-bottom: 7rem;
+  }
+}
+.front-grid {
+  display: grid;
+  gap: 3.5rem;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .front-grid {
+    grid-template-columns: minmax(0, 1.32fr) minmax(0, 0.68fr);
+    gap: 3.25rem;
+  }
+}
+.front h1 {
+  font-size: clamp(2.4rem, 5.9vw, 4.1rem);
+  line-height: 1.03;
+  letter-spacing: -0.015em;
+  margin: 1.5rem 0 0;
+  text-wrap: pretty;
+}
+.front .standfirst {
+  font-family: "Newsreader", serif;
+  font-size: clamp(1.08rem, 1.9vw, 1.3rem);
+  line-height: 1.7;
+  color: var(--text-dim);
+  max-width: 33rem;
+  margin: 1.8rem 0 0;
+}
+.front .cta-row {
+  margin-top: 2.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  align-items: center;
+}
+.front-copy {
+  position: relative;
+  z-index: 1;
+}
+.front-shot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* The visitor writes themselves into the headline. Sized just below the
+   headline so a full name has room; the field and its measuring mirror
+   must share font and tracking exactly or the width will be wrong. */
+.name-line {
+  display: block;
+  margin-top: 0.2em;
+  position: relative;
+  font-size: 0.84em;
+}
+.name-field {
+  /* content-box so the width set in JS is text width, not text minus padding */
+  box-sizing: content-box;
+  font: inherit;
+  letter-spacing: -0.015em;
+  color: var(--gold);
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--hairline);
+  padding: 0 0.08em 0.04em;
+  margin: 0;
+  min-width: 6ch;
+  transition: border-color 0.25s ease;
+}
+.name-field::placeholder {
+  color: var(--text-dim);
+  opacity: 0.55;
+}
+.name-field:hover {
+  border-bottom-color: var(--gold-deep);
+}
+.name-field:focus {
+  outline: none;
+  border-bottom-style: solid;
+  border-bottom-color: var(--gold);
+}
+.name-field:focus-visible {
+  outline: none;
+}
+.name-mirror {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre;
+  pointer-events: none;
+  left: -9999px;
+  top: 0;
+  font: inherit;
+  letter-spacing: -0.015em;
+}
+.name-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  transition: opacity 0.4s ease;
+}
+.name-hint svg {
+  width: 12px;
+  height: 12px;
+  color: var(--gold);
+}
+.name-hint.hidden {
+  opacity: 0;
+}
+
+/* The frontispiece plate: a mounted illustration, as a book would carry it.
+   Spans the column so its edges align with the title and the standfirst. */
+.plate {
+  margin: 0;
+  width: 100%;
+  max-width: 340px;
+  border: 1px solid var(--hairline);
+  background: var(--surface-low);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.plate-mount {
+  display: flex;
+  justify-content: center;
+  padding: 1.15rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--hairline-soft);
+}
+.plate-mount img {
+  width: auto;
+  max-width: 100%;
+  max-height: 54vh;
+  height: auto;
+  filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.22));
+}
+.plate-caption {
+  font-family: "Manrope", sans-serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+/* Ascent motif: hairline steps rising out of the base */
+.ascent {
+  position: absolute;
+  right: -2rem;
+  bottom: 0;
+  width: 340px;
+  height: 260px;
+  pointer-events: none;
+  opacity: 0.5;
+  display: none;
+}
+@media (min-width: 1180px) {
+  .ascent {
+    display: block;
+  }
+}
+.ascent .step {
+  position: absolute;
+  border-top: 1px solid var(--gold);
+  border-left: 1px solid var(--gold);
+}
+.ascent .climber {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+}
+
+/* ─── Chapter I: the letter, set as a book page ───────────── */
+.letterpage {
+  background: var(--surface-low);
+}
+.letter-grid {
+  display: grid;
+  gap: 2.5rem;
+}
+@media (min-width: 1000px) {
+  .letter-grid {
+    grid-template-columns: minmax(0, 34rem) 1fr;
+    gap: 3.5rem;
+  }
+}
+.letterpage h2 {
+  font-size: clamp(2rem, 4.2vw, 2.9rem);
+  line-height: 1.1;
+  margin-bottom: 2rem;
+}
+.letter-body p {
+  font-family: "Newsreader", serif;
+  font-size: clamp(1.1rem, 1.65vw, 1.28rem);
+  line-height: 1.72;
+  color: var(--text);
+  margin: 0 0 1.2rem;
+}
+.letter-body p:last-child {
+  margin-bottom: 0;
+}
+.letter-body > p:first-of-type::first-letter {
+  font-family: "Newsreader", serif;
+  float: left;
+  font-size: 3.6em;
+  line-height: 0.82;
+  padding: 0.06em 0.14em 0 0;
+  color: var(--gold);
+}
+.sign {
+  margin-top: 2.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--hairline);
+  display: inline-block;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* The reader's gesture, performed on the page itself */
+.hl {
+  display: inline;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  padding: 0 0.08em;
+  margin: 0;
+  cursor: pointer;
+  box-shadow: inset 0 -1px 0 0 var(--gold);
+  transition: background-color 0.35s ease;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.hl:hover {
+  background-color: var(--hl-yellow);
+}
+.hl.on {
+  box-shadow: none;
+}
+.hl.on[data-hue="green"] {
+  background-color: var(--hl-green);
+}
+.hl.on[data-hue="yellow"] {
+  background-color: var(--hl-yellow);
+}
+.hl.on[data-hue="blue"] {
+  background-color: var(--hl-blue);
+}
+
+.margin-rail {
+  align-self: start;
+}
+@media (min-width: 1000px) {
+  .margin-rail {
+    position: sticky;
+    top: 7rem;
+  }
+}
+.rail-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 1.2rem;
+}
+.rail-hint svg {
+  width: 14px;
+  height: 14px;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.rail-empty {
+  font-family: "Newsreader", serif;
+  font-style: italic;
+  font-size: 0.98rem;
+  color: var(--text-dim);
+  margin: 0;
+}
+.saved-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.saved-card {
+  background: var(--bg);
+  border-left: 2px solid var(--gold);
+  padding: 0.8rem 0.9rem;
+  animation: cardin 0.4s ease;
+}
+@keyframes cardin {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.saved-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.4rem;
+}
+.saved-meta span {
+  font-family: "Manrope", sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.saved-card p {
+  font-family: "Newsreader", serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--text);
+}
+
+/* ─── Chapter II: the loop, as an ascent ─────────────────── */
+.loop h2 {
+  font-size: clamp(2rem, 4.2vw, 2.9rem);
+  line-height: 1.1;
+  max-width: 26rem;
+  margin-bottom: 4rem;
+}
+.steps {
+  display: grid;
+  gap: 3.5rem;
+}
+@media (min-width: 860px) {
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    align-items: end;
+  }
+  /* each stage sits a step higher than the last */
+  .step-item:nth-child(2) {
+    padding-bottom: 3rem;
+  }
+  .step-item:nth-child(3) {
+    padding-bottom: 6rem;
+  }
+}
+.step-item {
+  border-top: 1px solid var(--hairline);
+  padding-top: 1.4rem;
+}
+.step-shot {
+  margin-bottom: 1.6rem;
+}
+.step-shot img {
+  width: 100%;
+  max-width: 210px;
+  height: auto;
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.26));
+}
+.step-item h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0.7rem 0 0.6rem;
+}
+.step-item p {
+  font-family: "Newsreader", serif;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--text-dim);
+  margin: 0;
+  max-width: 24rem;
+}
+
+/* ─── Chapter III: Samwell, as a transcript ──────────────── */
+.samwell {
+  background: var(--surface-low);
+}
+.samwell-grid {
+  display: grid;
+  gap: 3.5rem;
+  align-items: center;
+}
+@media (min-width: 960px) {
+  .samwell-grid {
+    grid-template-columns: 1fr 0.82fr;
+    gap: 4rem;
+  }
+}
+.samwell h2 {
+  font-size: clamp(2rem, 4.2vw, 2.9rem);
+  line-height: 1.1;
+  margin-bottom: 1.6rem;
+}
+.samwell p.body {
+  font-family: "Newsreader", serif;
+  font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+  line-height: 1.72;
+  color: var(--text-dim);
+  max-width: 32rem;
+  margin: 0;
+}
+.samwell p.body + p.body {
+  margin-top: 1rem;
+}
+.samwell-icon {
+  color: var(--gold);
+  margin-bottom: 1.1rem;
+}
+.samwell-icon svg {
+  width: 26px;
+  height: 26px;
+}
+.transcript {
+  margin-top: 2.6rem;
+  border-top: 1px solid var(--hairline);
+  padding-top: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 32rem;
+}
+.turn {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+.turn.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.turn .who {
+  font-family: "Manrope", sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.turn p {
+  font-family: "Newsreader", serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0.75rem 0.95rem;
+}
+.turn.ask p {
+  background: var(--gold);
+  color: var(--ink);
+}
+.turn.reply p {
+  background: var(--bg);
+  border-left: 2px solid var(--hairline);
+  color: var(--text);
+}
+.transcript-note {
+  font-family: "Manrope", sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  margin: 0.3rem 0 0;
+  opacity: 0.75;
+}
+.samwell-shot {
+  display: flex;
+  justify-content: center;
+}
+.samwell-shot img {
+  width: min(288px, 74vw);
+  height: auto;
+  filter: drop-shadow(var(--shadow));
+}
+
+/* ─── Colophon: the closing plate ────────────────────────── */
+.colophon {
+  border-top: 1px solid var(--hairline-soft);
+  padding-bottom: 0;
+}
+.colophon h2 {
+  font-size: clamp(2.1rem, 5vw, 3.2rem);
+  line-height: 1.06;
+  margin-bottom: 1.4rem;
+}
+.colophon-grid {
+  display: grid;
+  gap: 3rem;
+}
+@media (min-width: 900px) {
+  .colophon-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+}
+.colophon p.body {
+  font-family: "Newsreader", serif;
+  font-size: 1.12rem;
+  line-height: 1.72;
+  color: var(--text-dim);
+  max-width: 26rem;
+  margin: 0;
+}
+.acquire {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.store-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.3rem;
+  text-decoration: none;
+  border: 1px solid var(--hairline);
+}
+.store-row.primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+  border-color: transparent;
+  color: var(--ink);
+}
+.store-row svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.store-row .sr-label {
+  font-family: "Manrope", sans-serif;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  margin: 0 0 0.2rem;
+  opacity: 0.8;
+}
+.store-row .sr-name {
+  font-family: "Newsreader", serif;
+  font-weight: 600;
+  font-size: 1.08rem;
+  margin: 0;
+}
+.store-row .sr-tag {
+  margin-left: auto;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.55rem;
+  white-space: nowrap;
+}
+.store-row.primary .sr-tag {
+  background: rgba(26, 24, 20, 0.15);
+}
+.store-row:not(.primary) .sr-tag {
+  color: var(--gold);
+  border: 1px solid var(--hairline);
+}
+.store-row:not(.primary):hover {
+  border-color: var(--gold);
+}
+
+.imprint {
+  margin-top: 3.5rem;
+  border-top: 1px solid var(--hairline-soft);
+  padding-top: 1.6rem;
+  display: grid;
+  gap: 1.4rem;
+}
+@media (min-width: 760px) {
+  .imprint {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+.imprint dl {
+  margin: 0;
+}
+.imprint dt {
+  font-family: "Manrope", sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.45rem;
+}
+.imprint dd {
+  font-family: "Newsreader", serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+  margin: 0;
+}
+.imprint a {
+  text-decoration: none;
+}
+.imprint a:hover {
+  color: var(--gold);
+}
+.imprint-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.endmark {
+  border-top: 1px solid var(--hairline-soft);
+  margin-top: 3.5rem;
+  padding-block: 1.2rem 2.5rem;
+}
+.endmark p {
+  font-family: "Manrope", sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  opacity: 0.6;
+  margin: 0;
+}
+
+/* ─── Tab bar: the app's bottom chrome, with its gold rule ── */
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 58;
+  display: none;
+  background: var(--chrome-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--hairline-soft);
+}
+@media (min-width: 900px) {
+  .tabbar {
+    display: block;
+  }
+}
+.tabbar ul {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 640px;
+  display: flex;
+  justify-content: space-between;
+}
+.tabbar a {
+  display: block;
+  padding: 0.85rem 0.6rem 0.75rem;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-dim);
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease;
+}
+.tabbar a:hover {
+  color: var(--text);
+}
+.tabbar a.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   On a phone the home page stops being a page and becomes a book.
+   One plate per leaf, turned by a native horizontal snap.
+   Scoped to html.book so privacy and support keep normal scrolling.
+   ═══════════════════════════════════════════════════════════════ */
+.pager,
+.swipe-hint {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  html.book,
+  html.book body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  html.book main {
+    display: flex;
+    height: 100vh;
+    height: 100dvh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  html.book main::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  html.book main > section {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* the gutter, where the leaf meets the binding */
+    border-left: 1px solid var(--hairline-soft);
+  }
+  html.book main > section:first-child {
+    border-left: none;
+  }
+
+  /* Clear the running head and the pager foot on every leaf. */
+  html.book .front,
+  html.book .chapter {
+    padding-block: 4.6rem 5rem;
+  }
+  html.book .front {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  html.book .colophon {
+    padding-bottom: 5rem;
+  }
+
+  /* Compact the plates so a leaf reads as one held page. */
+  html.book .front-grid {
+    gap: 1.6rem;
+  }
+  html.book .plate {
+    max-width: none;
+    padding: 0.7rem;
+    gap: 0.65rem;
+  }
+  html.book .plate-mount {
+    padding: 0.85rem;
+  }
+  html.book .plate-mount img {
+    max-height: 23vh;
+  }
+  html.book .front h1 {
+    font-size: clamp(2.1rem, 8.6vw, 2.9rem);
+  }
+  html.book .chapter-mark {
+    margin-bottom: 1.5rem;
+  }
+  html.book .letterpage h2,
+  html.book .samwell h2,
+  html.book .colophon h2 {
+    margin-bottom: 1.1rem;
+  }
+  html.book .loop h2 {
+    margin-bottom: 1.9rem;
+  }
+  html.book .letter-grid {
+    gap: 1.9rem;
+  }
+  html.book .samwell-grid {
+    gap: 1.9rem;
+  }
+  html.book .samwell-shot img {
+    width: auto;
+    max-height: 27vh;
+  }
+  html.book .transcript {
+    margin-top: 1.9rem;
+  }
+  html.book .imprint {
+    margin-top: 2.2rem;
+  }
+  html.book .endmark {
+    margin-top: 2.2rem;
+    padding-bottom: 0.5rem;
+  }
+
+  /* Each stage becomes a compact row: plate beside its caption. */
+  html.book .steps {
+    gap: 1.9rem;
+  }
+  html.book .step-item {
+    display: grid;
+    grid-template-columns: 86px minmax(0, 1fr);
+    column-gap: 1.15rem;
+    align-items: start;
+  }
+  html.book .step-shot {
+    margin-bottom: 0;
+  }
+  html.book .step-shot img {
+    width: 100%;
+    max-width: none;
+  }
+  html.book .step-item h3 {
+    margin: 0.15rem 0 0.4rem;
+    font-size: 1.2rem;
+  }
+  html.book .step-item p {
+    font-size: 0.96rem;
+  }
+
+  /* Running foot: how far through the book you are. */
+  html.book .pager {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 58;
+    display: block;
+    background: var(--chrome-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .pager-track {
+    height: 2px;
+    background: var(--hairline);
+    position: relative;
+  }
+  .pager-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0%;
+    background: var(--gold);
+    transition: width 0.15s linear;
+  }
+  .pager-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.9rem 0.55rem;
+  }
+  .pager-btn {
+    flex-shrink: 0;
+    width: 2.1rem;
+    height: 2.1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--hairline);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .pager-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  .pager-btn:disabled {
+    opacity: 0.28;
+    cursor: default;
+  }
+  .pager-label {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    text-align: center;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  html.book .swipe-hint {
+    position: fixed;
+    bottom: 4.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 56;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.42rem 0.8rem;
+    background: var(--chrome-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--hairline);
+    font-family: "Manrope", sans-serif;
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    transition: opacity 0.5s ease;
+  }
+  .swipe-hint svg {
+    width: 12px;
+    height: 12px;
+    color: var(--gold);
+  }
+  .swipe-hint.gone {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .turn {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hl,
+  .name-field,
+  .name-hint,
+  .pager-fill,
+  .swipe-hint {
+    transition: none;
+  }
+  .saved-card {
+    animation: none;
+  }
 }

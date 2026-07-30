@@ -1,20 +1,25 @@
 ---
+// The landing page is a short book. Each section is a leaf: on phones they are
+// turned by swiping, on wide screens they read as one vertical scroll.
+// Keep <main>'s direct children to exactly the five leaves in LEAVES.
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
-import Hero from "../components/Hero.astro";
-import Features from "../components/Features.astro";
-import CrossPlatform from "../components/CrossPlatform.astro";
-import Quote from "../components/Quote.astro";
-import Footer from "../components/Footer.astro";
+import Frontispiece from "../components/Frontispiece.astro";
+import Becoming from "../components/Becoming.astro";
+import HowItWorks from "../components/HowItWorks.astro";
+import Samwell from "../components/Samwell.astro";
+import Begin from "../components/Begin.astro";
+import BookChrome from "../components/BookChrome.astro";
 ---
 
-<Layout>
-  <Nav />
+<Layout bookMode>
+  <Nav bookMode />
   <main>
-    <Hero />
-    <Features />
-    <CrossPlatform />
-    <Quote />
+    <Frontispiece />
+    <Becoming />
+    <HowItWorks />
+    <Samwell />
+    <Begin />
   </main>
-  <Footer />
+  <BookChrome />
 </Layout>

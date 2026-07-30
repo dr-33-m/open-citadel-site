@@ -1,0 +1,86 @@
+---
+// Chapter III. Samwell, presented as a transcript. The exchange below is real
+// output from the app, taken from the launch screenshots, not invented copy.
+import samwellLight from "../assets/screenshots/light/samwell-light.webp";
+import samwellDark from "../assets/screenshots/dark/samwell-dark.webp";
+
+const shotAlt = "A conversation with Samwell in the app";
+---
+
+<section class="chapter samwell" id="samwell">
+  <div class="wrap">
+    <div class="chapter-mark">
+      <span class="chapter-num">III</span>
+      <span class="rule"></span>
+      <span class="label label-dim">Your Self-Development Companion</span>
+    </div>
+
+    <div class="samwell-grid">
+      <div>
+        <div class="samwell-icon">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path
+              d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"
+            ></path>
+          </svg>
+        </div>
+
+        <h2 class="reveal">Turn what you learn into who you become.</h2>
+
+        <p class="body">
+          Samwell helps you think deeper about what you read. Ask questions about
+          passages, connect ideas across books, explore different perspectives,
+          or reflect on how something applies to your own journey.
+        </p>
+        <p class="body">
+          Your highlights and notes are always connected, giving you a space
+          where knowledge becomes something you can actually grow from.
+        </p>
+
+        <div class="transcript">
+          <div class="turn ask">
+            <span class="who">You</span>
+            <p>
+              Okay, how will you help me in my journey of becoming a high
+              performance thinker?
+            </p>
+          </div>
+          <div class="turn reply">
+            <span class="who">Samwell</span>
+            <p>
+              I help you by taking your reading and connecting it directly to
+              your actual goals. I turn thoughts into action by drawing
+              unexpected connections between what you read and the real world.
+            </p>
+          </div>
+          <p class="transcript-note">An exchange from the app.</p>
+        </div>
+      </div>
+
+      <div class="samwell-shot">
+        <img
+          class="shot-on-dark"
+          src={samwellLight.src}
+          width={samwellLight.width}
+          height={samwellLight.height}
+          alt={shotAlt}
+          loading="lazy"
+        />
+        <img
+          class="shot-on-light"
+          src={samwellDark.src}
+          width={samwellDark.width}
+          height={samwellDark.height}
+          alt={shotAlt}
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>
