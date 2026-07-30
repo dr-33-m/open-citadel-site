@@ -325,18 +325,24 @@ body {
   justify-content: center;
   gap: 1.6rem;
   padding: 2rem;
-  background: var(--chrome-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  /* Opaque: a full screen menu must stay legible without relying on
+     backdrop-filter, which not every browser honours. */
+  background: var(--bg);
 }
 .menu-sheet.open {
   display: flex;
 }
-.menu-sheet a {
+/* The chapter links only. Excluding .btn keeps this rule from outranking the
+   button's own styling, which it would otherwise win on specificity. */
+.menu-sheet a:not(.btn) {
   font-family: "Newsreader", serif;
   font-size: 1.9rem;
+  line-height: 1.15;
   text-decoration: none;
   color: var(--text);
+}
+.menu-sheet a:not(.btn):hover {
+  color: var(--gold);
 }
 .menu-sheet .btn {
   align-self: flex-start;
