@@ -58,10 +58,14 @@ body {
   --chrome-bg: var(--nav-bg);
   --shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.55);
 
-  /* Highlight hues, lifted from the app's own reader */
+  /* Highlight hues, lifted from the app's own reader. The -edge variants are
+     the same hue at full strength, for the rule down a saved card. */
   --hl-green: rgba(120, 200, 165, 0.26);
   --hl-yellow: rgba(242, 202, 80, 0.26);
   --hl-blue: rgba(130, 175, 235, 0.26);
+  --hl-green-edge: rgb(120, 200, 165);
+  --hl-yellow-edge: rgb(242, 202, 80);
+  --hl-blue-edge: rgb(130, 175, 235);
 }
 
 /* ─── Light theme ────────────────────────────────────────── */
@@ -83,6 +87,10 @@ body {
   --hl-green: rgba(150, 214, 185, 0.62);
   --hl-yellow: rgba(247, 226, 150, 0.72);
   --hl-blue: rgba(178, 208, 240, 0.66);
+  /* Deepened so the rule still reads against the cream ground */
+  --hl-green-edge: rgb(72, 148, 115);
+  --hl-yellow-edge: rgb(184, 134, 26);
+  --hl-blue-edge: rgb(68, 120, 186);
 }
 
 /* Ensure gold-gradient buttons always read dark */
@@ -704,9 +712,19 @@ body {
 }
 .saved-card {
   background: var(--bg);
-  border-left: 2px solid var(--gold);
+  /* The rule carries the colour the passage was highlighted in */
+  border-left: 2px solid var(--card-edge, var(--gold));
   padding: 0.8rem 0.9rem;
   animation: cardin 0.4s ease;
+}
+.saved-card[data-hue="green"] {
+  --card-edge: var(--hl-green-edge);
+}
+.saved-card[data-hue="yellow"] {
+  --card-edge: var(--hl-yellow-edge);
+}
+.saved-card[data-hue="blue"] {
+  --card-edge: var(--hl-blue-edge);
 }
 @keyframes cardin {
   from {
@@ -744,8 +762,9 @@ body {
 .loop h2 {
   font-size: clamp(2rem, 4.2vw, 2.9rem);
   line-height: 1.1;
-  max-width: 26rem;
+  /* Let it use the measure it has rather than wrapping in a narrow column */
   margin-bottom: 4rem;
+  text-wrap: pretty;
 }
 .steps {
   display: grid;
@@ -922,6 +941,11 @@ body {
   color: var(--text-dim);
   max-width: 26rem;
   margin: 0;
+}
+/* Names the action, so the sentence points at the button beside it */
+.colophon p.body strong {
+  font-weight: 400;
+  color: var(--gold);
 }
 .acquire {
   display: flex;

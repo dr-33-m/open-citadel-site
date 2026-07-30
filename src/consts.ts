@@ -16,13 +16,13 @@ export const GITHUB_URL = "https://github.com/dr-33-m/open-citadel";
 export const CONTACT_EMAIL = "thamsanqa.dev@gmail.com";
 
 /**
- * iOS notify path. Apple approval is expected about a week after Google.
+ * iOS waitlist. Apple approval is expected about a week after Google.
  * TODO(launch): swap for the App Store URL once the app is approved.
  */
-export const IOS_NOTIFY_URL =
+export const IOS_WAITLIST_URL =
   `mailto:${CONTACT_EMAIL}` +
-  "?subject=iOS%20Waitlist%20-%20Notify%20Me" +
-  "&body=Hi%2C%20I%27d%20like%20to%20be%20notified%20when%20Open%20Citadel%20is%20available%20on%20iOS.";
+  "?subject=Join%20the%20iOS%20waitlist" +
+  "&body=Hi%2C%20please%20add%20me%20to%20the%20waitlist%20and%20let%20me%20know%20when%20Open%20Citadel%20is%20available%20on%20iOS.";
 
 /** The author's public name. The legal name is used on the privacy page. */
 export const AUTHOR_NAME = "Thamsanqa Dreem";

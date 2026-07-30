@@ -127,6 +127,8 @@ import { AUTHOR_NAME } from "../consts";
         const card = document.createElement("li");
         card.className = "saved-card";
         card.dataset.quote = quote;
+        // Carry the highlight colour through to the card's rule
+        card.dataset.hue = mark.dataset.hue ?? "";
 
         const meta = document.createElement("div");
         meta.className = "saved-meta";

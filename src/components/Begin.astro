@@ -2,7 +2,7 @@
 // Chapter IV. One unambiguous close. Android is live and iOS is coming: both
 // are stated once, at equal weight, with a working action for each. No greyed
 // out badge, because a disabled control reads as broken rather than intentional.
-import { PLAY_STORE_URL, PLAY_STORE_LIVE, IOS_NOTIFY_URL } from "../consts";
+import { PLAY_STORE_URL, PLAY_STORE_LIVE, IOS_WAITLIST_URL } from "../consts";
 import Android from "./icons/Android.astro";
 import Imprint from "./Imprint.astro";
 
@@ -23,8 +23,9 @@ const ctaTitle = PLAY_STORE_LIVE
       <div>
         <h2 class="reveal">Start your own journey of becoming.</h2>
         <p class="body">
-          Open Citadel is live on Android. iOS is coming soon: tell me your email
-          and I'll let you know the moment it's ready.
+          Open Citadel is live on Android. iOS is coming soon: choose <strong
+            >Join the waitlist</strong
+          > and I'll email you the moment it's ready.
         </p>
       </div>
 
@@ -38,7 +39,7 @@ const ctaTitle = PLAY_STORE_LIVE
           <span class="sr-tag">Available now</span>
         </a>
 
-        <a class="store-row" href={IOS_NOTIFY_URL}>
+        <a class="store-row" href={IOS_WAITLIST_URL}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 814 1000"
@@ -50,10 +51,10 @@ const ctaTitle = PLAY_STORE_LIVE
             ></path>
           </svg>
           <div>
-            <p class="sr-label">Notify me on the</p>
+            <p class="sr-label">Join the waitlist for</p>
             <p class="sr-name">App Store</p>
           </div>
-          <span class="sr-tag">Coming soon</span>
+          <span class="sr-tag">Join now</span>
         </a>
       </div>
     </div>
