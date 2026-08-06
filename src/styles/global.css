@@ -916,7 +916,9 @@ body {
 /* ─── Colophon: the closing plate ────────────────────────── */
 .colophon {
   border-top: 1px solid var(--hairline-soft);
-  padding-bottom: 0;
+  /* The imprint is the last thing on the page, so it carries its own tail.
+     This used to be 0 because the endmark line below it supplied the gap. */
+  padding-bottom: 3.5rem;
 }
 .colophon h2 {
   font-size: clamp(2.1rem, 5vw, 3.2rem);
@@ -1063,20 +1065,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 0.9rem;
-}
-
-.endmark {
-  border-top: 1px solid var(--hairline-soft);
-  margin-top: 3.5rem;
-  padding-block: 1.2rem 2.5rem;
-}
-.endmark p {
-  font-family: "Manrope", sans-serif;
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  color: var(--text-dim);
-  opacity: 0.6;
-  margin: 0;
 }
 
 /* ─── Tab bar: the app's bottom chrome, with its gold rule ── */
@@ -1244,10 +1232,6 @@ body {
   }
   html.book .imprint {
     margin-top: 2.2rem;
-  }
-  html.book .endmark {
-    margin-top: 2.2rem;
-    padding-bottom: 0.5rem;
   }
 
   /* Each stage becomes a compact row: plate beside its caption. */
