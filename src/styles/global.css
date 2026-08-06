@@ -202,8 +202,8 @@ body {
   flex-shrink: 0;
 }
 .brand img {
-  height: 26px;
-  width: 26px;
+  height: 52px;
+  width: 52px;
 }
 .brand span {
   font-family: "Newsreader", serif;
@@ -1175,10 +1175,11 @@ body {
     border-left: none;
   }
 
-  /* Clear the running head and the pager foot on every leaf. */
+  /* Clear the running head and the pager foot on every leaf. The top value
+     tracks the bar's height, which the 52px logomark sets. */
   html.book .front,
   html.book .chapter {
-    padding-block: 4.6rem 5rem;
+    padding-block: 6.2rem 5rem;
   }
   html.book .front {
     overflow-x: hidden;
