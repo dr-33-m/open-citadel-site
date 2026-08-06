@@ -3,6 +3,10 @@
 // weight, with a working action for each. No greyed out badge, because a
 // disabled control reads as broken rather than intentional.
 //
+// Each row names its store rather than the app, in that store's own house
+// phrasing, so the two read as one choice on one axis. The app is already named
+// everywhere above; the only open question here is which shop the reader uses.
+//
 // The iOS row has two states and IOS_LIVE picks between them, so publishing the
 // App Store listing is a one line change in consts.ts.
 import {
@@ -20,7 +24,7 @@ const ctaTitle = PLAY_STORE_LIVE
   : "Placeholder: the Play Store listing goes live at launch";
 
 const iosHref = IOS_LIVE ? APP_STORE_URL : IOS_WAITLIST_URL;
-const iosLabel = IOS_LIVE ? "Download for" : "Join the waitlist for";
+const iosLabel = IOS_LIVE ? "Download on the" : "Join the waitlist for";
 const iosTag = IOS_LIVE ? "Available now" : "Join now";
 
 // While Android is the only way in, its row is filled so the eye lands there.
@@ -59,8 +63,8 @@ const androidClass = IOS_LIVE ? "store-row" : "store-row primary";
         <a class={androidClass} href={PLAY_STORE_URL} title={ctaTitle}>
           <Android />
           <div>
-            <p class="sr-label">Download</p>
-            <p class="sr-name">Open Citadel</p>
+            <p class="sr-label">Get it on</p>
+            <p class="sr-name">Google Play</p>
           </div>
           <span class="sr-tag">Available now</span>
         </a>
