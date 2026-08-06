@@ -1,12 +1,32 @@
 /**
  * Shared links and identity.
- *
- * PLAY_STORE_URL is a placeholder until the Google Play listing is live.
- * TODO(launch): replace with the real
- * https://play.google.com/store/apps/details?id=... URL. Every CTA on the site
- * reads from this one constant, so it is a single-line change.
  */
-export const PLAY_STORE_URL = "#";
+
+/** The Play Store package name. */
+export const ANDROID_PACKAGE = "com.dr33m.opencitadel";
+
+/**
+ * Attribution for installs that start on this site.
+ *
+ * Note this is `referrer`, not the `pcampaignid=web_share` that Play's share
+ * sheet appends. `pcampaignid` is Google's own internal parameter and only
+ * recognises values Google issues, so a custom string there is silently
+ * dropped. `referrer` is the documented hook for third party sites: Play
+ * Console parses these utm_* keys into its acquisition reports, and the Install
+ * Referrer API hands the same string to the app on first launch.
+ *
+ * The whole value is one encoded query string, so its own separators are
+ * escaped (%3D for `=`, %26 for `&`).
+ */
+const PLAY_REFERRER = encodeURIComponent(
+  "utm_source=open-citadel-site&utm_medium=web&utm_campaign=launch",
+);
+
+/** Every Android CTA on the site reads from this one constant. */
+export const PLAY_STORE_URL =
+  "https://play.google.com/store/apps/details" +
+  `?id=${ANDROID_PACKAGE}` +
+  `&referrer=${PLAY_REFERRER}`;
 
 /** True once PLAY_STORE_URL points at a real listing. Drives link targets. */
 export const PLAY_STORE_LIVE = PLAY_STORE_URL !== "#";
