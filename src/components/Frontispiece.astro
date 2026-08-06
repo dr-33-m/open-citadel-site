@@ -1,14 +1,9 @@
 ---
 // Frontispiece: the title page. The visitor writes their own name into the
 // headline, and the library screenshot is mounted as a framed plate.
-import { PLAY_STORE_URL, PLAY_STORE_LIVE } from "../consts";
-import Android from "./icons/Android.astro";
 import libraryLight from "../assets/screenshots/light/library-1-light.webp";
 import libraryDark from "../assets/screenshots/dark/library1-dark.webp";
 
-const ctaTitle = PLAY_STORE_LIVE
-  ? undefined
-  : "Placeholder: the Play Store listing goes live at launch";
 const plateAlt = "The Open Citadel library, showing a book in progress";
 ---
 
@@ -53,11 +48,11 @@ const plateAlt = "The Open Citadel library, showing a book in progress";
         shape you, and turn knowledge into growth.
       </p>
 
+      <!-- Platform neutral on purpose. The device someone browses on is not
+           the device they read on, so the choice belongs in Chapter IV where
+           both stores are named, not in a CTA that guesses. -->
       <div class="cta-row">
-        <a class="btn" href={PLAY_STORE_URL} title={ctaTitle}>
-          <Android />
-          Download for Android
-        </a>
+        <a class="btn" href="#acquire">Get the app</a>
       </div>
     </div>
 

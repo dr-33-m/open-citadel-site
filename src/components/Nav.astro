@@ -1,9 +1,6 @@
 ---
 // Running head. The app's own chrome, worn by the page: PROGRESS mirrors the
 // reading progress bar on a book card inside Open Citadel.
-import { PLAY_STORE_URL, PLAY_STORE_LIVE } from "../consts";
-import Android from "./icons/Android.astro";
-
 interface Props {
   /** The home page turns into a book on phones, so its links turn leaves. */
   bookMode?: boolean;
@@ -23,10 +20,10 @@ const links = bookMode
       { label: "Privacy", href: "/privacy" },
     ];
 
-const ctaHref = bookMode ? "#acquire" : PLAY_STORE_URL;
-const ctaTitle = PLAY_STORE_LIVE
-  ? undefined
-  : "Placeholder: the Play Store listing goes live at launch";
+// Never a direct store link. Both CTAs land on Chapter IV, which names both
+// platforms, so nothing here has to guess which device the reader owns. In
+// book mode BookChrome intercepts the bare hash and turns the page instead.
+const ctaHref = bookMode ? "#acquire" : "/#acquire";
 ---
 
 <header class="runhead">
@@ -81,10 +78,7 @@ const ctaTitle = PLAY_STORE_LIVE
         </svg>
       </button>
 
-      <a class="btn btn-sm" href={ctaHref} title={ctaTitle}>
-        <Android />
-        Get the app
-      </a>
+      <a class="btn btn-sm" href={ctaHref}>Get the app</a>
 
       <button
         class="icon-btn menu-btn"
@@ -113,10 +107,7 @@ const ctaTitle = PLAY_STORE_LIVE
     >&times;</button
   >
   {links.map(({ label, href }) => <a href={href}>{label}</a>)}
-  <a class="btn" href={PLAY_STORE_URL} title={ctaTitle}>
-    <Android />
-    Download for Android
-  </a>
+  <a class="btn" href={ctaHref}>Get the app</a>
 </div>
 
 <script>

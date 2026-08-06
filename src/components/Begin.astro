@@ -22,6 +22,11 @@ const ctaTitle = PLAY_STORE_LIVE
 const iosHref = IOS_LIVE ? APP_STORE_URL : IOS_WAITLIST_URL;
 const iosLabel = IOS_LIVE ? "Download for" : "Join the waitlist for";
 const iosTag = IOS_LIVE ? "Available now" : "Join now";
+
+// While Android is the only way in, its row is filled so the eye lands there.
+// Once both stores are live neither platform is the recommendation, so the two
+// rows sit at equal weight and the reader picks.
+const androidClass = IOS_LIVE ? "store-row" : "store-row primary";
 ---
 
 <section class="chapter colophon" id="acquire">
@@ -51,7 +56,7 @@ const iosTag = IOS_LIVE ? "Available now" : "Join now";
       </div>
 
       <div class="acquire">
-        <a class="store-row primary" href={PLAY_STORE_URL} title={ctaTitle}>
+        <a class={androidClass} href={PLAY_STORE_URL} title={ctaTitle}>
           <Android />
           <div>
             <p class="sr-label">Download</p>
