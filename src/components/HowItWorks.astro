@@ -1,0 +1,81 @@
+---
+// Chapter II. The loop as an ascent: on wide screens each stage sits a step
+// higher than the last, because growth has a direction.
+import library2Light from "../assets/screenshots/light/library-2-light.webp";
+import library2Dark from "../assets/screenshots/dark/library-2-dark.webp";
+import readerLight from "../assets/screenshots/light/reader-light.webp";
+import readerDark from "../assets/screenshots/dark/reader-dark.webp";
+import timelineLight from "../assets/screenshots/light/timeline-light.webp";
+import timelineDark from "../assets/screenshots/dark/timeline-dark.webp";
+
+const stages = [
+  {
+    order: "First",
+    title: "Library",
+    body: "Bring your EPUBs into Open Citadel and keep your reading life organised. Your books, covers, progress, and collections stay together in one place.",
+    light: library2Light,
+    dark: library2Dark,
+    alt: "The library, with favourites and collections",
+  },
+  {
+    order: "Then",
+    title: "Reader",
+    body: "Read in a focused environment with highlights, bookmarks, text-to-speech, and custom reading modes designed around your experience.",
+    light: readerLight,
+    dark: readerDark,
+    alt: "The reader, with coloured highlights",
+  },
+  {
+    order: "In time",
+    title: "Timeline",
+    body: "Every highlight and thought becomes part of your personal knowledge journey. See the ideas that shaped your thinking and how your perspective evolves over time.",
+    light: timelineLight,
+    dark: timelineDark,
+    alt: "The timeline of highlights and thoughts",
+  },
+];
+---
+
+<section class="chapter loop chapter-rule" id="loop">
+  <div class="wrap">
+    <div class="chapter-mark">
+      <span class="chapter-num">II</span>
+      <span class="rule"></span>
+      <span class="label label-dim">How It Works</span>
+    </div>
+
+    <h2 class="reveal">Your books, connected to your growth.</h2>
+
+    <div class="steps">
+      {
+        stages.map((stage) => (
+          <div class="step-item">
+            <div class="step-shot">
+              <img
+                class="shot-on-dark"
+                src={stage.light.src}
+                width={stage.light.width}
+                height={stage.light.height}
+                alt={stage.alt}
+                loading="lazy"
+              />
+              <img
+                class="shot-on-light"
+                src={stage.dark.src}
+                width={stage.dark.width}
+                height={stage.dark.height}
+                alt={stage.alt}
+                loading="lazy"
+              />
+            </div>
+            <div class="step-text">
+              <p class="label">{stage.order}</p>
+              <h3>{stage.title}</h3>
+              <p>{stage.body}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

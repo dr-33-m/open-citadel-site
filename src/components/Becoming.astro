@@ -1,0 +1,156 @@
+---
+// Chapter I. The letter, set as a book page. Its highlightable lines let the
+// reader perform the product's core loop before they have installed anything.
+import { AUTHOR_NAME } from "../consts";
+---
+
+<section class="chapter letterpage" id="becoming">
+  <div class="wrap">
+    <div class="chapter-mark">
+      <span class="chapter-num">I</span>
+      <span class="rule"></span>
+      <span class="label label-dim">Why I Built This</span>
+    </div>
+
+    <div class="letter-grid">
+      <div>
+        <h2>The Journey of Becoming</h2>
+
+        <div class="letter-body">
+          <p>
+            I started reading because I wanted to build a company. What I didn't
+            realize was that <span
+              class="hl"
+              role="button"
+              tabindex="0"
+              data-hue="yellow"
+              data-quote="every book, podcast, and biography was quietly rebuilding me"
+              >every book, podcast, and biography was quietly rebuilding me</span
+            >.
+          </p>
+          <p>
+            They weren't just teaching me how to build a business. They were
+            changing the way I thought. Every story, idea, and lesson challenged
+            my assumptions and gave me a new lens to see the world.
+          </p>
+          <p>
+            That's when I realized <span
+              class="hl"
+              role="button"
+              tabindex="0"
+              data-hue="green"
+              data-quote="the value wasn't in consuming more knowledge. It was in becoming someone different because of it"
+              >the value wasn't in consuming more knowledge. It was in becoming
+              someone different because of it</span
+            >.
+          </p>
+          <p>
+            The problem was that every insight lived in a different place, and
+            turning those insights into decisions was still my responsibility.
+          </p>
+          <p>
+            So I built the tool I wished I had: <span
+              class="hl"
+              role="button"
+              tabindex="0"
+              data-hue="blue"
+              data-quote="a place where the ideas I discover can be explored, challenged, and turned into actions that shape who I become"
+              >a place where the ideas I discover can be explored, challenged,
+              and turned into actions that shape who I become</span
+            >.
+          </p>
+          <p>That's why Open Citadel exists.</p>
+        </div>
+
+        <p class="sign">{AUTHOR_NAME}, Author of Open Citadel</p>
+      </div>
+
+      <aside class="margin-rail" aria-live="polite">
+        <div class="rail-hint">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path d="M4 6h11"></path>
+            <path d="M4 12h16"></path>
+            <path d="M4 18h8"></path>
+          </svg>
+          <p class="label label-dim">Your timeline</p>
+        </div>
+        <p class="rail-empty" id="rail-empty">
+          Click any underlined line to highlight it.
+        </p>
+        <ul class="saved-list" id="saved-list"></ul>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Kept inside the section: <main>'s direct children must be the five
+       leaves of the book, and Astro emits component scripts in place. -->
+  <script>
+  // Highlight a line and watch it land on a timeline, exactly as the app does.
+  const list = document.getElementById("saved-list");
+  const railEmpty = document.getElementById("rail-empty");
+
+  function clockLabel() {
+    const d = new Date();
+    const hours = d.getHours();
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+    const suffix = hours >= 12 ? "PM" : "AM";
+    const hour = hours % 12 === 0 ? 12 : hours % 12;
+    return `${hour}:${minutes} ${suffix}`;
+  }
+
+  document.querySelectorAll<HTMLElement>(".hl").forEach((mark) => {
+    mark.setAttribute("aria-pressed", "false");
+
+    mark.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        mark.click();
+      }
+    });
+
+    mark.addEventListener("click", () => {
+      const on = mark.classList.toggle("on");
+      mark.setAttribute("aria-pressed", on ? "true" : "false");
+      const quote = mark.dataset.quote ?? "";
+
+      if (!list || !railEmpty) return;
+
+      if (on) {
+        railEmpty.style.display = "none";
+
+        const card = document.createElement("li");
+        card.className = "saved-card";
+        card.dataset.quote = quote;
+        // Carry the highlight colour through to the card's rule
+        card.dataset.hue = mark.dataset.hue ?? "";
+
+        const meta = document.createElement("div");
+        meta.className = "saved-meta";
+        const source = document.createElement("span");
+        source.textContent = "Highlight · The Journey of Becoming";
+        const time = document.createElement("span");
+        time.textContent = clockLabel();
+        meta.append(source, time);
+
+        const text = document.createElement("p");
+        text.textContent = quote;
+
+        card.append(meta, text);
+        list.appendChild(card);
+      } else {
+        const existing = Array.from(list.children).find(
+          (child) => (child as HTMLElement).dataset.quote === quote,
+        );
+        existing?.remove();
+        if (!list.children.length) railEmpty.style.display = "";
+      }
+    });
+  });
+</script>
+</section>

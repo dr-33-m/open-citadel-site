@@ -1,0 +1,34 @@
+---
+// A book ends by telling you how it was made.
+import { GITHUB_URL, CONTACT_EMAIL, AUTHOR_NAME, AUTHOR_URL } from "../consts";
+---
+
+<div class="imprint">
+  <dl>
+    <dt>Author</dt>
+    <dd>
+      Written by <a
+        class="author-link"
+        href={AUTHOR_URL}
+        target="_blank"
+        rel="noopener noreferrer">{AUTHOR_NAME}</a
+      >
+    </dd>
+  </dl>
+  <dl>
+    <dt>The source</dt>
+    <dd>
+      <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+        View it on GitHub
+      </a>
+    </dd>
+  </dl>
+  <dl>
+    <dt>Elsewhere</dt>
+    <dd class="imprint-links">
+      <a href={`mailto:${CONTACT_EMAIL}`}>Contact</a>
+      <a href="/support">Support</a>
+      <a href="/privacy">Privacy</a>
+    </dd>
+  </dl>
+</div>
