@@ -38,19 +38,19 @@ export const CONTACT_EMAIL = "thamsanqa.dev@gmail.com";
 /**
  * The App Store listing.
  *
- * TODO(ios): paste the https://apps.apple.com/... URL here, and that is the
- * whole job. Everything the iOS state touches switches off IOS_LIVE below: the
- * Begin chapter's sentence, the row's label, and its tag all swap from waitlist
- * wording to download wording. Nothing else needs editing.
+ * No campaign token on this one, unlike the Play link above. Apple's equivalent
+ * is `ct`, and it only reports against a provider token issued in App Store
+ * Connect, so it is not a string that can be invented here.
  */
-export const APP_STORE_URL = "#";
+export const APP_STORE_URL =
+  "https://apps.apple.com/us/app/open-citadel/id6789093612";
 
 /** True once APP_STORE_URL points at a real listing. */
 export const IOS_LIVE = APP_STORE_URL !== "#";
 
 /**
- * Where the iOS row points until the listing appears. Apple has approved the
- * release, so this is a short gap rather than an open ended one.
+ * Where the iOS row pointed before the listing appeared. Kept as the fallback
+ * behind IOS_LIVE so the pre launch state is still one constant away.
  */
 export const IOS_WAITLIST_URL =
   `mailto:${CONTACT_EMAIL}` +
