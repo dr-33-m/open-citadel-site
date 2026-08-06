@@ -1,14 +1,27 @@
 ---
-// Chapter IV. One unambiguous close. Android is live and iOS is coming: both
-// are stated once, at equal weight, with a working action for each. No greyed
-// out badge, because a disabled control reads as broken rather than intentional.
-import { PLAY_STORE_URL, PLAY_STORE_LIVE, IOS_WAITLIST_URL } from "../consts";
+// Chapter IV. One unambiguous close. Both platforms are stated once, at equal
+// weight, with a working action for each. No greyed out badge, because a
+// disabled control reads as broken rather than intentional.
+//
+// The iOS row has two states and IOS_LIVE picks between them, so publishing the
+// App Store listing is a one line change in consts.ts.
+import {
+  PLAY_STORE_URL,
+  PLAY_STORE_LIVE,
+  APP_STORE_URL,
+  IOS_LIVE,
+  IOS_WAITLIST_URL,
+} from "../consts";
 import Android from "./icons/Android.astro";
 import Imprint from "./Imprint.astro";
 
 const ctaTitle = PLAY_STORE_LIVE
   ? undefined
   : "Placeholder: the Play Store listing goes live at launch";
+
+const iosHref = IOS_LIVE ? APP_STORE_URL : IOS_WAITLIST_URL;
+const iosLabel = IOS_LIVE ? "Download for" : "Join the waitlist for";
+const iosTag = IOS_LIVE ? "Available now" : "Join now";
 ---
 
 <section class="chapter colophon" id="acquire">
@@ -22,11 +35,19 @@ const ctaTitle = PLAY_STORE_LIVE
     <div class="colophon-grid">
       <div>
         <h2 class="reveal">Start your own journey of becoming.</h2>
-        <p class="body">
-          Open Citadel is live on Android. iOS is coming soon: choose <strong
-            >Join the waitlist</strong
-          > and I'll email you the moment it's ready.
-        </p>
+        {
+          IOS_LIVE ? (
+            <p class="body">
+              Open Citadel is live on Android and iOS. Start where you are.
+            </p>
+          ) : (
+            <p class="body">
+              Open Citadel is live on Android. iOS is coming soon: choose{" "}
+              <strong>Join the waitlist</strong> and I'll email you the moment
+              it's ready.
+            </p>
+          )
+        }
       </div>
 
       <div class="acquire">
@@ -39,7 +60,7 @@ const ctaTitle = PLAY_STORE_LIVE
           <span class="sr-tag">Available now</span>
         </a>
 
-        <a class="store-row" href={IOS_WAITLIST_URL}>
+        <a class="store-row" href={iosHref}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 814 1000"
@@ -51,10 +72,10 @@ const ctaTitle = PLAY_STORE_LIVE
             ></path>
           </svg>
           <div>
-            <p class="sr-label">Join the waitlist for</p>
+            <p class="sr-label">{iosLabel}</p>
             <p class="sr-name">App Store</p>
           </div>
-          <span class="sr-tag">Join now</span>
+          <span class="sr-tag">{iosTag}</span>
         </a>
       </div>
     </div>

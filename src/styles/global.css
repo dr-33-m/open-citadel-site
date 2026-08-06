@@ -1041,6 +1041,24 @@ body {
 .imprint a:hover {
   color: var(--gold);
 }
+/* The other imprint links announce themselves in their labels ("View it on
+   GitHub", "Contact"). A name does not, so it gets a hairline rule to carry
+   the affordance, and both the text and the rule go gold on hover. */
+.imprint a.author-link {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--hairline);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+.imprint a.author-link:hover,
+.imprint a.author-link:focus-visible {
+  color: var(--gold);
+  text-decoration-color: var(--gold);
+}
 .imprint-links {
   display: flex;
   flex-wrap: wrap;
