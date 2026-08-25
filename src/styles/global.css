@@ -505,6 +505,9 @@ body {
   font: inherit;
   letter-spacing: -0.015em;
 }
+.name-suffix {
+  margin-left: 0.2em;
+}
 .name-hint {
   display: flex;
   align-items: center;
