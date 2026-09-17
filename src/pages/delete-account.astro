@@ -1,0 +1,176 @@
+---
+// The web half of account deletion, required by Google Play's User Data
+// policy: the in-app button alone is not enough, there has to be a page
+// somebody can reach without installing the app. Its URL goes in Play Console
+// under App content -> Data deletion.
+//
+// What it describes is `accountRoutes.delete('/')` in the open-citadel server
+// (server/src/account-routes.ts): this server's rows first, then RevenueCat,
+// then the Logto user. Keep this page and that route in step.
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { CONTACT_EMAIL } from "../consts";
+
+const supportEmail = CONTACT_EMAIL;
+const mailto =
+  `mailto:${supportEmail}` +
+  "?subject=Delete%20my%20Open%20Citadel%20account" +
+  "&body=Please%20delete%20my%20Open%20Citadel%20account%20and%20everything%20Samwell%20Cloud%20holds%20about%20it.";
+---
+
+<Layout
+  title="Delete Your Account: Open Citadel"
+  description="How to delete your Open Citadel account and everything Samwell Cloud holds about it, in the app or by email."
+>
+  <Nav />
+  <main class="pt-32 pb-24 px-6 md:px-12 lg:px-20 bg-obsidian">
+    <div class="max-w-3xl mx-auto flex flex-col gap-16">
+      <!-- Header -->
+      <header class="flex flex-col gap-4">
+        <p
+          class="font-body text-xs font-semibold text-gold uppercase tracking-[0.12em] m-0"
+        >
+          Your Account
+        </p>
+        <h1
+          class="font-display text-parchment m-0 leading-[1.1]"
+          style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 400;"
+        >
+          Delete Your Account
+        </h1>
+        <p class="font-body text-parchment-dim leading-relaxed m-0">
+          You can delete your Open Citadel account, and everything Samwell
+          Cloud holds about it, from inside the app. If you no longer have the
+          app, you can ask us by email instead.
+        </p>
+      </header>
+
+      <article
+        class="font-body text-parchment-dim leading-relaxed flex flex-col gap-14"
+      >
+        <section class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            In the app
+          </h2>
+          <ol class="flex flex-col gap-2 pl-5 m-0" style="list-style: decimal;">
+            <li>Open Open Citadel.</li>
+            <li>Go to <strong class="text-parchment">Settings</strong>.</li>
+            <li>
+              Find the <strong class="text-parchment">Cloud Account</strong> card.
+            </li>
+            <li>
+              Tap <strong class="text-parchment">DELETE ACCOUNT</strong>.
+            </li>
+            <li>Confirm when the app asks.</li>
+          </ol>
+          <p class="m-0">
+            This takes effect immediately. There is no waiting period and no
+            way to undo it.
+          </p>
+        </section>
+
+        <section class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            By email
+          </h2>
+          <p class="m-0">
+            If you have already uninstalled the app, email <a
+              href={mailto}
+              class="text-gold hover:opacity-80">{supportEmail}</a
+            > from the address on your account and ask us to delete it. We will
+            do it within 30 days. We may first have to check that you control
+            that address, so please reply if we write back.
+          </p>
+        </section>
+
+        <section class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            What gets deleted
+          </h2>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>Your account and your sign-in, including your email address.</li>
+            <li>Your plan and your credit balance.</li>
+            <li>Your credit ledger, which is the history of what you spent.</li>
+            <li>
+              The records of your Samwell Cloud turns: which model answered,
+              when, and how many tokens it used.
+            </li>
+            <li>Our subscription record of you at RevenueCat.</li>
+          </ul>
+          <p class="m-0">
+            This is deleted for good, not deactivated. We cannot bring it back,
+            and neither can you.
+          </p>
+        </section>
+
+        <section class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            What stays on your phone
+          </h2>
+          <p class="m-0">
+            Your books, highlights, notes, chats, goals, and logs live on your
+            device and were never part of your account. Deleting your account
+            does not touch them, and Samwell keeps working on-device. We have no
+            copy of any of it.
+          </p>
+          <p class="m-0">
+            To remove that too, uninstall Open Citadel. That deletes the local
+            database with it.
+          </p>
+        </section>
+
+        <section class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Your subscription
+          </h2>
+          <p class="m-0">
+            Deleting your account does <strong class="text-parchment"
+              >not</strong
+            > cancel a Samwell Cloud subscription. Subscriptions are held by the
+            store you bought from, so if you leave one running it keeps
+            renewing and charging you.
+          </p>
+          <p class="m-0">Cancel it before you delete your account:</p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              <strong class="text-parchment">Android</strong>: Google Play app,
+              then Subscriptions.
+            </li>
+            <li>
+              <strong class="text-parchment">iPhone</strong>: Settings, your
+              name, then Subscriptions.
+            </li>
+          </ul>
+        </section>
+
+        <section class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            What we keep
+          </h2>
+          <p class="m-0">
+            Nothing, with one exception worth naming. If you redeemed an
+            insider invite code, the record of that code stays marked as used,
+            with your account replaced by the word "deleted-account", so the
+            code cannot be handed on and used again. It holds no personal data.
+          </p>
+        </section>
+
+        <section class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Questions
+          </h2>
+          <p class="m-0">
+            Write to <a
+              href={`mailto:${supportEmail}`}
+              class="text-gold hover:opacity-80">{supportEmail}</a
+            >, or read the <a href="/privacy" class="text-gold hover:opacity-80"
+              >privacy policy</a
+            > for what the app collects in the first place.
+          </p>
+        </section>
+      </article>
+    </div>
+  </main>
+  <Footer />
+</Layout>
