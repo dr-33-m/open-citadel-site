@@ -1,10 +1,11 @@
 ---
 // Frontispiece: the title page. The visitor writes their own name into the
-// headline, and the library screenshot is mounted as a framed plate.
-import libraryLight from "../assets/screenshots/light/library-1-light.webp";
-import libraryDark from "../assets/screenshots/dark/library1-dark.webp";
+// headline, and the payoff (a goal's progress in Compass) is mounted as a
+// framed plate.
+import insights from "../assets/screenshots/light/07-insights.webp";
 
-const plateAlt = "The Open Citadel library, showing a book in progress";
+const plateAlt =
+  "Compass in the app, showing progress on a goal: 85% consistent and 89 of 250 hours logged";
 ---
 
 <section class="front" id="front">
@@ -45,8 +46,8 @@ const plateAlt = "The Open Citadel library, showing a book in progress";
       </p>
 
       <p class="standfirst">
-        Open Citadel helps you reflect on what you learn, connect the ideas that
-        shape you, and turn knowledge into growth.
+        Read your books, save what matters, and turn it into goals you actually
+        keep. Samwell helps you plan, check in, and see how far you have come.
       </p>
 
       <!-- Platform neutral on purpose. The device someone browses on is not
@@ -61,21 +62,13 @@ const plateAlt = "The Open Citadel library, showing a book in progress";
       <figure class="plate">
         <div class="plate-mount">
           <img
-            class="shot-on-dark"
-            src={libraryLight.src}
-            width={libraryLight.width}
-            height={libraryLight.height}
-            alt={plateAlt}
-          />
-          <img
-            class="shot-on-light"
-            src={libraryDark.src}
-            width={libraryDark.width}
-            height={libraryDark.height}
+            src={insights.src}
+            width={insights.width}
+            height={insights.height}
             alt={plateAlt}
           />
         </div>
-        <figcaption class="plate-caption">Frontispiece &middot; The Library</figcaption>
+        <figcaption class="plate-caption">Frontispiece &middot; Your Progress</figcaption>
       </figure>
     </div>
   </div>

@@ -1,10 +1,12 @@
 ---
-// Chapter III. Samwell, presented as a transcript. The exchange below is real
-// output from the app, taken from the launch screenshots, not invented copy.
-import samwellLight from "../assets/screenshots/light/samwell-light.webp";
-import samwellDark from "../assets/screenshots/dark/samwell-dark.webp";
+// Chapter III. Samwell, presented as a transcript. The check-in below is staged
+// demo data from the Android store screenshots (open-citadel store-screenshots,
+// persona "Marcus"), lightly shortened. It is not a real user's conversation,
+// and the note under it says so.
+import checkin from "../assets/screenshots/light/06-checkin.webp";
 
-const shotAlt = "A conversation with Samwell in the app";
+const shotAlt =
+  "The same check-in in the app, with Samwell quoting a highlight from Leonardo's notebooks";
 ---
 
 <section class="chapter samwell" id="samwell">
@@ -34,49 +36,68 @@ const shotAlt = "A conversation with Samwell in the app";
         <h2 class="reveal">Turn what you learn into who you become.</h2>
 
         <p class="body">
-          Samwell helps you think deeper about what you read. Ask questions about
-          passages, connect ideas across books, explore different perspectives,
-          or reflect on how something applies to your own journey.
+          Samwell does three things. He talks through your books with you. He
+          turns what you want into a goal you can keep. And he checks in using
+          what you have logged and what you wrote.
         </p>
         <p class="body">
-          Your highlights and notes are always connected, giving you a space
-          where knowledge becomes something you can actually grow from.
+          He can see your highlights, notes, and logs, so when a week goes badly
+          he can show you what actually happened, in your own words.
         </p>
 
         <div class="transcript">
           <div class="turn ask">
             <span class="who">You</span>
             <p>
-              Okay, how will you help me in my journey of becoming a high
-              performance thinker?
+              Be honest with me. Marathon training is going great but the
+              prototype feels stuck. What's going on?
             </p>
           </div>
           <div class="turn reply">
             <span class="who">Samwell</span>
             <p>
-              I help you by taking your reading and connecting it directly to
-              your actual goals. I turn thoughts into action by drawing
-              unexpected connections between what you read and the real world.
+              Honestly: your side goal is ahead of your main one. The marathon is
+              93% consistent. The kit is 85% consistent, at 89 of 250 hours. At
+              an even pace you'd be near 114 by now.
+            </p>
+            <p>The misses aren't random. Look at your last three Mondays:</p>
+            <ol>
+              <li>missed, "Legs dead after 22 km. Couch."</li>
+              <li>missed, "24 km yesterday. Nothing left."</li>
+              <li>1 hour, "An hour. Ordered the torque sensor at least."</li>
+            </ol>
+            <p>
+              Each one came the evening after your longest run of the week: 22,
+              24, then 26 km. On Tuesdays, Thursdays and Saturdays you hit your 2
+              hours on 25 of 28 days. This isn't a discipline problem. The plan
+              asks for your hardest thinking on your most tired evening.
+            </p>
+            <p>You highlighted this in July:</p>
+            <blockquote>
+              <p>
+                Experience never errs; it is only your judgments that err by
+                promising themselves effects such as are not caused by your
+                experiments.
+              </p>
+              <cite>The Notebooks of Leonardo da Vinci</cite>
+            </blockquote>
+            <p>
+              Your logs are the experiment. What got it wrong was the schedule,
+              not you. You said it yourself on Sunday: "a plan written by someone
+              who has never run 26 km."
             </p>
           </div>
-          <p class="transcript-note">An exchange from the app.</p>
+          <p class="transcript-note">
+            An example check-in. The person, numbers, and notes are made up.
+          </p>
         </div>
       </div>
 
       <div class="samwell-shot">
         <img
-          class="shot-on-dark"
-          src={samwellLight.src}
-          width={samwellLight.width}
-          height={samwellLight.height}
-          alt={shotAlt}
-          loading="lazy"
-        />
-        <img
-          class="shot-on-light"
-          src={samwellDark.src}
-          width={samwellDark.width}
-          height={samwellDark.height}
+          src={checkin.src}
+          width={checkin.width}
+          height={checkin.height}
           alt={shotAlt}
           loading="lazy"
         />

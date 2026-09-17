@@ -1,37 +1,60 @@
 ---
-// Chapter II. The loop as an ascent: on wide screens each stage sits a step
-// higher than the last, because growth has a direction.
-import library2Light from "../assets/screenshots/light/library-2-light.webp";
-import library2Dark from "../assets/screenshots/dark/library-2-dark.webp";
-import readerLight from "../assets/screenshots/light/reader-light.webp";
-import readerDark from "../assets/screenshots/dark/reader-dark.webp";
-import samwellLight from "../assets/screenshots/light/samwell-light.webp";
-import samwellDark from "../assets/screenshots/dark/samwell-dark.webp";
+// Chapter II. The Compass journey as an ascent: on wide screens the steps rise
+// in two rows of three, because growth has a direction.
+//
+// The kicker, intro, and most step copy come from the app's About Compass
+// sheet (open-citadel: src/features/compass/components/about-compass-sheet.tsx)
+// so the site and the app describe Compass in the same words. Change them
+// together.
+import reader from "../assets/screenshots/light/01-reader.webp";
+import plan from "../assets/screenshots/light/02-plan.webp";
+import logDeck from "../assets/screenshots/light/04-log-deck.webp";
+import planner from "../assets/screenshots/light/05-planner.webp";
+import checkin from "../assets/screenshots/light/06-checkin.webp";
+import takeaway from "../assets/screenshots/light/10-takeaway.webp";
 
 const stages = [
   {
-    order: "Gather",
-    title: "Library",
-    body: "Bring your EPUBs into Open Citadel and keep your reading life organised. Your books, covers, progress, and collections stay together in one place.",
-    light: library2Light,
-    dark: library2Dark,
-    alt: "The library, with favourites and collections",
+    order: "01",
+    title: "Read and highlight",
+    body: "Bring in your EPUBs and read without distraction. Highlight the lines that matter and write down what they mean to you.",
+    shot: reader,
+    alt: "The reader, with two passages from Franklin's autobiography highlighted",
   },
   {
-    order: "Learn",
-    title: "Reader",
-    body: "Read in a focused environment with highlights, bookmarks, text-to-speech, and custom reading modes designed around your experience.",
-    light: readerLight,
-    dark: readerDark,
-    alt: "The reader, with coloured highlights",
+    order: "02",
+    title: "Set a goal",
+    body: "Tell Samwell what you want to change, in your own words. He helps you shape it into a goal made of small things you can actually do.",
+    shot: plan,
+    alt: "Samwell proposing a goal, Learn to TIG weld properly, with three things to log",
   },
   {
-    order: "Become",
-    title: "Samwell",
-    body: "Brainstorm with Samwell to turn what you've read into action plans. Your highlights and ideas become the goals and habits that shape who you become.",
-    light: samwellLight,
-    dark: samwellDark,
-    alt: "A conversation with Samwell in the app",
+    order: "03",
+    title: "Log your days",
+    body: "A few taps a day. Did you show up, and how did it go? That is all it asks.",
+    shot: logDeck,
+    alt: "Today's log card: Draw one thing from life, with 1 sketch logged",
+  },
+  {
+    order: "04",
+    title: "Check in with Samwell",
+    body: "Stuck or drifting? Talk it through. He can see what you have logged and what you wrote, so his advice is about your life, not someone else's.",
+    shot: checkin,
+    alt: "A check-in where Samwell quotes recent logs, notes, and a highlight",
+  },
+  {
+    order: "05",
+    title: "See how far you have come",
+    body: "The planner and insights show your consistency over time. It counts consistency, not streaks, so one missed day never wipes out the rest.",
+    shot: planner,
+    alt: "The planner: a month calendar marking the days that were done, missed, and due",
+  },
+  {
+    order: "06",
+    title: "Finish what you started",
+    body: "When a goal ends, Samwell writes down what it taught you, so the next one starts smarter.",
+    shot: takeaway,
+    alt: "A finished goal, Fill a sketchbook like Leonardo, with the note What Samwell took from it",
   },
 ];
 ---
@@ -44,7 +67,17 @@ const stages = [
       <span class="label label-dim">How It Works</span>
     </div>
 
-    <h2 class="reveal">Your books, connected to your growth.</h2>
+    <h2 class="reveal">A book only changes you when you act on it.</h2>
+
+    <div class="loop-intro">
+      <p>
+        You finish a book full of good ideas. A week later, most of them have
+        slipped away. Nothing happened after the last page.
+      </p>
+      <p>
+        <strong>Compass</strong> is where something happens next.
+      </p>
+    </div>
 
     <div class="steps">
       {
@@ -52,18 +85,9 @@ const stages = [
           <div class="step-item">
             <div class="step-shot">
               <img
-                class="shot-on-dark"
-                src={stage.light.src}
-                width={stage.light.width}
-                height={stage.light.height}
-                alt={stage.alt}
-                loading="lazy"
-              />
-              <img
-                class="shot-on-light"
-                src={stage.dark.src}
-                width={stage.dark.width}
-                height={stage.dark.height}
+                src={stage.shot.src}
+                width={stage.shot.width}
+                height={stage.shot.height}
                 alt={stage.alt}
                 loading="lazy"
               />

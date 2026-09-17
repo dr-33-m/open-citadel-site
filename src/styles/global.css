@@ -113,7 +113,8 @@ body {
 }
 
 /* Paired screenshots. We deliberately pair a light app screenshot with the
-   dark page and vice versa, so the plate always contrasts its ground. */
+   dark page and vice versa, so the plate always contrasts its ground.
+   Unused while only light captures exist; see src/assets/screenshots. */
 .shot-on-dark {
   display: block;
 }
@@ -766,8 +767,26 @@ body {
   font-size: clamp(2rem, 4.2vw, 2.9rem);
   line-height: 1.1;
   /* Let it use the measure it has rather than wrapping in a narrow column */
-  margin-bottom: 4rem;
+  margin-bottom: 1.6rem;
   text-wrap: pretty;
+}
+.loop-intro {
+  max-width: 34rem;
+  margin-bottom: 4rem;
+}
+.loop-intro p {
+  font-family: "Newsreader", serif;
+  font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+  line-height: 1.72;
+  color: var(--text-dim);
+  margin: 0;
+}
+.loop-intro p + p {
+  margin-top: 1rem;
+}
+.loop-intro strong {
+  color: var(--text);
+  font-weight: 500;
 }
 .steps {
   display: grid;
@@ -776,14 +795,14 @@ body {
 @media (min-width: 860px) {
   .steps {
     grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
+    gap: 4.5rem 2.5rem;
     align-items: end;
   }
-  /* each stage sits a step higher than the last */
-  .step-item:nth-child(2) {
+  /* each stage sits a step higher than the last, in rows of three */
+  .step-item:nth-child(3n + 2) {
     padding-bottom: 3rem;
   }
-  .step-item:nth-child(3) {
+  .step-item:nth-child(3n + 3) {
     padding-bottom: 6rem;
   }
 }
@@ -898,6 +917,50 @@ body {
   border-left: 2px solid var(--hairline);
   color: var(--text);
 }
+/* A reply can run to several paragraphs and a quoted highlight. They share
+   one continuous bubble: no gap between them, only the padding. */
+.turn.reply p + p,
+.turn.reply p + ol,
+.turn.reply ol + p,
+.turn.reply blockquote + p {
+  padding-top: 0;
+}
+.turn.reply ol {
+  margin: 0;
+  padding: 0 0.95rem 0.75rem 2.2rem;
+  list-style: decimal;
+  background: var(--bg);
+  border-left: 2px solid var(--hairline);
+  font-family: "Newsreader", serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.turn.reply blockquote {
+  margin: 0;
+  padding: 0 0.95rem 0.75rem;
+  background: var(--bg);
+  border-left: 2px solid var(--hairline);
+}
+.turn.reply blockquote p {
+  padding: 0.6rem 0.8rem 0.3rem;
+  border-left: 2px solid var(--hl-green-edge);
+  background: var(--surface-low);
+  font-size: 0.98rem;
+  color: var(--text-dim);
+}
+.turn.reply blockquote cite {
+  display: block;
+  padding: 0 0.8rem 0.6rem;
+  border-left: 2px solid var(--hl-green-edge);
+  background: var(--surface-low);
+  font-family: "Manrope", sans-serif;
+  font-style: normal;
+  font-size: 0.58rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
 .transcript-note {
   font-family: "Manrope", sans-serif;
   font-size: 0.65rem;
@@ -946,6 +1009,9 @@ body {
   color: var(--text-dim);
   max-width: 26rem;
   margin: 0;
+}
+.colophon p.body + p.body {
+  margin-top: 1rem;
 }
 /* Names the action, so the sentence points at the button beside it */
 .colophon p.body strong {
@@ -1219,6 +1285,9 @@ body {
     margin-bottom: 1.1rem;
   }
   html.book .loop h2 {
+    margin-bottom: 1.1rem;
+  }
+  html.book .loop-intro {
     margin-bottom: 1.9rem;
   }
   html.book .letter-grid {
