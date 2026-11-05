@@ -1,0 +1,1124 @@
+---
+// The Terms of Service. Written against the shipping app and the
+// open-citadel server, the same way privacy.astro is: when a plan, a limit, a
+// vendor or a feature changes there, this page changes with it.
+//
+// What each part leans on:
+//   Plans, Neurons, rollover   packages/samwell-shared/src/billing.ts
+//   Insider codes              packages/samwell-shared/src/insider.ts
+//   Guest identity, linking    GUEST-ACCESS-PLAN.md, server/src/guest-*.ts
+//   Reading voices, limits     packages/samwell-shared/src/voices.ts, server/src/tts*.ts
+//   Podcast transcripts        packages/samwell-shared/src/transcripts.ts
+//   Web search                 packages/samwell-shared/src/web-search.ts
+//
+// Governing law is deliberately the one clause that names no country. See the
+// "Governing Law" section: it is written to survive a move to a company
+// elsewhere, and the line to change is marked there.
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { CONTACT_EMAIL, GITHUB_URL } from "../consts";
+
+const lastUpdated = "November 5, 2026";
+
+const sections = [
+  { id: "agreement", label: "Agreement To These Terms" },
+  { id: "summary", label: "Summary" },
+  { id: "eligibility", label: "Who Can Use Open Citadel" },
+  { id: "licence", label: "Your Licence To Use The App" },
+  { id: "your-content", label: "Your Content" },
+  { id: "accounts", label: "Accounts & Your Device Identity" },
+  { id: "samwell", label: "Samwell & AI" },
+  { id: "not-advice", label: "Not Professional Advice" },
+  { id: "plans", label: "Samwell Cloud Plans & Neurons" },
+  { id: "payments", label: "Billing, Renewal & Refunds" },
+  { id: "insider-codes", label: "Insider Codes" },
+  { id: "cloud-features", label: "Voices, Transcripts & Web Search" },
+  { id: "third-party-content", label: "Free Books, Podcasts & Blogs" },
+  { id: "on-device-models", label: "On-Device Models" },
+  { id: "acceptable-use", label: "Acceptable Use" },
+  { id: "open-source", label: "Open Source & Our Rights" },
+  { id: "third-parties", label: "Third-Party Services" },
+  { id: "availability", label: "Updates & Availability" },
+  { id: "termination", label: "Ending Your Use" },
+  { id: "disclaimers", label: "Disclaimers" },
+  { id: "liability", label: "Limitation Of Liability" },
+  { id: "indemnity", label: "Your Responsibility" },
+  { id: "apple", label: "Additional Terms For iPhone & iPad" },
+  { id: "changes", label: "Changes To These Terms" },
+  { id: "governing-law", label: "Governing Law & Disputes" },
+  { id: "general", label: "General" },
+  { id: "contact", label: "Contact" },
+];
+---
+
+<Layout
+  title="Terms of Service: Open Citadel"
+  description="The terms for using Open Citadel: your licence to the app, how Samwell and Samwell Cloud plans work, Neurons, billing and refunds, acceptable use, and your rights."
+>
+  <Nav />
+  <main class="pt-32 pb-24 px-6 md:px-12 lg:px-20 bg-obsidian">
+    <div class="max-w-3xl mx-auto flex flex-col gap-16">
+      <!-- Header -->
+      <header class="flex flex-col gap-4">
+        <p
+          class="font-body text-xs font-semibold text-gold uppercase tracking-[0.12em] m-0"
+        >
+          Legal
+        </p>
+        <h1
+          class="font-display text-parchment m-0 leading-[1.1]"
+          style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 400;"
+        >
+          Terms of Service
+        </h1>
+        <p class="font-body text-sm text-parchment-dim m-0">
+          Last updated: {lastUpdated}
+        </p>
+      </header>
+
+      <!-- Table of contents -->
+      <nav
+        aria-label="Table of contents"
+        class="bg-surface-low p-6 md:p-8"
+        style="border: 1px solid rgba(208,197,175,0.08);"
+      >
+        <p
+          class="font-body text-xs font-semibold text-gold uppercase tracking-[0.1em] m-0 mb-4"
+        >
+          On this page
+        </p>
+        <ul class="list-none m-0 p-0 grid sm:grid-cols-2 gap-x-8 gap-y-2">
+          {
+            sections.map(({ id, label }) => (
+              <li>
+                <a
+                  href={`#${id}`}
+                  class="font-body text-sm text-parchment-dim hover:text-gold transition-colors no-underline"
+                >
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Body -->
+      <article
+        class="font-body text-parchment-dim leading-relaxed flex flex-col gap-14"
+      >
+        <p class="m-0">
+          These terms are the agreement between you and the developer of Open
+          Citadel. They cover the app, Samwell, and Samwell Cloud, the paid
+          part of the app that runs on our server. Please read them. They are
+          written in plain English on purpose.
+        </p>
+
+        <section id="agreement" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Agreement To These Terms
+          </h2>
+          <p class="m-0">
+            Open Citadel is developed and operated by <strong
+              class="text-parchment">Thamsanqa Ncube</strong
+            >, an individual developer publishing on Google Play and the App
+            Store. In these terms, "we", "us" and "our" mean that developer, and
+            "you" means the person using the app. There is no separate company
+            at this time. If that changes, these terms will be updated to name
+            the responsible entity.
+          </p>
+          <p class="m-0">
+            By installing the app, creating an account, buying a plan, or using
+            Samwell Cloud, you agree to these terms and to our <a
+              href="/privacy"
+              class="text-gold hover:opacity-80">Privacy Policy</a
+            >, which is part of this agreement. If you do not agree, do not use
+            the app. You can delete it at any time.
+          </p>
+          <p class="m-0">
+            "The app" means Open Citadel on Android and iOS. "The service"
+            means everything that runs on our server: accounts, Samwell Cloud,
+            Compass, cloud reading voices, podcast transcripts, web search, and
+            billing. The app works without the service, and these terms apply
+            to both.
+          </p>
+        </section>
+
+        <section id="summary" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Summary
+          </h2>
+          <p class="m-0">
+            This summary is a guide only. The full terms below are what
+            count.
+          </p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              The app is free to install. You can read, highlight, take notes
+              and use on-device Samwell without an account or a payment.
+            </li>
+            <li>
+              Your books, notes, and goals are yours. They live on your device.
+              You are responsible for having the right to the files you add.
+            </li>
+            <li>
+              Samwell is an AI. He can be wrong, and nothing he says is
+              medical, legal, financial, or mental health advice.
+            </li>
+            <li>
+              Samwell Cloud is a monthly subscription bought through Google
+              Play or the App Store. It gives you Neurons to spend. They have
+              no cash value, and the store, not us, handles refunds.
+            </li>
+            <li>
+              Subscriptions renew until you cancel them in the store. Deleting
+              your account does not cancel a subscription.
+            </li>
+            <li>
+              Do not abuse the service, share your access, or get around its
+              limits.
+            </li>
+            <li>
+              The app's source code is open under the AGPL. These terms cover
+              the service and your use of the official app. They do not take
+              away any right that licence gives you.
+            </li>
+          </ul>
+        </section>
+
+        <section id="eligibility" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Who Can Use Open Citadel
+          </h2>
+          <p class="m-0">
+            You must be at least 13 years old, or older if the law where you
+            live sets a higher age for using an online service like this
+            without a parent's consent. Open Citadel is not directed at
+            children under 13.
+          </p>
+          <p class="m-0">
+            If you are under 18, you may use the app only with the permission
+            of a parent or guardian, and a parent or guardian must be the one
+            to buy a subscription. By using the app you confirm you meet these
+            requirements and that you are able to enter into this agreement.
+          </p>
+          <p class="m-0">
+            You may not use the app if you are barred from doing so by law, or
+            if we have ended your access for breaking these terms.
+          </p>
+        </section>
+
+        <section id="licence" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Your Licence To Use The App
+          </h2>
+          <p class="m-0">
+            We give you a personal, non-exclusive, non-transferable, revocable
+            licence to install and use the official app on devices you own or
+            control, for your own personal use, and to use the service as
+            these terms allow. The app is licensed to you, not sold.
+          </p>
+          <p class="m-0">
+            Apart from what the law or the open source licence described in
+            <a href="#open-source" class="text-gold hover:opacity-80"
+              >Open Source &amp; Our Rights</a
+            > allows, you may not:
+          </p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              sell, rent, lease, or sublicense the official app or access to
+              the service;
+            </li>
+            <li>
+              remove or hide the app's notices, or present your own copy as
+              the official Open Citadel; or
+            </li>
+            <li>
+              use the app in a way that breaks the law or the rights of
+              others.
+            </li>
+          </ul>
+        </section>
+
+        <section id="your-content" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Your Content
+          </h2>
+          <p class="m-0">
+            "Your content" means everything you bring to or make in the app:
+            books you import, highlights, notes, thoughts, tags, chats with
+            Samwell, goals, daily logs, check-ins, and anything you type.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">You own it.</strong> These terms do
+            not give us ownership of your content. It is stored in a local
+            database on your device, and we do not keep a copy of it. Because
+            of that, we cannot recover it if you lose your device or delete the
+            app. Back up what matters to you.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Permission to process it.</strong>
+            When you use Samwell Cloud or another cloud feature, you ask us to
+            send the relevant part of your content through our server to the AI
+            and other providers that do the work, as described in the <a
+              href="/privacy"
+              class="text-gold hover:opacity-80">Privacy Policy</a
+            >. You give us the limited permission needed to do exactly that, to
+            return the result to you, and to keep the usage records the
+            Privacy Policy describes. We do not use your content for anything
+            else.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Your responsibility.</strong> You
+            promise that you have the right to use every book, article, audio
+            file, and other material you add to the app, and to have it read,
+            summarised, quoted, or spoken by the features you use. Open Citadel
+            does not check this and does not sell books. Do not add material
+            you have no right to use.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Highlight cards and sharing.</strong>
+            When you export a highlight or a note as an image or share it, you
+            are responsible for what you share and for whether you may share
+            it. Quotes from a book remain subject to that book's copyright.
+          </p>
+        </section>
+
+        <section id="accounts" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Accounts &amp; Your Device Identity
+          </h2>
+          <p class="m-0">
+            You do not need an account to read, highlight, or use on-device
+            Samwell. You do not need one to buy a plan, either. Samwell Cloud
+            works in two ways:
+          </p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              <strong class="text-parchment">With an account.</strong> You sign
+              in or register through our sign-in provider, and your plan and
+              Neurons belong to that account. This is how you use your plan on
+              more than one device.
+            </li>
+            <li>
+              <strong class="text-parchment">Without an account.</strong> If
+              you buy a plan without signing in, the app creates a private
+              identity for your device and keeps its secret in your device's
+              secure storage. Your plan and Neurons belong to that device
+              identity. If you later sign in, the app links the two so your
+              plan follows your account.
+            </li>
+          </ul>
+          <p class="m-0">
+            If you buy without an account and then lose the device, reinstall
+            the app on Android, or switch phones before you have signed in, we
+            may not be able to connect your plan to you again. Signing in and
+            restoring purchases from inside the app is how you avoid that. We
+            cannot restore something we cannot tie to you.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Keep your access safe.</strong> You
+            are responsible for your sign-in, your device, and what happens
+            through them. Tell us promptly if you think someone else has
+            access. Accounts and device identities are personal. Do not share
+            them, sell them, or let others spend your Neurons.
+          </p>
+          <p class="m-0">
+            Give us accurate information, and keep your email address current
+            so that we can reach you about your account. You can delete your
+            account at any time from <strong class="text-parchment"
+              >Settings</strong
+            >, or by following <a
+              href="/delete-account"
+              class="text-gold hover:opacity-80">Delete Your Account</a
+            >.
+          </p>
+        </section>
+
+        <section id="samwell" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Samwell &amp; AI
+          </h2>
+          <p class="m-0">
+            Samwell is an artificial intelligence companion. He is not a
+            person, a therapist, a coach with credentials, or a substitute for
+            one. He is built to help you think, remember, plan, and act on what
+            you read, and he works from your reading and the goals you set.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">He can be wrong.</strong> AI models
+            make things up, misquote books, misremember what you told them, and
+            sound sure when they are not. Check anything that matters,
+            especially facts, quotations, dates, figures, and anything you will
+            act on. You use Samwell's answers at your own risk.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Two kinds of Samwell.</strong>
+            On-device Samwell runs an AI model on your phone, and what you say
+            to him stays there. Samwell Cloud runs on larger models hosted by
+            others and reached through our server. Cloud replies are generated
+            by third-party AI providers, and we do not control what those
+            providers' models say. Which models are offered, and to which
+            plan, can change. See <a
+              href="#availability"
+              class="text-gold hover:opacity-80">Updates &amp; Availability</a
+            >.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">What Samwell can do in your app.</strong>
+            Samwell can look things up in your library, highlights, notes, and
+            goals, and can propose or make changes such as tags, collections,
+            your reading queue, and goal check-ins. Many changes wait for your
+            approval before they happen. When you explicitly ask Samwell to
+            delete a highlight or a note, that deletion is permanent. Read what
+            you are approving.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Outputs.</strong> Replies are
+            generated for you and may be similar to what other people receive.
+            We make no promise that any output is unique, accurate, or fit for
+            a particular purpose. As between you and us, you may use the
+            replies you receive for your own purposes, subject to these terms
+            and to any rights third parties hold in material the replies
+            quote.
+          </p>
+        </section>
+
+        <section id="not-advice" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Not Professional Advice
+          </h2>
+          <p class="m-0">
+            Open Citadel is a tool for reading, reflection, and self-directed
+            growth. Compass lets you set goals in areas such as health,
+            fitness, learning, career, and relationships, and Samwell talks
+            about them with you. None of it is medical, psychological, legal,
+            financial, tax, religious, or other professional advice, and it
+            does not create a professional relationship.
+          </p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              Speak to a qualified professional before making decisions about
+              your health, medication, mental health, money, or legal
+              position.
+            </li>
+            <li>
+              Do not start, change, or stop a medical, exercise, or dietary
+              plan because of something Samwell said without checking with a
+              qualified professional first.
+            </li>
+            <li>
+              Open Citadel is not a crisis service. If you are in danger or
+              thinking of harming yourself or someone else, contact your local
+              emergency number or a crisis line right away. Do not wait for a
+              reply from an app.
+            </li>
+          </ul>
+        </section>
+
+        <section id="plans" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Samwell Cloud Plans &amp; Neurons
+          </h2>
+          <p class="m-0">
+            Samwell Cloud is sold as monthly subscription plans. At the time of
+            writing the plans are called Maester, Grand Maester, and
+            Archmaester Samwell. Each higher plan reaches more models and
+            comes with a bigger monthly allowance. The plans on offer, their
+            prices, the models each one reaches, and the size of each
+            allowance are shown in the app and in the store before you buy,
+            and they can change.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">What a Neuron is.</strong> A Neuron
+            is the unit we use to meter Samwell Cloud. It is a measure of how
+            much of the service you have used, not money. Your plan grants a
+            number of Neurons on purchase and on each monthly renewal. When you
+            use a cloud feature, the cost of that use is worked out from what
+            the underlying provider actually charges us for it and is taken
+            from your balance in Neurons. A heavy message on an expensive model
+            costs more than a light message on a cheap one. Charges are
+            rounded up, and every metered request costs at least one Neuron.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">The figures in the app.</strong> The
+            app shows estimates before you send a message and your balance
+            afterwards. Estimates are only estimates. What you are charged is
+            settled after the work is done, and it can be higher or lower than
+            the estimate. Your balance in the app is the figure that counts.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Rollover.</strong> Some unused
+            Neurons carry over to the next month, up to a cap that is a share
+            of your plan's monthly allowance and is shown in the app. Anything
+            above the cap is lost when your plan renews.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">What Neurons are not.</strong>
+            Neurons have no cash value. They cannot be exchanged for money,
+            transferred to another person, or sold. They are a licence to use
+            the service, not property. They are not refundable. You need an
+            active plan to spend them, and unused Neurons may be removed after
+            your plan lapses or when your account is deleted.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Limits on a single message.</strong>
+            To protect you from a runaway request, a single message has a
+            ceiling on how many Neurons it may spend and on how many times
+            Samwell may look things up while answering. If a message reaches a
+            ceiling, it stops and you are told. The Neurons already used are
+            charged, because the work was done.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Running out.</strong> If your
+            balance is too low for a request, or you have no active plan, the
+            request is refused. On-device Samwell and the rest of the app keep
+            working.
+          </p>
+        </section>
+
+        <section id="payments" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Billing, Renewal &amp; Refunds
+          </h2>
+          <p class="m-0">
+            <strong class="text-parchment">The store sells it.</strong> Plans
+            are bought through Google Play or the App Store. The store
+            processes the payment under its own terms, and we never see or
+            store your card or payment details. We use RevenueCat to manage
+            subscriptions and to tell which plan you are on.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Prices and tax.</strong> The price
+            shown in the store at the moment of purchase is the price you
+            pay, in your local currency, and it may include taxes that the
+            store adds.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Auto-renewal.</strong> A plan is a
+            subscription that renews every month until you cancel it. Your
+            store account is charged when you buy and again at each renewal,
+            usually within 24 hours before the current period ends. Your
+            Neurons for the new month are granted when the store confirms the
+            renewal.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Cancelling.</strong> You cancel in
+            the store, not in the app and not with us: in the Google Play app
+            under Subscriptions, or on iPhone under Settings, your name, then
+            Subscriptions. Cancel at least a day before the renewal date to
+            avoid the next charge. When you cancel, you keep your plan until
+            the end of the period you have already paid for.
+            <strong class="text-parchment"
+              >Deleting your account or uninstalling the app does not cancel a
+              subscription.</strong
+            >
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Changing plans.</strong> You can
+            move between plans in the store. How the change is charged and when
+            it takes effect is decided by the store, and the app shows what
+            you are getting before you confirm.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Price changes.</strong> We may
+            change the price of a plan. A price change applies at your next
+            renewal, and the store will notify you and may ask for your
+            consent. If you do not accept it, cancel before the renewal.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Refunds.</strong> We do not take
+            payment ourselves, so we cannot issue refunds ourselves. Google
+            Play and the App Store handle refund requests under their own
+            policies, and the decision is theirs. Request a refund from the
+            store you bought from. Where the law gives you a right to a refund
+            or a cooling-off period, that right is not affected by this
+            section. Spent Neurons cannot be returned, because the work they
+            paid for has already been done.
+          </p>
+        </section>
+
+        <section id="insider-codes" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Insider Codes
+          </h2>
+          <p class="m-0">
+            From time to time we may give people an insider code. A code
+            grants a plan for a set time, such as a day, a week, a month, or a
+            year, and your Neurons for that plan are granted monthly until the
+            time is up. You redeem a code in Settings.
+          </p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              A code can be used once. Do not share it, post it, or sell it.
+            </li>
+            <li>
+              It has no cash value, cannot be exchanged for money, and does
+              not renew. When the time ends, the plan ends.
+            </li>
+            <li>
+              A code is a gift, not a purchase. We may withdraw one, and end
+              the access it gave, if it was obtained or used in breach of these
+              terms.
+            </li>
+            <li>
+              All the other terms on this page apply to access gained through a
+              code.
+            </li>
+          </ul>
+        </section>
+
+        <section id="cloud-features" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Voices, Transcripts &amp; Web Search
+          </h2>
+          <p class="m-0">
+            Besides chat, some cloud features use your plan and spend Neurons.
+            They are provided by third-party AI providers through our server
+            and are described in the <a
+              href="/privacy"
+              class="text-gold hover:opacity-80">Privacy Policy</a
+            >.
+          </p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              <strong class="text-parchment">Cloud reading voices.</strong>
+              Natural voices that read a book or article aloud. What you spend
+              depends on how much text is read and on the voice you choose.
+              Voices available to you depend on your plan, and a voice can be
+              added, changed, or removed. You use the phone's built-in voice
+              for free.
+            </li>
+            <li>
+              <strong class="text-parchment">Podcast transcripts.</strong>
+              Turning an episode into text. The cost depends on the length of
+              the episode. Very long episodes may be refused. Transcripts are
+              machine made and can contain errors, including wrong words and
+              wrong speaker names.
+            </li>
+            <li>
+              <strong class="text-parchment">Web search.</strong> Samwell Cloud
+              can search the web to answer you. Results come from other
+              people's websites. We do not check or endorse them, and the
+              search itself costs Neurons.
+            </li>
+          </ul>
+          <p class="m-0">
+            To keep the service fast and fair for everyone, some features have
+            fair use limits, such as limits on how many requests can run at
+            once, how much can be requested in a day, or how long a piece can
+            be. We may apply and change these limits, and a request over a
+            limit may be refused.
+          </p>
+        </section>
+
+        <section id="third-party-content" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Free Books, Podcasts &amp; Blogs
+          </h2>
+          <p class="m-0">
+            Open Citadel is a reader and a companion. It is not a publisher or
+            a bookshop. It gives you ways to read what you bring or choose, and
+            it does not own, review, or take responsibility for that material.
+          </p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              <strong class="text-parchment">Free books.</strong> The app can
+              find and download free books from Project Gutenberg. A book that
+              is free to read in one country is not always free everywhere.
+              You are responsible for making sure that downloading and using a
+              book is lawful where you are.
+            </li>
+            <li>
+              <strong class="text-parchment">Podcasts and blogs.</strong> You
+              add feeds, shows, and articles yourself. Their content belongs to
+              the people who made it and is under their terms. We do not host,
+              copy, or edit it for you beyond what is needed to show it in the
+              app, and we are not responsible for what it says.
+            </li>
+            <li>
+              <strong class="text-parchment">Your own files.</strong> Use books
+              and audio that you own or have the right to use. Do not use the
+              app to copy or share material in a way the owner has not allowed.
+            </li>
+          </ul>
+          <p class="m-0">
+            Summaries, transcripts, and audio that you create from someone
+            else's material are for your own private use. They do not give you
+            any right to publish or share that material.
+          </p>
+        </section>
+
+        <section id="on-device-models" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            On-Device Models
+          </h2>
+          <p class="m-0">
+            On-device Samwell runs an AI model stored on your phone. You choose
+            which model to download inside the app. Models are made by other
+            people, and each is offered under its maker's own licence and terms,
+            which apply to you when you download and use it. We do not control
+            those licences or the models.
+          </p>
+          <p class="m-0">
+            Models are large. Downloading one uses your data and storage, and
+            running one uses battery and may make your phone warm or slow.
+            Whether a model runs well depends on your device. On-device
+            models are smaller than cloud models and are more likely to give
+            weaker or wrong answers.
+          </p>
+        </section>
+
+        <section id="acceptable-use" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Acceptable Use
+          </h2>
+          <p class="m-0">
+            Use the app and the service fairly and lawfully. You agree not to:
+          </p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>break any law, or the rights of anyone else, using the app;</li>
+            <li>
+              use Samwell Cloud to make content that is illegal, that exploits
+              or sexualises children, that promotes violence or hatred, or that
+              is meant to harass, defraud, or deceive;
+            </li>
+            <li>
+              try to get around Neuron metering, plan limits, per-message
+              ceilings, or fair use limits, or use the service without paying
+              for what it costs;
+            </li>
+            <li>
+              share, sell, or pool an account, a device identity, or an insider
+              code, or let someone else spend your Neurons;
+            </li>
+            <li>
+              send automated, bulk, or scripted requests to the service, or use
+              it as a free way into AI providers, unless we have agreed to it
+              in writing;
+            </li>
+            <li>
+              use the service or its replies to build or train a competing
+              product or a machine learning model;
+            </li>
+            <li>
+              attack, overload, probe for weaknesses in, or break into the
+              service, other users' accounts, or our providers' systems;
+            </li>
+            <li>
+              try to pull out the hidden instructions, keys, or private
+              workings of the service, or to make Samwell act against its
+              purpose; or
+            </li>
+            <li>
+              encourage or help anyone else to do any of the above.
+            </li>
+          </ul>
+          <p class="m-0">
+            If you break these rules, we may refuse requests, limit your
+            access, or suspend or end your account, as described in <a
+              href="#termination"
+              class="text-gold hover:opacity-80">Ending Your Use</a
+            >. Our AI providers also have usage policies, and they may refuse
+            a request or report abuse without us being able to prevent it.
+          </p>
+        </section>
+
+        <section id="open-source" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Open Source &amp; Our Rights
+          </h2>
+          <p class="m-0">
+            The source code of Open Citadel is published under the GNU Affero
+            General Public License, version 3 or later, at <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gold hover:opacity-80">our GitHub repository</a
+            >. That licence, and not these terms, decides what you may do with
+            the source code. Nothing here restricts a right the AGPL gives you.
+          </p>
+          <p class="m-0">What the AGPL does not give you:</p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              <strong class="text-parchment">The service.</strong> Our hosted
+              server, accounts, plans, Neurons, and the agreements we have with
+              AI and other providers are not part of the code. You cannot use
+              our service, or our keys and accounts with other providers,
+              except through these terms.
+            </li>
+            <li>
+              <strong class="text-parchment">Our names and marks.</strong>
+              "Open Citadel", "Samwell", the app's icon, and its branding are
+              ours. If you build and distribute your own version of the code,
+              give it a different name and icon so that nobody mistakes it for
+              the official app.
+            </li>
+          </ul>
+          <p class="m-0">
+            Except for your content, and except for the open source components
+            of the app that come with their own licences, we and our licensors
+            own everything in the app and the service, including the writing,
+            the design, the persona and prompts, and the catalogue.
+          </p>
+          <p class="m-0">
+            If you send us feedback or ideas, you give us permission to use
+            them freely, without obligation or payment to you.
+          </p>
+        </section>
+
+        <section id="third-parties" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Third-Party Services
+          </h2>
+          <p class="m-0">
+            The app and the service depend on other companies, including Google
+            Play and the App Store, our sign-in provider (Logto), RevenueCat,
+            OpenRouter and the AI model providers it routes to, Hugging Face,
+            and Project Gutenberg. The <a
+              href="/privacy#third-parties"
+              class="text-gold hover:opacity-80">Privacy Policy</a
+            > lists what each one does.
+          </p>
+          <p class="m-0">
+            Your use of their services can be subject to their own terms. We do
+            not control them and are not responsible for what they do. If one
+            changes, fails, or stops working with us, part of Open Citadel may
+            change or stop working with it, and we will try to replace it where
+            we reasonably can.
+          </p>
+        </section>
+
+        <section id="availability" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Updates &amp; Availability
+          </h2>
+          <p class="m-0">
+            Open Citadel is built and run by one developer. We work to keep it
+            reliable, but we do not promise that it will always be available,
+            fast, or free of errors, and we do not promise any level of uptime.
+          </p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              <strong class="text-parchment">Updates.</strong> The app is
+              updated through the stores and, for smaller changes, over the
+              air. You may need to update to keep using the service. Older
+              versions may stop working with the server.
+            </li>
+            <li>
+              <strong class="text-parchment">Changes to the service.</strong>
+              We may add, change, or remove features, models, voices, limits,
+              and plans. Models and voices come from outside providers and can
+              be repriced, replaced, or withdrawn by them. Where a change takes
+              away something you are paying for in a way that matters, we will
+              try to tell you in advance in the app or the release notes.
+            </li>
+            <li>
+              <strong class="text-parchment">Maintenance and outages.</strong>
+              The service may be down for maintenance, or because of a problem
+              with us or with a provider. Neurons are not refunded for time the
+              service was unavailable, but we aim not to charge you for a request
+              that failed before it completed.
+            </li>
+            <li>
+              <strong class="text-parchment">Shutting down.</strong> If we ever
+              close Samwell Cloud, we will give reasonable notice. The app, and
+              everything on your device, will keep working without it.
+            </li>
+          </ul>
+        </section>
+
+        <section id="termination" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Ending Your Use
+          </h2>
+          <p class="m-0">
+            <strong class="text-parchment">You.</strong> You can stop using
+            Open Citadel at any time. To delete your account, use <strong
+              class="text-parchment">DELETE ACCOUNT</strong
+            > in Settings or follow <a
+              href="/delete-account"
+              class="text-gold hover:opacity-80">Delete Your Account</a
+            >. Cancel any subscription in the store first, because deleting an
+            account does not cancel it. To remove everything on your device,
+            uninstall the app.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Us.</strong> We may suspend or end
+            your access to the service, with or without notice, if you break
+            these terms, abuse the service, put it or others at risk, or the
+            law requires it. Where we reasonably can, we will tell you why and
+            give you a chance to put things right first. We may also stop
+            offering the service as set out above.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">What happens next.</strong> Your
+            licence to use the service ends. Your Neurons end with it. If we
+            ended your access because you broke these terms, we are not
+            required to refund anything, though your store's refund rights are
+            not affected. Your content stays on your device, and the app's
+            offline features keep working.
+          </p>
+          <p class="m-0">
+            The sections that by their nature should survive, including those
+            on content, disclaimers, liability, your responsibility, and
+            governing law, continue after your use ends.
+          </p>
+        </section>
+
+        <section id="disclaimers" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Disclaimers
+          </h2>
+          <p class="m-0">
+            The app and the service are provided "as is" and "as available".
+            To the fullest extent the law allows, we make no promises or
+            warranties of any kind, express or implied, including that they
+            will be uninterrupted, secure, accurate, or fit for a particular
+            purpose, or that they will meet your goals or produce any result in
+            your life. We do not promise that Samwell's answers, transcripts,
+            search results, or suggestions are correct, complete, or suitable
+            for you.
+          </p>
+          <p class="m-0">
+            Some places do not allow certain promises to be excluded. Where
+            that is so, those promises apply to you only as far as the law
+            requires. Nothing in these terms limits the rights you have under
+            consumer protection law that cannot be waived.
+          </p>
+        </section>
+
+        <section id="liability" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Limitation Of Liability
+          </h2>
+          <p class="m-0">
+            To the fullest extent the law allows, we are not liable to you for
+            any indirect, incidental, special, consequential, or punitive
+            loss, or for loss of profit, income, data, goodwill, or
+            opportunity, arising from or connected with the app or the service,
+            even if we were told it was possible. This includes loss that
+            results from relying on something Samwell said, from an AI or
+            transcript error, from losing content stored only on your device,
+            or from an outage.
+          </p>
+          <p class="m-0">
+            To the fullest extent the law allows, our total liability to you
+            for everything connected with the app and the service is limited to
+            the greater of the amount you paid for Samwell Cloud in the 12
+            months before the event that gave rise to the claim, and USD 50.
+          </p>
+          <p class="m-0">
+            Nothing in these terms limits or excludes liability that cannot be
+            limited or excluded by law, including liability for death or
+            personal injury caused by negligence, fraud, or deliberate
+            wrongdoing.
+          </p>
+        </section>
+
+        <section id="indemnity" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Your Responsibility
+          </h2>
+          <p class="m-0">
+            If you use the app in a way that breaks these terms or the law, or
+            you add material you have no right to use, and a third party makes
+            a claim against us because of it, you agree to cover our
+            reasonable losses from that claim, to the extent the law allows.
+            This does not apply to losses that we caused, or where the law
+            gives consumers greater protection.
+          </p>
+        </section>
+
+        <section id="apple" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Additional Terms For iPhone &amp; iPad
+          </h2>
+          <p class="m-0">
+            If you got Open Citadel from the Apple App Store, these extra terms
+            apply, and they win over the rest of this page where the two
+            conflict:
+          </p>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              This agreement is between you and us only, and not with Apple.
+              We, not Apple, are responsible for the app and its content.
+            </li>
+            <li>
+              Our licence to you is limited to use on Apple-branded devices you
+              own or control, as the Apple Media Services Terms and Conditions
+              and the App Store rules allow.
+            </li>
+            <li>
+              Apple has no duty to provide maintenance or support for the app.
+            </li>
+            <li>
+              If the app does not meet a warranty that applies to it, you may
+              tell Apple, and Apple will refund the price you paid for the app.
+              Apple has no other warranty duty for the app. Any other claim,
+              loss, or cost caused by a failure to meet a warranty is our
+              responsibility, as far as the law allows.
+            </li>
+            <li>
+              We, not Apple, answer any claim you or anyone else makes about
+              the app or your use of it, including product liability claims,
+              claims that it breaks a legal or regulatory rule, and consumer
+              protection or privacy claims.
+            </li>
+            <li>
+              If a third party claims that the app breaks their intellectual
+              property rights, we, not Apple, are responsible for looking into,
+              defending, and settling the claim.
+            </li>
+            <li>
+              You confirm that you are not in a country under a United States
+              government embargo or listed as a restricted party, and that you
+              will follow any third-party terms that apply when you use the
+              app.
+            </li>
+            <li>
+              Apple and its subsidiaries are third-party beneficiaries of
+              these terms and may enforce them against you once you accept
+              them.
+            </li>
+          </ul>
+          <p class="m-0">
+            Questions, complaints, or claims about the app can be sent to the
+            address in <a href="#contact" class="text-gold hover:opacity-80"
+              >Contact</a
+            >.
+          </p>
+        </section>
+
+        <section id="changes" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Changes To These Terms
+          </h2>
+          <p class="m-0">
+            We may update these terms as the app, the service, or the law
+            changes. The "Last updated" date at the top of this page always
+            shows the latest revision. For an important change, we will say so
+            in the app or in its release notes, and, where the change affects
+            what you pay for, we will try to give you notice before it takes
+            effect.
+          </p>
+          <p class="m-0">
+            A change applies from the date it is published or later, and not to
+            something that already happened. If you do not accept a change,
+            stop using the app and cancel any subscription before the change
+            takes effect. Using the app after that date means you accept the
+            updated terms.
+          </p>
+        </section>
+
+        <section id="governing-law" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Governing Law &amp; Disputes
+          </h2>
+          <p class="m-0">
+            <strong class="text-parchment">Talk to us first.</strong> If you
+            have a problem, write to us at the address in <a
+              href="#contact"
+              class="text-gold hover:opacity-80">Contact</a
+            > and give us 30 days to put it right. Most issues can be sorted
+            out this way.
+          </p>
+          <!-- GOVERNING LAW: this paragraph is the one place to change if the
+               service moves to a company or a different country. Name the
+               country and its courts here, then bump lastUpdated above. A
+               change applies from its publication date (see "Changes To
+               These Terms"), so it never reaches back to an earlier dispute. -->
+          <p class="m-0">
+            <strong class="text-parchment">Which law applies.</strong> These
+            terms and any dispute connected with the app or the service are
+            governed by the laws of the country in which the operator of Open
+            Citadel is established, and the courts of that country have
+            jurisdiction, except as the next paragraph says. At the date of
+            these terms, the operator is the individual developer named at the
+            top of this page. If the service moves to a company or to another
+            country, these terms will be updated to name it, as the section
+            on changes above describes.
+          </p>
+          <p class="m-0">
+            <strong class="text-parchment">Your local rights.</strong> If you
+            are a consumer, this does not take away the mandatory consumer
+            protection that the law of the country where you live gives you,
+            and it does not stop you from bringing a claim in the courts of
+            that country if the law gives you that right. The app stores also
+            have their own ways of resolving purchase disputes, which you may
+            use.
+          </p>
+        </section>
+
+        <section id="general" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            General
+          </h2>
+          <ul class="flex flex-col gap-2 pl-5 m-0">
+            <li>
+              <strong class="text-parchment">Whole agreement.</strong> These
+              terms and the Privacy Policy are the whole agreement between you
+              and us about the app and the service, and replace anything
+              earlier. The stores' own terms, including Apple's standard
+              license agreement where it applies, are separate, and these
+              terms apply to the extent they do not conflict with them.
+            </li>
+            <li>
+              <strong class="text-parchment">If a part fails.</strong> If a
+              court finds part of these terms unenforceable, the rest stays in
+              force, and that part is replaced by the closest valid wording.
+            </li>
+            <li>
+              <strong class="text-parchment">No waiver.</strong> If we do not
+              enforce a right straight away, we have not given it up.
+            </li>
+            <li>
+              <strong class="text-parchment">Transfer.</strong> You may not
+              transfer your rights under these terms. We may transfer ours to a
+              company or person who takes over Open Citadel, and we will tell
+              you if we do. This does not reduce your rights under these
+              terms.
+            </li>
+            <li>
+              <strong class="text-parchment">Events beyond our control.</strong>
+              We are not responsible for a failure or delay caused by something
+              we could not reasonably control, such as an outage at a provider,
+              a store, or a network, or a natural disaster.
+            </li>
+            <li>
+              <strong class="text-parchment">Language.</strong> These terms are
+              written in English. A translation is a courtesy, and the English
+              version decides.
+            </li>
+            <li>
+              <strong class="text-parchment">Notices.</strong> We may notify
+              you through the app, by email to the address on your account, or
+              on this website. You may notify us at the address below.
+            </li>
+          </ul>
+        </section>
+
+        <section id="contact" class="flex flex-col gap-4">
+          <h2 class="font-display text-gold text-2xl font-medium m-0">
+            Contact
+          </h2>
+          <p class="m-0">
+            Questions about these terms, notices, and reports of misuse or of
+            copyright concerns can be sent to <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              class="text-gold hover:opacity-80">{CONTACT_EMAIL}</a
+            >. For help with the app itself, visit <a
+              href="/support"
+              class="text-gold hover:opacity-80">Support</a
+            >. For how we handle your data, read the <a
+              href="/privacy"
+              class="text-gold hover:opacity-80">Privacy Policy</a
+            >.
+          </p>
+        </section>
+      </article>
+    </div>
+  </main>
+  <Footer />
+</Layout>
