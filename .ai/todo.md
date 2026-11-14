@@ -24,7 +24,7 @@ raw recordings by `scripts/cut-journey.py` (raw clips are not committed).
 - [x] Hero, story viewer, close; light by default
 - [x] Remove the book-mode page and its CSS; inner pages verified unchanged
 - [x] Privacy policy updated for the November release (`PRIVACY-UPDATE.md`
-      in the app repo)
+      in the app repo), including Logto being self-hosted
 
 ## Open
 - [ ] App bug seen in the footage: a raw `[[ref highlight …]]` token streams
@@ -32,4 +32,3 @@ raw recordings by `scripts/cut-journey.py` (raw clips are not committed).
 - [ ] Optional ending shot: Samwell's memory portrait, once his journal has
       caught up
 - [ ] Store privacy forms (App Store, Play) to match the new policy
-- [ ] Confirm whether Logto is self-hosted, and say so in the policy
