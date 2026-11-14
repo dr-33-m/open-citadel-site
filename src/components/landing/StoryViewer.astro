@@ -1,0 +1,566 @@
+---
+// On a phone, the journey is a story. The visitor is already holding a phone,
+// so here the film drops its drawn frame and plays at true phone size, where
+// Samwell's words are readable.
+//
+// Story grammar people already know: bars along the top fill as it plays; tap
+// the right of the screen for the next step, the left for the previous; hold
+// to pause; swipe down to close. Each chapter's headline fades in on a
+// parchment wash for a few seconds, then clears, so it never sits over the
+// moment that matters (the typing at the bottom, the chat's title at the top).
+// After Grow, the close: the line and the two ways in.
+//
+// It is a native <dialog>: focus moves in, Escape closes it, and the bars and
+// buttons are reachable by keyboard (arrow keys move between steps, Space
+// pauses). The film is always shown on the light ground it was recorded on,
+// whatever the page's theme.
+//
+// Anything with data-open-story opens it: "current" starts at the chapter the
+// hero is on, a number starts at that chapter.
+import { CHAPTERS, FILM } from "../../journey";
+import Marked from "./Marked.astro";
+import StoreButtons from "./StoreButtons.astro";
+---
+
+<dialog
+  class="sv"
+  id="story"
+  aria-label="The Open Citadel journey, as a story"
+  data-starts={CHAPTERS.map((c) => c.start).join(",")}
+>
+  <div class="sv-stage" id="sv-stage" tabindex="-1">
+    <video class="sv-film" muted playsinline preload="none" data-src={FILM.src} poster={FILM.poster}
+    ></video>
+
+    <div class="sv-tap" id="sv-tap" aria-hidden="true"></div>
+
+    <div class="sv-title" id="sv-title" aria-live="polite">
+      {
+        CHAPTERS.map((c, i) => (
+          <p class:list={["sv-head", { on: i === 0 }]}>
+            <span class="sv-step">
+              {String(i + 1).padStart(2, "0")} · {c.word}
+            </span>
+            <span class="h-open">
+              <Marked text={c.open} />
+            </span>
+            <span class="h-close">
+              <Marked text={c.close} />
+            </span>
+          </p>
+        ))
+      }
+    </div>
+
+    <div class="sv-end" id="sv-end" hidden>
+      <p class="sv-end-line">
+        Expand what is possible.
+        <span>Then <mark class="hl">make it real</mark>.</span>
+      </p>
+      <p class="sv-end-sub">Free to start on Android and iOS.</p>
+      <StoreButtons />
+      <button class="sv-again" id="sv-again" type="button">Watch again</button>
+    </div>
+
+    <div class="sv-top">
+      <ol class="sv-bars">
+        {
+          CHAPTERS.map((c) => (
+            <li>
+              <button type="button" class="sv-bar">
+                <span class="sv-track" aria-hidden="true">
+                  <span class="sv-fill" />
+                </span>
+                <span class="sr">{c.word}</span>
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+      <button class="sv-btn" id="sv-pause" type="button" aria-pressed="false">
+        <svg class="pp-pause" viewBox="0 0 16 16" aria-hidden="true"
+          ><rect x="3" y="2" width="3.5" height="12"></rect><rect
+            x="9.5"
+            y="2"
+            width="3.5"
+            height="12"></rect></svg
+        >
+        <svg class="pp-play" viewBox="0 0 16 16" aria-hidden="true"
+          ><path d="M4 2 14 8 4 14Z"></path></svg
+        >
+        <span class="sr">Pause</span>
+      </button>
+      <button class="sv-btn" id="sv-close" type="button">
+        <svg viewBox="0 0 16 16" aria-hidden="true"
+          ><path d="M3 3l10 10M13 3 3 13" stroke="currentColor" stroke-width="1.6" fill="none"
+          ></path></svg
+        >
+        <span class="sr">Close</span>
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  /* The film's own light ground, whatever the page theme. */
+  .sv {
+    --ease: cubic-bezier(0.33, 1, 0.68, 1);
+    --bg: #f5eee0;
+    --text: #1c1510;
+    --text-dim: #6b6050;
+    --gold: #b8861a;
+    --hl-yellow: rgba(247, 226, 150, 0.72);
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+  }
+  .sv::backdrop {
+    background: rgba(19, 19, 19, 0.6);
+  }
+  .sv[open] {
+    animation: sv-in 280ms var(--ease);
+  }
+  @keyframes sv-in {
+    from {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+  }
+
+  .sv-stage {
+    position: relative;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  .sv-film {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: var(--bg);
+  }
+  .sv-tap {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  /* ─── The chapter's headline, on a wash, for a few seconds ── */
+  .sv-title {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 2;
+    padding: calc(env(safe-area-inset-top) + 3.6rem) 1.5rem 3.5rem;
+    /* Solid behind the text, however many lines it runs to, then a short fade. */
+    background: linear-gradient(var(--bg) calc(100% - 3rem), rgba(245, 238, 224, 0));
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity 450ms var(--ease),
+      transform 600ms var(--ease);
+  }
+  .sv-title.show {
+    opacity: 1;
+    transform: none;
+  }
+  .sv-head {
+    display: none;
+    margin: 0;
+    font-family: "Newsreader", Georgia, serif;
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .sv-head.on {
+    display: block;
+  }
+  .sv-step {
+    display: block;
+    margin-bottom: 0.7rem;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .h-open,
+  .h-close {
+    display: block;
+  }
+  .h-open {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--text-dim);
+  }
+  .sv-title.show .sv-head.on :global(.hl) {
+    animation: hl-draw 800ms var(--ease) 350ms forwards;
+  }
+
+  /* ─── Bars and controls, over the recording's status bar ── */
+  .sv-top {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: calc(env(safe-area-inset-top) + 0.6rem) 0.6rem 1.2rem 0.9rem;
+    /* Covers the recording's own status bar, so the bars sit on clean ground. */
+    background: linear-gradient(var(--bg) 72%, rgba(245, 238, 224, 0));
+  }
+  .sv-bars {
+    flex: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+  }
+  .sv-bar {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .sv-track {
+    position: relative;
+    display: block;
+    height: 3px;
+    background: rgba(28, 21, 16, 0.16);
+    overflow: hidden;
+  }
+  .sv-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0;
+    background: var(--text);
+  }
+  .sv-bar.active .sv-fill {
+    background: var(--gold);
+  }
+  .sv-btn {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 0;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .sv-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+  .pp-play,
+  #sv-pause[aria-pressed="true"] .pp-pause {
+    display: none;
+  }
+  #sv-pause[aria-pressed="true"] .pp-play {
+    display: block;
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* ─── The end: the close, on the same ground ── */
+  .sv-end {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 4rem 1.5rem calc(env(safe-area-inset-bottom) + 2rem);
+    background: var(--bg);
+    text-align: center;
+  }
+  .sv-end[hidden] {
+    display: none;
+  }
+  .sv-end-line {
+    margin: 0;
+    font-family: "Newsreader", Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(2.1rem, 10vw, 2.8rem);
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    color: var(--text-dim);
+  }
+  .sv-end-line span {
+    display: block;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .sv-end:not([hidden]) :global(.hl) {
+    animation: hl-draw 900ms var(--ease) 300ms forwards;
+  }
+  .sv-end-sub {
+    margin: 0;
+    font-family: "Newsreader", Georgia, serif;
+    font-size: 1.08rem;
+    color: var(--text-dim);
+  }
+  .sv-again {
+    align-self: center;
+    padding: 0.6rem 1rem;
+    background: none;
+    border: 0;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: rgba(28, 21, 16, 0.2);
+    text-underline-offset: 0.3em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sv[open] {
+      animation: none;
+    }
+    .sv-title {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const dlg = document.getElementById("story") as HTMLDialogElement | null;
+  const video = dlg?.querySelector<HTMLVideoElement>(".sv-film");
+  if (dlg && video) {
+    const starts = (dlg.dataset.starts ?? "").split(",").map(Number);
+    const stage = dlg.querySelector<HTMLElement>("#sv-stage")!;
+    const title = dlg.querySelector<HTMLElement>("#sv-title")!;
+    const heads = Array.from(dlg.querySelectorAll<HTMLElement>(".sv-head"));
+    const bars = Array.from(dlg.querySelectorAll<HTMLButtonElement>(".sv-bar"));
+    const fills = bars.map((b) => b.querySelector<HTMLElement>(".sv-fill"));
+    const pauseBtn = dlg.querySelector<HTMLButtonElement>("#sv-pause")!;
+    const pauseLabel = pauseBtn.querySelector(".sr")!;
+    const end = dlg.querySelector<HTMLElement>("#sv-end")!;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const TITLE_MS = 3200;
+
+    let paused = false;
+    let held = false;
+    let current = -1;
+    let titleTimer = 0;
+    let raf = 0;
+
+    const chapterAt = (t: number) => {
+      let i = 0;
+      for (let k = 0; k < starts.length; k++) if (t >= starts[k]) i = k;
+      return i;
+    };
+
+    function showTitle(i: number) {
+      heads.forEach((h, k) => h.classList.toggle("on", k === i));
+      title.classList.remove("show");
+      void title.offsetWidth; // restart the highlight's draw
+      title.classList.add("show");
+      clearTimeout(titleTimer);
+      if (!paused) titleTimer = window.setTimeout(() => title.classList.remove("show"), TITLE_MS);
+    }
+
+    function play() {
+      if (!paused && !held && end.hidden) video!.play().catch(() => {});
+    }
+
+    function setPaused(p: boolean) {
+      paused = p;
+      pauseBtn.setAttribute("aria-pressed", String(p));
+      pauseLabel.textContent = p ? "Play" : "Pause";
+      if (p) {
+        video!.pause();
+        // While paused, keep the chapter's headline up for context.
+        clearTimeout(titleTimer);
+        title.classList.add("show");
+      } else {
+        play();
+        clearTimeout(titleTimer);
+        titleTimer = window.setTimeout(() => title.classList.remove("show"), 1200);
+      }
+    }
+
+    function seek(i: number) {
+      end.hidden = true;
+      current = -1; // force the title for this chapter, even if it is the same one
+      video!.currentTime = starts[i] + 0.05;
+      play();
+    }
+
+    function finish() {
+      video!.pause();
+      title.classList.remove("show");
+      fills.forEach((f) => f && (f.style.width = "100%"));
+      end.hidden = false;
+      end.querySelector<HTMLElement>("a")?.focus({ preventScroll: true });
+    }
+
+    const next = () => (current >= starts.length - 1 ? finish() : seek(current + 1));
+    const prev = () => {
+      if (!end.hidden) return seek(starts.length - 1);
+      const into = video!.currentTime - starts[Math.max(current, 0)];
+      seek(into > 1.5 ? Math.max(current, 0) : Math.max(current - 1, 0));
+    };
+
+    function tick() {
+      if (end.hidden) {
+        const t = video!.currentTime;
+        const i = chapterAt(t);
+        const endT = starts[i + 1] ?? (video!.duration || t + 1);
+        const p = Math.min(Math.max((t - starts[i]) / (endT - starts[i]), 0), 1);
+        if (i !== current) {
+          current = i;
+          bars.forEach((b, k) => b.classList.toggle("active", k === i));
+          showTitle(i);
+        }
+        fills.forEach((f, k) => {
+          if (f) f.style.width = k < i ? "100%" : k === i ? `${p * 100}%` : "0%";
+        });
+      }
+      raf = requestAnimationFrame(tick);
+    }
+
+    function open(from: number) {
+      if (!video!.src) video!.src = video!.dataset.src ?? "";
+      document.dispatchEvent(new CustomEvent("story:open"));
+      document.documentElement.style.overflow = "hidden";
+      dlg!.showModal();
+      // Focus the stage, not the first bar: keyboard users still Tab to the
+      // controls, and a touch open draws no focus ring.
+      stage.focus({ preventScroll: true });
+      paused = reduce; // under reduced motion it waits for the visitor
+      setPaused(paused);
+      seek(from);
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(tick);
+    }
+
+    dlg.addEventListener("close", () => {
+      video.pause();
+      cancelAnimationFrame(raf);
+      clearTimeout(titleTimer);
+      stage.style.transform = "";
+      document.documentElement.style.overflow = "";
+      document.dispatchEvent(new CustomEvent("story:close"));
+    });
+    video.addEventListener("ended", finish);
+
+    // Openers anywhere on the page.
+    document.addEventListener("click", (e) => {
+      const opener = (e.target as HTMLElement).closest<HTMLElement>("[data-open-story]");
+      if (!opener) return;
+      e.preventDefault();
+      const from = opener.dataset.openStory;
+      const cur = Number(document.getElementById("journey")?.dataset.current ?? 0);
+      open(from === "current" ? cur : Number(from) || 0);
+    });
+
+    // Controls.
+    dlg.querySelector("#sv-close")?.addEventListener("click", () => dlg.close());
+    pauseBtn.addEventListener("click", () => setPaused(!paused));
+    dlg.querySelector("#sv-again")?.addEventListener("click", () => seek(0));
+    bars.forEach((b, k) => b.addEventListener("click", () => seek(k)));
+    dlg.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") next();
+      else if (e.key === "ArrowLeft") prev();
+      else if (e.key === " " && (e.target as HTMLElement).tagName !== "BUTTON") {
+        e.preventDefault();
+        setPaused(!paused);
+      } else return;
+    });
+
+    // Gestures: tap left or right, hold to pause, swipe down to close. The
+    // swipe follows the finger 1:1; everything the page decides on its own
+    // uses the house curve.
+    let x0 = 0;
+    let y0 = 0;
+    let dy = 0;
+    let holdTimer = 0;
+    let down = false;
+
+    // Listened for on the whole stage, so a swipe closes from the end card too;
+    // presses on the controls and links are left to them.
+    stage.addEventListener("pointerdown", (e) => {
+      if ((e.target as HTMLElement).closest("button, a")) return;
+      down = true;
+      x0 = e.clientX;
+      y0 = e.clientY;
+      dy = 0;
+      stage.setPointerCapture(e.pointerId);
+      if (!end.hidden) return; // the end card is still: no hold, no taps
+      holdTimer = window.setTimeout(() => {
+        held = true;
+        video.pause();
+      }, 240);
+    });
+    stage.addEventListener("pointermove", (e) => {
+      if (!down) return;
+      dy = e.clientY - y0;
+      if (Math.abs(dy) > 8 || Math.abs(e.clientX - x0) > 8) clearTimeout(holdTimer);
+      if (dy > 0) stage.style.transform = `translateY(${dy}px)`;
+    });
+    const release = (e: PointerEvent, cancelled = false) => {
+      if (!down) return;
+      down = false;
+      clearTimeout(holdTimer);
+      const moved = Math.abs(dy) > 8 || Math.abs(e.clientX - x0) > 8;
+      if (dy > 110 && !cancelled) {
+        dlg.close();
+        return;
+      }
+      stage.animate([{ transform: stage.style.transform || "none" }, { transform: "none" }], {
+        duration: 180,
+        easing: "cubic-bezier(0.33, 1, 0.68, 1)",
+      });
+      stage.style.transform = "";
+      if (held) {
+        held = false;
+        play();
+        return;
+      }
+      if (cancelled || moved || !end.hidden) return;
+      if (e.clientX < stage.clientWidth * 0.3) prev();
+      else next();
+    };
+    stage.addEventListener("pointerup", (e) => release(e));
+    stage.addEventListener("pointercancel", (e) => release(e, true));
+  }
+</script>

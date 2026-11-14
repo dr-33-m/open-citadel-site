@@ -1,30 +1,17 @@
 ---
-// Running head. The app's own chrome, worn by the page: PROGRESS mirrors the
-// reading progress bar on a book card inside Open Citadel.
-interface Props {
-  /** The home page turns into a book on phones, so its links turn leaves. */
-  bookMode?: boolean;
-}
+// Running head for the inner pages (support, privacy, terms). The app's own
+// chrome, worn by the page: PROGRESS mirrors the reading progress bar on a
+// book card inside Open Citadel.
+const links = [
+  { label: "Home", href: "/" },
+  { label: "Support", href: "/support" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+];
 
-const { bookMode = false } = Astro.props;
-
-const links = bookMode
-  ? [
-      { label: "Becoming", href: "#becoming" },
-      { label: "How it works", href: "#loop" },
-      { label: "Samwell", href: "#samwell" },
-    ]
-  : [
-      { label: "Home", href: "/" },
-      { label: "Support", href: "/support" },
-      { label: "Privacy", href: "/privacy" },
-      { label: "Terms", href: "/terms" },
-    ];
-
-// Never a direct store link. Both CTAs land on Chapter IV, which names both
-// platforms, so nothing here has to guess which device the reader owns. In
-// book mode BookChrome intercepts the bare hash and turns the page instead.
-const ctaHref = bookMode ? "#acquire" : "/#acquire";
+// Never a direct store link. The CTA lands on the home page's close, which
+// names both stores, so nothing here has to guess which device the reader owns.
+const ctaHref = "/#get";
 ---
 
 <header class="runhead">
@@ -137,19 +124,10 @@ const ctaHref = bookMode ? "#acquire" : "/#acquire";
     anchor.addEventListener("click", () => sheet.classList.remove("open"));
   });
 
-  // In book mode the reading position is horizontal, not vertical.
-  const leafScroller = document.querySelector("main");
-  const bookQuery = window.matchMedia("(max-width: 899px)");
-  const isBook = () => root.classList.contains("book") && bookQuery.matches;
-
   const fill = document.getElementById("progress-fill");
   const pct = document.getElementById("progress-pct");
 
   function readingRatio() {
-    if (isBook() && leafScroller) {
-      const span = leafScroller.scrollWidth - leafScroller.clientWidth;
-      return span > 0 ? leafScroller.scrollLeft / span : 0;
-    }
     const max = root.scrollHeight - window.innerHeight;
     return max > 0 ? window.scrollY / max : 0;
   }
@@ -169,7 +147,6 @@ const ctaHref = bookMode ? "#acquire" : "/#acquire";
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });
-  leafScroller?.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", updateProgress);
   updateProgress();
 </script>

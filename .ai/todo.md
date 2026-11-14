@@ -1,45 +1,35 @@
-# Landing page rebuild: "the page is a book"
-
-Approved design: https://claude.ai/code/artifact/702b7898-3605-462e-8ccb-f8290f58f112
+# Landing page: two sections, narrated by the film
 
 ## Concept
-The page is a short book wearing the app's own chrome. Desktop: one vertical
-scroll with a running head (`PROGRESS %`, quoting the app's book cards) and a
-bottom tab bar with the app's gold active underline. Mobile: five swipeable
-leaves with a running foot. Body copy is serif at book measure; Manrope is
-demoted to a utility layer (labels, tabs, meta).
+One idea: the app's reader highlight. The hero highlights "curiosity" as you
+arrive, the film shows a line highlighted in a podcast coming back five weeks
+later, and the close highlights "make it real". Gold means one thing: how far
+into the journey the film is.
 
-## Tasks
-- [x] Read existing site structure, confirm inner pages must not inherit book mode
-- [x] `src/consts.ts` with PLAY_STORE_URL placeholder + shared links
-- [x] `global.css`: alias mockup token names to existing `--color-*` tokens so the
-      light theme keeps working; add plate / letter / steps / pager / book-mode CSS
-- [x] `Layout.astro`: `bookMode` prop, adds `class="book"` on `<html>` (home only)
-- [x] `Nav.astro` -> running head (brand, progress meter, theme, CTA, menu)
-- [x] `Frontispiece.astro` (replaces Hero) with name field + frontispiece plate
-- [x] `Becoming.astro` (replaces Quote) with interactive highlights + timeline rail
-- [x] `HowItWorks.astro` + `Samwell.astro` (replace Features)
-- [x] `Begin.astro` (replaces CrossPlatform) + `Imprint.astro`
-- [x] `Footer.astro` -> wraps Imprint, for inner pages only
-- [x] `BookChrome.astro`: desktop tabs, mobile pager, page turning, reveals
-- [x] Update `index.astro`; delete Hero/Features/CrossPlatform/Quote
-- [x] Verify: build, both themes, book paging, name field, privacy/support intact
+- **Hero** (`src/components/landing/Hero.astro`): text left, phone right. The
+  headline narrates the film, one plain-English line per chapter
+  (Curiosity, Explore, Learn, Apply, Grow), with story bars under the subtext.
+- **Phones**: the same hero, plus a full-screen story viewer
+  (`StoryViewer.astro`) where the film plays at true size; tap, hold and
+  swipe like stories, ending on the close.
+- **Close** (`Close.astro`): "Expand what is possible. Then make it real." and
+  the two stores.
 
-## Key constraint
-Book mode is scoped under `html.book`. `privacy.astro` and `support.astro` must
-keep normal vertical scrolling, so they never receive the class.
+Chapter copy and timings live in `src/journey.ts`. The film is cut from the
+raw recordings by `scripts/cut-journey.py` (raw clips are not committed).
 
-## Review
-Ported the approved artifact into Astro components. Book mode is opt-in per page
-via `Layout`'s `bookMode` prop, so only the home page becomes a swipeable book;
-privacy and support keep normal vertical scroll and were verified unchanged.
-Token aliases (`--bg`, `--text`, `--gold`, ...) point at the existing
-`--color-*` Tailwind theme tokens, so the established `data-theme="light"`
-override drives the new CSS with no duplicated palette. `PLAY_STORE_URL` is a
-single placeholder constant in `src/consts.ts`, referenced by every CTA.
+## Done
+- [x] Record the journey on the emulator (light mode, staged demo persona)
+- [x] Cut the film, timings in `src/journey.ts`
+- [x] Hero, story viewer, close; light by default
+- [x] Remove the book-mode page and its CSS; inner pages verified unchanged
+- [x] Privacy policy updated for the November release (`PRIVACY-UPDATE.md`
+      in the app repo)
 
-Verified with a headless browser against the production build: 5 leaves each
-exactly one viewport wide, paging correct both directions, name field never
-clips across 5 viewports x 4 name lengths, desktop three-column ascent intact,
-zero horizontal overflow on any page, and privacy/support still scroll normally
-with no pager.
+## Open
+- [ ] App bug seen in the footage: a raw `[[ref highlight …]]` token streams
+      into Samwell's reply before the highlight card replaces it
+- [ ] Optional ending shot: Samwell's memory portrait, once his journal has
+      caught up
+- [ ] Store privacy forms (App Store, Play) to match the new policy
+- [ ] Confirm whether Logto is self-hosted, and say so in the policy

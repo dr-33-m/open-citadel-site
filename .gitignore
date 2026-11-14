@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Raw screen recordings for the landing film (large, not committed)
+recordings/

@@ -1,0 +1,87 @@
+---
+// The smallest header that still does its job: who this is, and a way to
+// switch light and dark. The way in is the hero's one button, not a second.
+---
+
+<header class="masthead">
+  <div class="wrap row">
+    <a href="/" class="mark" aria-label="Open Citadel home">
+      <img src="/app-icon.png" alt="" width="36" height="36" />
+      <span>Open Citadel</span>
+    </a>
+    <div class="right">
+      <button class="theme" id="theme-toggle" type="button" aria-label="Switch light or dark">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .masthead {
+    height: var(--masthead-h);
+    display: flex;
+    align-items: center;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .mark {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    font-family: "Newsreader", Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .mark img {
+    width: 36px;
+    height: 36px;
+    margin: -4px;
+  }
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .theme {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: 0;
+    color: var(--text-dim);
+    cursor: pointer;
+  }
+  .theme:hover {
+    color: var(--text);
+  }
+  .theme svg {
+    width: 18px;
+    height: 18px;
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  document.getElementById("theme-toggle")?.addEventListener("click", () => {
+    const toLight = root.getAttribute("data-theme") !== "light";
+    if (toLight) root.setAttribute("data-theme", "light");
+    else root.removeAttribute("data-theme");
+    try {
+      localStorage.setItem("oc-theme", toLight ? "light" : "dark");
+    } catch {}
+  });
+</script>

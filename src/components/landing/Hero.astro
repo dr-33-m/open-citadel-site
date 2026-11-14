@@ -1,0 +1,563 @@
+---
+// The hero narrates the film. Text on the left, the phone on the right.
+//
+// The headline changes with each chapter of the film. Every headline makes
+// the same two moves in its type, the first half opening out (light italic,
+// dimmed) and the second settling (upright, full ink), and every one gets the
+// reader's highlight, drawn across its key word as the chapter begins. The
+// first chapter's headline is the page's own h1; the film opens on the
+// library, which is the sanctuary it describes. When the film loops, the h1
+// comes back.
+//
+// Under the subtext, five bars fill as the film plays. Gold means one thing on
+// the page: how far into the journey the film is. A bar is also a button that
+// jumps the film to its chapter.
+//
+// The film is a muted loop, so it has a pause control (WCAG 2.2.2), stops
+// when off screen, and stands still under reduced motion until a chapter is
+// chosen.
+import Phone from "./Phone.astro";
+import Marked from "./Marked.astro";
+import StoryViewer from "./StoryViewer.astro";
+import { CHAPTERS, FILM } from "../../journey";
+---
+
+<section class="hero" id="top">
+  <div class="wrap grid" id="journey" data-starts={CHAPTERS.map((c) => c.start).join(",")}>
+    <div class="heads rise" style="--d: 0">
+      {
+        CHAPTERS.map((c, i) => {
+          const Tag = i === 0 ? "h1" : "p";
+          return (
+            <Tag
+              class:list={["head", { on: i === 0 }]}
+              aria-hidden={i === 0 ? undefined : "true"}
+            >
+              <span class="h-open">
+                <Marked text={c.open} />
+              </span>
+              <span class="h-close">
+                <Marked text={c.close} />
+              </span>
+            </Tag>
+          );
+        })
+      }
+    </div>
+
+    <p class="standfirst rise" style="--d: 2">
+      Bring together the books, podcasts and ideas that interest you. Explore
+      them with Samwell, your personal self-development companion, and turn what
+      you learn into meaningful change.
+    </p>
+
+    <div class="story rise" style="--d: 3">
+      <button class="playpause" id="playpause" type="button" aria-pressed="false">
+        <svg class="pp-pause" viewBox="0 0 16 16" aria-hidden="true"
+          ><rect x="3" y="2" width="3.5" height="12"></rect><rect
+            x="9.5"
+            y="2"
+            width="3.5"
+            height="12"></rect></svg
+        >
+        <svg class="pp-play" viewBox="0 0 16 16" aria-hidden="true"
+          ><path d="M4 2 14 8 4 14Z"></path></svg
+        >
+        <span class="sr">Pause the film</span>
+      </button>
+      <ol class="segments" aria-label="The journey, in five steps">
+        {
+          CHAPTERS.map((c, i) => (
+            <li class:list={["seg", { active: i === 0 }]}>
+              <button type="button" aria-current={i === 0 ? "step" : undefined}>
+                <span class="track" aria-hidden="true">
+                  <span class="fill" />
+                </span>
+                <span class="seg-word">{c.word}</span>
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <div class="actions rise" style="--d: 4">
+      <button class="btn-ink watch" type="button" data-open-story="0">Watch the journey</button>
+      <a class="btn-ink get" href="#get">Get the app</a>
+    </div>
+
+    <div class="device rise" style="--d: 1">
+      <Phone>
+        <video
+          src={FILM.src}
+          poster={FILM.poster}
+          muted
+          playsinline
+          loop
+          preload="auto"
+          aria-label="One person's journey through Open Citadel: a line from a podcast becomes a goal, and five weeks later Samwell brings it back"
+        ></video>
+      </Phone>
+      <button class="expand" type="button" data-open-story="current">
+        <svg viewBox="0 0 16 16" aria-hidden="true"
+          ><path
+            d="M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9"
+            stroke="currentColor"
+            stroke-width="1.5"
+            fill="none"></path></svg
+        >
+        <span>Full screen</span>
+      </button>
+    </div>
+  </div>
+  <StoryViewer />
+</section>
+
+<style>
+  .hero {
+    --ease: cubic-bezier(0.33, 1, 0.68, 1);
+    --phone-w: clamp(260px, 21vw, 310px);
+    min-height: calc(100svh - var(--masthead-h));
+    display: flex;
+    align-items: center;
+    padding-block: 2rem 4rem;
+  }
+  .grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: 1fr auto auto auto auto 1fr;
+    grid-template-areas:
+      ".     device"
+      "heads device"
+      "sub   device"
+      "story device"
+      "cta   device"
+      ".     device";
+    column-gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  /* ─── The headlines: stacked in one cell, so the column never jumps ── */
+  .heads {
+    grid-area: heads;
+    display: grid;
+    max-width: 15.5em;
+    font-size: clamp(2.3rem, 4.1vw, 4.1rem);
+  }
+  .head {
+    grid-area: 1 / 1;
+    align-self: end;
+    margin: 0;
+    font-family: "Newsreader", Georgia, serif;
+    font-weight: 400;
+    font-size: 1em;
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+    opacity: 0;
+    transform: translateY(14px);
+    visibility: hidden;
+    transition:
+      opacity 450ms var(--ease),
+      transform 600ms var(--ease),
+      visibility 0s linear 600ms;
+  }
+  .head.on {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    transition:
+      opacity 600ms var(--ease) 250ms,
+      transform 700ms var(--ease) 250ms,
+      visibility 0s;
+  }
+  .head.was {
+    transform: translateY(-10px);
+  }
+  .h-open,
+  .h-close {
+    display: block;
+  }
+  .h-open {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--text-dim);
+  }
+  .h-close {
+    color: var(--text);
+  }
+  .head.on :global(.hl) {
+    animation: hl-draw 900ms var(--ease) 900ms forwards;
+  }
+  .head.was :global(.hl) {
+    background-size: 100% 72%;
+  }
+
+  .standfirst {
+    grid-area: sub;
+    margin: 2rem 0 0;
+    max-width: 33rem;
+    font-family: "Newsreader", Georgia, serif;
+    font-size: clamp(1.08rem, 1.3vw, 1.2rem);
+    line-height: 1.6;
+    color: var(--text-dim);
+    text-wrap: pretty;
+  }
+
+  /* ─── The bars ── */
+  .story {
+    grid-area: story;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 33rem;
+    margin-top: 2.5rem;
+  }
+  .playpause {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-top: -12px;
+    background: none;
+    border: 1px solid var(--hairline);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .playpause:hover {
+    border-color: var(--text);
+  }
+  .playpause svg {
+    width: 10px;
+    height: 10px;
+    fill: currentColor;
+  }
+  .pp-play,
+  .playpause[aria-pressed="true"] .pp-pause {
+    display: none;
+  }
+  .playpause[aria-pressed="true"] .pp-play {
+    display: block;
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .segments {
+    flex: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .seg button {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+  }
+  .track {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: var(--hairline);
+    overflow: hidden;
+  }
+  .fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0;
+    background: var(--text);
+  }
+  .seg.active .fill {
+    background: var(--gold);
+  }
+  .seg-word {
+    font-family: "Manrope", sans-serif;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    opacity: 0.75;
+    transition:
+      color 250ms var(--ease),
+      opacity 250ms var(--ease);
+  }
+  .seg.active .seg-word,
+  .seg button:hover .seg-word,
+  .seg button:focus-visible .seg-word {
+    color: var(--text);
+    opacity: 1;
+  }
+
+  .actions {
+    grid-area: cta;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem 1.6rem;
+    margin-top: 2.5rem;
+  }
+  .btn-ink {
+    padding: 1rem 2rem;
+    border: 0;
+    cursor: pointer;
+    font-family: "Newsreader", Georgia, serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--bg);
+    background: var(--text);
+    text-decoration: none;
+    transition: opacity 120ms var(--ease);
+  }
+  .btn-ink:hover {
+    opacity: 0.86;
+  }
+  .btn-ink:active {
+    opacity: 0.6;
+  }
+
+  .device {
+    grid-area: device;
+    align-self: center;
+    position: relative;
+  }
+
+  /* The way into the story. Phones only: on a wide screen the film is
+     already big enough to read. */
+  .watch,
+  .expand {
+    display: none;
+  }
+  .expand {
+    position: absolute;
+    inset: 0;
+    align-items: flex-end;
+    justify-content: flex-end;
+    /* On the phone's edge, half outside the screen, so it reads as the page's
+       control and never as one of the app's. */
+    padding-bottom: calc(var(--phone-w) * 0.5);
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f5eee0;
+  }
+  .expand span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .expand svg {
+    width: 38px;
+    height: 38px;
+    padding: 11px;
+    transform: translateX(19px);
+    background: var(--text);
+    color: var(--bg);
+    box-shadow: 0 0 0 1px var(--phone-edge);
+  }
+
+  /* House entrance: rise and fade, a beat behind the one before. */
+  .rise {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise 700ms var(--ease) forwards;
+    animation-delay: calc(var(--d) * 90ms + 60ms);
+  }
+  @keyframes rise {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ─── Phones: one column. The headline sits right above the phone and the
+     bars right under it, so the narration and the film share one screen;
+     the subtext and the button follow. ── */
+  @media (max-width: 899px) {
+    .hero {
+      --phone-w: min(60vw, 260px);
+      min-height: 0;
+      padding-block: 1rem 4rem;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      grid-template-areas: "heads" "device" "story" "sub" "cta";
+    }
+    .heads {
+      font-size: clamp(2rem, 8.6vw, 2.8rem);
+    }
+    .device {
+      justify-self: center;
+      margin-top: 1.5rem;
+    }
+    .story {
+      gap: 0.6rem;
+      margin-top: 1.5rem;
+    }
+    .watch {
+      display: inline-flex;
+    }
+    .expand {
+      display: flex;
+    }
+    /* Watching is the first thing to do here; getting the app is one tap
+       further down, so it steps back to a quiet link. */
+    .get {
+      padding: 0;
+      background: none;
+      color: var(--text);
+      font-weight: 500;
+      text-decoration: underline;
+      text-decoration-color: var(--hairline);
+      text-underline-offset: 0.3em;
+    }
+    .segments {
+      gap: 4px;
+    }
+    .seg-word {
+      font-size: 0.56rem;
+      letter-spacing: 0.08em;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .head,
+    .head.on,
+    .seg-word {
+      transition: none;
+    }
+    .head.was {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const root = document.getElementById("journey");
+  const video = root?.querySelector<HTMLVideoElement>("video");
+  if (root && video) {
+    const starts = (root.dataset.starts ?? "").split(",").map(Number);
+    const heads = Array.from(root.querySelectorAll<HTMLElement>(".head"));
+    const segs = Array.from(root.querySelectorAll<HTMLLIElement>(".seg"));
+    const fills = segs.map((s) => s.querySelector<HTMLElement>(".fill"));
+    const toggle = root.querySelector<HTMLButtonElement>("#playpause");
+    const label = toggle?.querySelector(".sr");
+    const device = root.querySelector<HTMLElement>(".device");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let paused = reduce; // under reduced motion nothing moves until chosen
+    let visible = false;
+    let current = 0;
+    let wasTimer = 0;
+
+    const chapterAt = (t: number) => {
+      let i = 0;
+      for (let k = 0; k < starts.length; k++) if (t >= starts[k]) i = k;
+      return i;
+    };
+
+    function show(i: number, progress: number) {
+      if (i !== current) {
+        const prev = heads[current];
+        heads.forEach((h, k) => h.classList.toggle("on", k === i));
+        // The old headline leaves upward and keeps its highlight as it goes.
+        prev?.classList.add("was");
+        clearTimeout(wasTimer);
+        wasTimer = window.setTimeout(() => prev?.classList.remove("was"), 650);
+        segs.forEach((s, k) => {
+          s.classList.toggle("active", k === i);
+          const b = s.querySelector("button");
+          if (k === i) b?.setAttribute("aria-current", "step");
+          else b?.removeAttribute("aria-current");
+        });
+        current = i;
+        root!.dataset.current = String(i);
+      }
+      fills.forEach((f, k) => {
+        if (f) f.style.width = k < i ? "100%" : k === i ? `${progress * 100}%` : "0%";
+      });
+    }
+
+    function tick() {
+      const t = video!.currentTime;
+      const length = video!.duration || starts[starts.length - 1] + 1;
+      const i = chapterAt(t);
+      const end = starts[i + 1] ?? length;
+      const p = end > starts[i] ? (t - starts[i]) / (end - starts[i]) : 0;
+      show(i, Math.min(Math.max(p, 0), 1));
+      requestAnimationFrame(tick);
+    }
+
+    let away = false; // the story viewer is open
+    document.addEventListener("story:open", () => {
+      away = true;
+      sync();
+    });
+    document.addEventListener("story:close", () => {
+      away = false;
+      sync();
+    });
+
+    function sync() {
+      if (paused || !visible || away) video!.pause();
+      else video!.play().catch(() => {});
+    }
+
+    function setPaused(p: boolean) {
+      paused = p;
+      toggle?.setAttribute("aria-pressed", String(p));
+      if (label) label.textContent = p ? "Play the film" : "Pause the film";
+      sync();
+    }
+
+    toggle?.addEventListener("click", () => setPaused(!paused));
+    segs.forEach((s, k) =>
+      s.querySelector("button")?.addEventListener("click", () => {
+        video.currentTime = starts[k] + 0.05;
+        if (!reduce) setPaused(false);
+      }),
+    );
+
+    if (device) {
+      new IntersectionObserver(
+        ([e]) => {
+          visible = e.isIntersecting;
+          sync();
+        },
+        { threshold: 0.35 },
+      ).observe(device);
+    }
+
+    setPaused(paused);
+    requestAnimationFrame(tick);
+  }
+</script>

@@ -1,0 +1,108 @@
+---
+// The close completes the gesture the hero began. The hero highlights where
+// it starts (curiosity); the close highlights where it ends: the mission's
+// second move, said plainly. The highlight draws as the line scrolls into
+// view, and is the only colour on this screen; the store buttons are ink.
+import StoreButtons from "./StoreButtons.astro";
+import Imprint from "../Imprint.astro";
+---
+
+<section class="close" id="get">
+  <div class="wrap">
+    <h2 class="close-line" id="close-line">
+      Expand what is possible.
+      <span class="then">Then <mark class="hl">make it real</mark>.</span>
+    </h2>
+
+    <p class="body">Free to start on Android and iOS.</p>
+
+    <div class="stores-wrap"><StoreButtons /></div>
+
+    <p class="fine">
+      The library, the reader and on-device Samwell are free. Compass works
+      with a Samwell Cloud plan, chosen inside the app.
+    </p>
+
+    <Imprint />
+  </div>
+</section>
+
+<style>
+  .close {
+    --ease: cubic-bezier(0.33, 1, 0.68, 1);
+    padding-block: clamp(8rem, 22vh, 12rem) 2rem;
+    text-align: center;
+  }
+
+  .close-line {
+    margin: 0 auto;
+    max-width: 16ch;
+    font-family: "Newsreader", Georgia, serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(2.5rem, 5.4vw, 5rem);
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+    color: var(--text-dim);
+    text-wrap: balance;
+  }
+  .then {
+    display: block;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .close-line.in .hl {
+    animation: hl-draw 1000ms var(--ease) 250ms forwards;
+  }
+
+  .body {
+    margin: 2rem 0 0;
+    font-family: "Newsreader", Georgia, serif;
+    font-size: clamp(1.08rem, 1.3vw, 1.2rem);
+    color: var(--text-dim);
+  }
+
+  .stores-wrap {
+    margin-top: 2rem;
+  }
+
+  .fine {
+    margin: 2rem auto 0;
+    max-width: 30rem;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  .close :global(.imprint) {
+    margin-top: clamp(8rem, 18vh, 10rem);
+    text-align: left;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .close-line .hl,
+    .close-line.in .hl {
+      animation: none;
+      background-size: 100% 72%;
+    }
+  }
+</style>
+
+<script>
+  // Draw the highlight once, when the line is properly in view.
+  const line = document.getElementById("close-line");
+  if (line) {
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          line.classList.add("in");
+          io.disconnect();
+        }
+      },
+      { threshold: 0.6 },
+    );
+    io.observe(line);
+  }
+</script>

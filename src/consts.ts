@@ -28,9 +28,6 @@ export const PLAY_STORE_URL =
   `?id=${ANDROID_PACKAGE}` +
   `&referrer=${PLAY_REFERRER}`;
 
-/** True once PLAY_STORE_URL points at a real listing. Drives link targets. */
-export const PLAY_STORE_LIVE = PLAY_STORE_URL !== "#";
-
 export const GITHUB_URL = "https://github.com/dr-33-m/open-citadel";
 
 export const CONTACT_EMAIL = "thamsanqa.dev@gmail.com";
@@ -62,12 +59,3 @@ export const AUTHOR_NAME = "Thamsanqa Dreem";
 
 /** The author's own site, linked from the imprint. */
 export const AUTHOR_URL = "https://www.thamsanqa.africa/";
-
-/** The leaves of the book, in order. Drives the desktop tabs and mobile pager. */
-export const LEAVES = [
-  { id: "front", tab: "Frontispiece", leaf: "Frontispiece" },
-  { id: "becoming", tab: "Becoming", leaf: "I · Becoming" },
-  { id: "loop", tab: "How", leaf: "II · How It Works" },
-  { id: "samwell", tab: "Samwell", leaf: "III · Samwell" },
-  { id: "acquire", tab: "Begin", leaf: "IV · Begin" },
-] as const;

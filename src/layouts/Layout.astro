@@ -6,24 +6,20 @@ interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
-  /**
-   * Turns the page into a swipeable book on phones (one section per leaf).
-   * Only the home page opts in; long documents like privacy and support
-   * must keep normal vertical scrolling.
-   */
-  bookMode?: boolean;
+  /** The theme a first-time visitor sees. A saved choice always wins. */
+  defaultTheme?: "light" | "dark";
 }
 
 const {
   title = "Open Citadel: Your Companion in Becoming 2.0",
   description = "Read your books, highlight what matters, and turn it into goals you keep. Open Citadel pairs a focused reader with Samwell, a companion who helps you plan, check in, and see your progress.",
   noindex = false,
-  bookMode = false,
+  defaultTheme = "dark",
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class={bookMode ? "book" : undefined}>
+<html lang="en" data-theme={defaultTheme === "light" ? "light" : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,9 +39,14 @@ const {
     <!-- Restore saved theme before paint to avoid flash -->
     <script is:inline>
       (function () {
-        const t = localStorage.getItem("oc-theme");
+        let t = null;
+        try {
+          t = localStorage.getItem("oc-theme");
+        } catch (e) {}
         if (t === "light")
           document.documentElement.setAttribute("data-theme", "light");
+        else if (t === "dark")
+          document.documentElement.removeAttribute("data-theme");
       })();
     </script>
     <Analytics />

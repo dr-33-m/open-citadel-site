@@ -1,0 +1,11 @@
+---
+// Renders text with its [bracketed] word as the reader's highlight.
+import { marked } from "../../journey";
+
+interface Props {
+  text: string;
+}
+const parts = marked(Astro.props.text);
+---
+
+{parts.map((p) => (p.hl ? <mark class="hl">{p.text}</mark> : p.text))}

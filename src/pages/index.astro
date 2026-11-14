@@ -1,25 +1,22 @@
 ---
-// The landing page is a short book. Each section is a leaf: on phones they are
-// turned by swiping, on wide screens they read as one vertical scroll.
-// Keep <main>'s direct children to exactly the five leaves in LEAVES.
+// The landing page is two sections: a hero that shows the whole journey, and
+// a close that lets you begin it. Light by default; the visitor can switch.
 import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
-import Frontispiece from "../components/Frontispiece.astro";
-import Becoming from "../components/Becoming.astro";
-import HowItWorks from "../components/HowItWorks.astro";
-import Samwell from "../components/Samwell.astro";
-import Begin from "../components/Begin.astro";
-import BookChrome from "../components/BookChrome.astro";
+import Masthead from "../components/landing/Masthead.astro";
+import Hero from "../components/landing/Hero.astro";
+import Close from "../components/landing/Close.astro";
 ---
 
-<Layout bookMode>
-  <Nav bookMode />
-  <main>
-    <Frontispiece />
-    <Becoming />
-    <HowItWorks />
-    <Samwell />
-    <Begin />
-  </main>
-  <BookChrome />
+<Layout
+  defaultTheme="light"
+  title="Open Citadel: A sanctuary for your curiosity"
+  description="Bring together the books, podcasts and ideas that interest you. Explore them with Samwell, your personal self-development companion, and turn what you learn into meaningful change."
+>
+  <div class="landing">
+    <Masthead />
+    <main>
+      <Hero />
+      <Close />
+    </main>
+  </div>
 </Layout>
