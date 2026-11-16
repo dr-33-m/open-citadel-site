@@ -1,7 +1,4 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
 
 const lastUpdated = "November 11, 2026";
 
@@ -20,508 +17,450 @@ const sections = [
   { id: "changes", label: "Changes To This Policy" },
   { id: "contact", label: "Contact" },
 ];
+import DocPage from "../layouts/DocPage.astro";
 ---
 
-<Layout
+<DocPage
   title="Privacy Policy: Open Citadel"
   description="How Open Citadel handles your data: what stays on your device, what your account holds, and what is sent when you use Samwell Cloud and Compass."
+  eyebrow="Legal"
+  heading="Privacy Policy"
+  updated={lastUpdated}
+  sections={sections}
 >
-  <Nav />
-  <main class="pt-32 pb-24 px-6 md:px-12 lg:px-20 bg-obsidian">
-    <div class="max-w-3xl mx-auto flex flex-col gap-16">
-      <!-- Header -->
-      <header class="flex flex-col gap-4">
-        <p
-          class="font-body text-xs font-semibold text-gold uppercase tracking-[0.12em] m-0"
+  <p>
+    Open Citadel is built on a simple idea: your books, notes, and
+    thinking are yours. This policy explains what data the app uses,
+    where it lives, and what leaves your device when you choose to use
+    Samwell Cloud.
+  </p>
+
+  <section id="who-we-are">
+    <h2>
+      Who We Are
+    </h2>
+    <p>
+      Open Citadel is developed by <strong
+        >Thamsanqa Ncube</strong
+      >, an individual developer publishing on Google Play and the App
+      Store. There is no separate company at this time. If that changes,
+      this policy will be updated to name the responsible entity.
+    </p>
+  </section>
+
+  <section id="summary">
+    <h2>
+      Summary
+    </h2>
+    <ul>
+      <li>
+        Your library, highlights, notes, chats, goals, and daily logs are
+        stored in a local database on your device. We do not keep a copy
+        of them on our servers.
+      </li>
+      <li>
+        You can read, highlight, and use on-device Samwell without an
+        account.
+      </li>
+      <li>
+        Samwell Cloud and Compass need a plan. You can buy one with or
+        without an account. When you use them, what you send and the
+        context Samwell needs to answer is passed through our server to an
+        AI provider to generate a reply.
+      </li>
+      <li>
+        Subscriptions are paid through Google Play or the App Store. We
+        never see your payment details.
+      </li>
+      <li>
+        We do not sell data or show ads, and the app has no advertising
+        SDKs. If you choose to, you can share how the app performs
+        (Settings, Share app performance) to help us make it faster. It is
+        off until you turn it on.
+      </li>
+    </ul>
+  </section>
+
+  <section id="on-device">
+    <h2>
+      What Stays On Your Device
+    </h2>
+    <p>
+      Everything you create or add in Open Citadel is stored in a local
+      SQLite database inside the app's private storage. That includes your
+      books, reading progress, highlights, notes, collections, chat
+      history with Samwell, Compass goals, and daily logs.
+    </p>
+    <p>
+      On-device Samwell runs an AI model on your phone. Conversations with
+      it never leave your device.
+    </p>
+    <p>
+      Reading aloud uses your phone's own voices, or the Enhanced voices,
+      which are downloaded once and run on your phone. Cloud voices are
+      described under <a href="#samwell-cloud"
+        >Samwell Cloud &amp; Compass</a
+      >.
+    </p>
+    <p>
+      Posts you open from blogs are saved on your phone so you can
+      highlight them and ask Samwell about them. A post you only opened is
+      removed 30 days after you last read it; ones you queued, favourited,
+      highlighted, noted or chatted about stay until you remove them
+      (Remove Saved Copy) or uninstall.
+    </p>
+  </section>
+
+  <section id="account">
+    <h2>
+      Your Account
+    </h2>
+    <p>
+      You can sign in or create an account to use Samwell Cloud and
+      Compass. Sign-in is handled by Logto, open-source sign-in software
+      that we run on our own server, so your account details are not
+      shared with Logto or anyone else. Your account holds your email address and, if you give one, your
+      name. The app keeps your sign-in session in your device's secure
+      storage.
+    </p>
+    <p>
+      Signing out ends the session on your device. It does not delete
+      anything stored on your device.
+    </p>
+    <p>
+      <strong>Buying without an account.</strong> If
+      you buy a plan without signing in, the app makes a random identifier
+      and secret for this device and keeps them in its secure storage. We
+      keep only that identifier and a hash of the secret, with your plan,
+      so the purchase works on this device. We never learn a name or
+      email. If you later make an account, the purchase moves to it.
+    </p>
+  </section>
+
+  <section id="samwell-cloud">
+    <h2>
+      Samwell Cloud &amp; Compass
+    </h2>
+    <p>
+      Samwell Cloud answers through our server instead of running on your
+      phone. Compass, the part of the app for goals, daily logs, and
+      check-ins, works with Samwell Cloud.
+    </p>
+    <p>
+      When you send Samwell Cloud a message, the app sends our server:
+    </p>
+    <ul>
+      <li>your message and the rest of that conversation;</li>
+      <li>
+        a short summary of your journey: books you are reading or have
+        finished, the themes you highlight most, and your active goal,
+        what you track for it, and how often you have logged lately;
+      </li>
+      <li>
+        anything Samwell looks up in the app to answer you, such as a
+        passage from a book, your highlights and notes, or your goal
+        history and logs.
+      </li>
+    </ul>
+    <p>
+      The same applies when the app asks Samwell Cloud to suggest a title
+      for a chat, suggest tags for a highlight, or write a takeaway when a
+      goal ends, and to the optional setup conversation where Samwell
+      introduces the app and helps you find free books.
+    </p>
+    <p>Some features send more, only when you use them:</p>
+    <ul>
+      <li>
+        <strong>What Samwell knows.</strong> A short
+        profile of you that Samwell keeps on your phone, with your recent
+        wins and open commitments, is sent with each cloud message so he
+        can remember you. You can see and change it in Settings, What
+        Samwell knows. His notes about a conversation are written on our
+        server and sent back to your phone; the server keeps no copy.
+      </li>
+      <li>
+        <strong>Web search.</strong> When Samwell
+        searches the web, his search goes through OpenRouter to its search
+        provider (Exa), and our server may fetch a page from those results
+        to read it. Only the search terms leave, not your reading.
+      </li>
+      <li>
+        <strong>Cloud voices.</strong> When you
+        listen in a cloud voice, the text being read is sent through our
+        server and OpenRouter to the voice's provider to be spoken, and is
+        not kept. The audio you have heard is kept on your phone so going
+        back costs nothing.
+      </li>
+      <li>
+        <strong>Podcast transcripts.</strong> When
+        you ask for a transcript, the episode's web address (not the audio)
+        is sent through our server and OpenRouter to ElevenLabs, which
+        fetches the audio from the show and writes it out. The transcript
+        waits on our server until your phone collects it, and is deleted
+        from the server within about a day. It is kept on your phone.
+      </li>
+    </ul>
+    <p>
+      Our server passes this to <a
+          href="https://openrouter.ai/privacy"
+          target="_blank"
+          rel="noopener noreferrer">OpenRouter</a
+        >,
+      which routes it to the AI model provider that generates the reply.
+      OpenRouter's privacy policy and the policy of that model provider
+      apply to how they handle it.
+    </p>
+    <p>
+      Our server does not store the content of your conversations. It
+      stores what it needs to run your plan: your account ID, your plan,
+      your credit balance, and a usage record for each request (the model
+      used, the number of tokens, the cost, and the time). Like most
+      servers, it also keeps technical logs of requests.
+    </p>
+  </section>
+
+  <section id="performance">
+    <h2>
+      App Performance (Off Unless You Turn It On)
+    </h2>
+    <p>
+      In Settings, "Share app performance" lets the app send how it
+      performed, so slow and broken parts can be found and fixed. It is off
+      until you turn it on, and you can turn it off at any time in the same
+      place. Nothing recorded while it is off is ever sent.
+    </p>
+    <p>When it is on, the app sends:</p>
+    <ul>
+      <li>
+        How long the app takes to open, each screen to be ready, and
+        Samwell to answer, with which AI model answered and whether Samwell
+        runs on your phone or in the cloud.
+      </li>
+      <li>
+        How long other work takes, such as refreshing feeds, opening a post
+        or a book, importing a book, collecting a transcript, and buying a
+        plan, and whether it worked.
+      </li>
+      <li>
+        Errors the app ran into, with web addresses, file names and email
+        addresses removed from their messages, and on Android, the reason
+        the app last closed when the system ended it (for example, to free
+        memory).
+      </li>
+      <li>
+        Your device's model, operating system and version, language,
+        network and battery state, and the app's version and build.
+      </li>
+      <li>
+        Which screens were opened, by their type (for example "a blog's
+        page"), without the book, post, address or search they were opened
+        with.
+      </li>
+      <li>The web address of the slowest network request while the app opens.</li>
+      <li>
+        A random identifier for this installation of the app, and your IP
+        address, from which an approximate country is worked out.
+      </li>
+    </ul>
+    <p>
+      It never includes what you read, highlight, write or say to Samwell,
+      your name, your email or your account.
+    </p>
+    <p>
+      This data is processed for us by <a
+        href="https://expo.dev/privacy"
+        target="_blank"
+        rel="noopener noreferrer">Expo (650 Industries, Inc.)</a
+      >, the company whose app platform Open Citadel is built on, as our
+      service provider. It is used only to find and fix problems in the
+      app. It is not combined with data from other apps, used for
+      advertising or shared with data brokers. Expo deletes it after 90
+      days, in monthly batches, so a record can last up to 120 days.
+    </p>
+  </section>
+
+  <section id="subscriptions">
+    <h2>
+      Subscriptions
+    </h2>
+    <p>
+      Samwell Cloud plans are monthly subscriptions bought through Google
+      Play or the App Store, which process the payment. We never see or
+      store your card or payment details.
+    </p>
+    <p>
+      We use <a
+          href="https://www.revenuecat.com/privacy/"
+          target="_blank"
+          rel="noopener noreferrer">RevenueCat</a
+        > to
+      manage subscriptions. RevenueCat receives your account ID and your
+      purchase history from the store so we can tell which plan you are
+      on.
+    </p>
+  </section>
+
+  <section id="permissions">
+    <h2>
+      Permissions We Request
+    </h2>
+    <p>The Android app requests the following:</p>
+    <ul>
+      <li>
+        <strong>Storage</strong>: to import books
+        you pick into your library and to save images, such as highlight
+        cards, to your device. Files are only accessed when you choose
+        them.
+      </li>
+      <li>
+        <strong>Internet</strong>: to sign in, to
+        use Samwell Cloud and Compass, to manage subscriptions, and to
+        download free books and on-device AI models you choose.
+      </li>
+    </ul>
+    <p>
+      On iOS, the app only reaches files you open or share into it.
+    </p>
+  </section>
+
+  <section id="third-parties">
+    <h2>
+      Third-Party Services
+    </h2>
+    <ul>
+      <li>
+        <strong>Logto</strong>: sign-in and
+        accounts, run on our own server.
+      </li>
+      <li>
+        <strong>OpenRouter</strong> and the AI
+        model providers it routes to: generating Samwell Cloud replies.
+      </li>
+      <li>
+        <strong>RevenueCat</strong>: managing
+        subscriptions.
+      </li>
+      <li>
+        <strong>Google Play and the App Store</strong
+        >: processing payments, under <a
+          href="https://policies.google.com/privacy"
+          target="_blank"
+          rel="noopener noreferrer">Google's</a
         >
-          Legal
-        </p>
-        <h1
-          class="font-display text-parchment m-0 leading-[1.1]"
-          style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 400;"
-        >
-          Privacy Policy
-        </h1>
-        <p class="font-body text-sm text-parchment-dim m-0">
-          Last updated: {lastUpdated}
-        </p>
-      </header>
+        and <a
+          href="https://www.apple.com/legal/privacy/"
+          target="_blank"
+          rel="noopener noreferrer">Apple's</a
+        > own
+        privacy policies.
+      </li>
+      <li>
+        <strong>Hugging Face</strong>: hosting the
+        on-device AI models you choose to download. These are plain file
+        downloads with no personal data attached.
+      </li>
+      <li>
+        <strong>Project Gutenberg</strong>: the
+        source of the free public domain books the app can find and
+        download for you.
+      </li>
+      <li>
+        <strong>Expo (650 Industries, Inc.)</strong>:
+        delivers app updates and, if you turn on Share app performance,
+        processes the performance data described above.
+      </li>
+      <li>
+        <strong>Hetzner</strong>: hosts our server
+        (Samwell Cloud, accounts and plans).
+      </li>
+      <li>
+        <strong>ElevenLabs</strong>: writes podcast
+        transcripts you ask for, through OpenRouter.
+      </li>
+      <li>
+        <strong>Exa</strong>: web searches Samwell
+        makes, through OpenRouter.
+      </li>
+    </ul>
+    <p>
+      <strong>Blogs and podcasts.</strong> Feeds,
+      posts, artwork and episode audio are fetched by your phone directly
+      from each publisher's site, so those sites see your IP address, as
+      they would in a browser. A blog's whole post is fetched from its site
+      only if you choose to read that blog in the reader.
+    </p>
+    <p class="note">
+      Note: this website (the page you're reading now) uses Vercel Web
+      Analytics to count anonymous, aggregated page views. This is
+      separate from the app and does not use cookies or collect personal
+      data.
+    </p>
+  </section>
 
-      <!-- Table of contents -->
-      <nav
-        aria-label="Table of contents"
-        class="bg-surface-low p-6 md:p-8"
-        style="border: 1px solid rgba(208,197,175,0.08);"
-      >
-        <p
-          class="font-body text-xs font-semibold text-gold uppercase tracking-[0.1em] m-0 mb-4"
-        >
-          On this page
-        </p>
-        <ul class="list-none m-0 p-0 grid sm:grid-cols-2 gap-x-8 gap-y-2">
-          {
-            sections.map(({ id, label }) => (
-              <li>
-                <a
-                  href={`#${id}`}
-                  class="font-body text-sm text-parchment-dim hover:text-gold transition-colors no-underline"
-                >
-                  {label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
+  <section id="retention">
+    <h2>
+      Data Retention &amp; Deletion
+    </h2>
+    <p>
+      Your library, notes, chats, goals, and logs live on your device. You
+      can delete books, highlights, notes, chats, and goals in the app, or
+      remove everything by uninstalling Open Citadel. We have no copy to
+      keep.
+    </p>
+    <p>
+      To delete your account and the records our server holds about it
+      (your plan, credit balance, and usage records), open the app, go to
+      Settings, and use <strong>DELETE ACCOUNT</strong>
+      on the Cloud Account card. It takes effect immediately. If you no
+      longer have the app, email us at the address below from the email on
+      your account and we will do it within 30 days.
+    </p>
+    <p>
+      Cancel any active subscription in Google Play or the App Store
+      first, since deleting your account does not cancel it. See <a
+        href="/delete-account">Delete Your Account</a
+      > for the full steps and exactly what is deleted.
+    </p>
+    <p>
+      Performance data is kept by Expo for up to 120 days and then deleted.
+      It cannot be linked back to you, so it cannot be looked up for
+      deletion; turning Share app performance off stops any more being
+      sent.
+    </p>
+  </section>
 
-      <!-- Body -->
-      <article
-        class="font-body text-parchment-dim leading-relaxed flex flex-col gap-14"
-      >
-        <p class="m-0">
-          Open Citadel is built on a simple idea: your books, notes, and
-          thinking are yours. This policy explains what data the app uses,
-          where it lives, and what leaves your device when you choose to use
-          Samwell Cloud.
-        </p>
+  <section id="children">
+    <h2>
+      Children's Privacy
+    </h2>
+    <p>
+      Open Citadel is not directed at children under 13, and we do not
+      knowingly collect personal information from children.
+    </p>
+  </section>
 
-        <section id="who-we-are" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Who We Are
-          </h2>
-          <p class="m-0">
-            Open Citadel is developed by <strong class="text-parchment"
-              >Thamsanqa Ncube</strong
-            >, an individual developer publishing on Google Play and the App
-            Store. There is no separate company at this time. If that changes,
-            this policy will be updated to name the responsible entity.
-          </p>
-        </section>
+  <section id="changes">
+    <h2>
+      Changes To This Policy
+    </h2>
+    <p>
+      We may update this policy as the app changes. The "Last updated"
+      date at the top of this page always shows the latest revision, and
+      important changes will be called out in the app's release notes.
+    </p>
+  </section>
 
-        <section id="summary" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Summary
-          </h2>
-          <ul class="flex flex-col gap-2 pl-5 m-0">
-            <li>
-              Your library, highlights, notes, chats, goals, and daily logs are
-              stored in a local database on your device. We do not keep a copy
-              of them on our servers.
-            </li>
-            <li>
-              You can read, highlight, and use on-device Samwell without an
-              account.
-            </li>
-            <li>
-              Samwell Cloud and Compass need a plan. You can buy one with or
-              without an account. When you use them, what you send and the
-              context Samwell needs to answer is passed through our server to an
-              AI provider to generate a reply.
-            </li>
-            <li>
-              Subscriptions are paid through Google Play or the App Store. We
-              never see your payment details.
-            </li>
-            <li>
-              We do not sell data or show ads, and the app has no advertising
-              SDKs. If you choose to, you can share how the app performs
-              (Settings, Share app performance) to help us make it faster. It is
-              off until you turn it on.
-            </li>
-          </ul>
-        </section>
-
-        <section id="on-device" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            What Stays On Your Device
-          </h2>
-          <p class="m-0">
-            Everything you create or add in Open Citadel is stored in a local
-            SQLite database inside the app's private storage. That includes your
-            books, reading progress, highlights, notes, collections, chat
-            history with Samwell, Compass goals, and daily logs.
-          </p>
-          <p class="m-0">
-            On-device Samwell runs an AI model on your phone. Conversations with
-            it never leave your device.
-          </p>
-          <p class="m-0">
-            Reading aloud uses your phone's own voices, or the Enhanced voices,
-            which are downloaded once and run on your phone. Cloud voices are
-            described under <a href="#samwell-cloud" class="text-gold hover:opacity-80"
-              >Samwell Cloud &amp; Compass</a
-            >.
-          </p>
-          <p class="m-0">
-            Posts you open from blogs are saved on your phone so you can
-            highlight them and ask Samwell about them. A post you only opened is
-            removed 30 days after you last read it; ones you queued, favourited,
-            highlighted, noted or chatted about stay until you remove them
-            (Remove Saved Copy) or uninstall.
-          </p>
-        </section>
-
-        <section id="account" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Your Account
-          </h2>
-          <p class="m-0">
-            You can sign in or create an account to use Samwell Cloud and
-            Compass. Sign-in is handled by Logto, open-source sign-in software
-            that we run on our own server, so your account details are not
-            shared with Logto or anyone else. Your account holds your email address and, if you give one, your
-            name. The app keeps your sign-in session in your device's secure
-            storage.
-          </p>
-          <p class="m-0">
-            Signing out ends the session on your device. It does not delete
-            anything stored on your device.
-          </p>
-          <p class="m-0">
-            <strong class="text-parchment">Buying without an account.</strong> If
-            you buy a plan without signing in, the app makes a random identifier
-            and secret for this device and keeps them in its secure storage. We
-            keep only that identifier and a hash of the secret, with your plan,
-            so the purchase works on this device. We never learn a name or
-            email. If you later make an account, the purchase moves to it.
-          </p>
-        </section>
-
-        <section id="samwell-cloud" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Samwell Cloud &amp; Compass
-          </h2>
-          <p class="m-0">
-            Samwell Cloud answers through our server instead of running on your
-            phone. Compass, the part of the app for goals, daily logs, and
-            check-ins, works with Samwell Cloud.
-          </p>
-          <p class="m-0">
-            When you send Samwell Cloud a message, the app sends our server:
-          </p>
-          <ul class="flex flex-col gap-2 pl-5 m-0">
-            <li>your message and the rest of that conversation;</li>
-            <li>
-              a short summary of your journey: books you are reading or have
-              finished, the themes you highlight most, and your active goal,
-              what you track for it, and how often you have logged lately;
-            </li>
-            <li>
-              anything Samwell looks up in the app to answer you, such as a
-              passage from a book, your highlights and notes, or your goal
-              history and logs.
-            </li>
-          </ul>
-          <p class="m-0">
-            The same applies when the app asks Samwell Cloud to suggest a title
-            for a chat, suggest tags for a highlight, or write a takeaway when a
-            goal ends, and to the optional setup conversation where Samwell
-            introduces the app and helps you find free books.
-          </p>
-          <p class="m-0">Some features send more, only when you use them:</p>
-          <ul class="flex flex-col gap-2 pl-5 m-0">
-            <li>
-              <strong class="text-parchment">What Samwell knows.</strong> A short
-              profile of you that Samwell keeps on your phone, with your recent
-              wins and open commitments, is sent with each cloud message so he
-              can remember you. You can see and change it in Settings, What
-              Samwell knows. His notes about a conversation are written on our
-              server and sent back to your phone; the server keeps no copy.
-            </li>
-            <li>
-              <strong class="text-parchment">Web search.</strong> When Samwell
-              searches the web, his search goes through OpenRouter to its search
-              provider (Exa), and our server may fetch a page from those results
-              to read it. Only the search terms leave, not your reading.
-            </li>
-            <li>
-              <strong class="text-parchment">Cloud voices.</strong> When you
-              listen in a cloud voice, the text being read is sent through our
-              server and OpenRouter to the voice's provider to be spoken, and is
-              not kept. The audio you have heard is kept on your phone so going
-              back costs nothing.
-            </li>
-            <li>
-              <strong class="text-parchment">Podcast transcripts.</strong> When
-              you ask for a transcript, the episode's web address (not the audio)
-              is sent through our server and OpenRouter to ElevenLabs, which
-              fetches the audio from the show and writes it out. The transcript
-              waits on our server until your phone collects it, and is deleted
-              from the server within about a day. It is kept on your phone.
-            </li>
-          </ul>
-          <p class="m-0">
-            Our server passes this to <a
-                href="https://openrouter.ai/privacy"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-gold hover:opacity-80">OpenRouter</a
-              >,
-            which routes it to the AI model provider that generates the reply.
-            OpenRouter's privacy policy and the policy of that model provider
-            apply to how they handle it.
-          </p>
-          <p class="m-0">
-            Our server does not store the content of your conversations. It
-            stores what it needs to run your plan: your account ID, your plan,
-            your credit balance, and a usage record for each request (the model
-            used, the number of tokens, the cost, and the time). Like most
-            servers, it also keeps technical logs of requests.
-          </p>
-        </section>
-
-        <section id="performance" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            App Performance (Off Unless You Turn It On)
-          </h2>
-          <p class="m-0">
-            In Settings, "Share app performance" lets the app send how it
-            performed, so slow and broken parts can be found and fixed. It is off
-            until you turn it on, and you can turn it off at any time in the same
-            place. Nothing recorded while it is off is ever sent.
-          </p>
-          <p class="m-0">When it is on, the app sends:</p>
-          <ul class="flex flex-col gap-2 pl-5 m-0">
-            <li>
-              How long the app takes to open, each screen to be ready, and
-              Samwell to answer, with which AI model answered and whether Samwell
-              runs on your phone or in the cloud.
-            </li>
-            <li>
-              How long other work takes, such as refreshing feeds, opening a post
-              or a book, importing a book, collecting a transcript, and buying a
-              plan, and whether it worked.
-            </li>
-            <li>
-              Errors the app ran into, with web addresses, file names and email
-              addresses removed from their messages, and on Android, the reason
-              the app last closed when the system ended it (for example, to free
-              memory).
-            </li>
-            <li>
-              Your device's model, operating system and version, language,
-              network and battery state, and the app's version and build.
-            </li>
-            <li>
-              Which screens were opened, by their type (for example "a blog's
-              page"), without the book, post, address or search they were opened
-              with.
-            </li>
-            <li>The web address of the slowest network request while the app opens.</li>
-            <li>
-              A random identifier for this installation of the app, and your IP
-              address, from which an approximate country is worked out.
-            </li>
-          </ul>
-          <p class="m-0">
-            It never includes what you read, highlight, write or say to Samwell,
-            your name, your email or your account.
-          </p>
-          <p class="m-0">
-            This data is processed for us by <a
-              href="https://expo.dev/privacy"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-gold hover:opacity-80">Expo (650 Industries, Inc.)</a
-            >, the company whose app platform Open Citadel is built on, as our
-            service provider. It is used only to find and fix problems in the
-            app. It is not combined with data from other apps, used for
-            advertising or shared with data brokers. Expo deletes it after 90
-            days, in monthly batches, so a record can last up to 120 days.
-          </p>
-        </section>
-
-        <section id="subscriptions" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Subscriptions
-          </h2>
-          <p class="m-0">
-            Samwell Cloud plans are monthly subscriptions bought through Google
-            Play or the App Store, which process the payment. We never see or
-            store your card or payment details.
-          </p>
-          <p class="m-0">
-            We use <a
-                href="https://www.revenuecat.com/privacy/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-gold hover:opacity-80">RevenueCat</a
-              > to
-            manage subscriptions. RevenueCat receives your account ID and your
-            purchase history from the store so we can tell which plan you are
-            on.
-          </p>
-        </section>
-
-        <section id="permissions" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Permissions We Request
-          </h2>
-          <p class="m-0">The Android app requests the following:</p>
-          <ul class="flex flex-col gap-2 pl-5 m-0">
-            <li>
-              <strong class="text-parchment">Storage</strong>: to import books
-              you pick into your library and to save images, such as highlight
-              cards, to your device. Files are only accessed when you choose
-              them.
-            </li>
-            <li>
-              <strong class="text-parchment">Internet</strong>: to sign in, to
-              use Samwell Cloud and Compass, to manage subscriptions, and to
-              download free books and on-device AI models you choose.
-            </li>
-          </ul>
-          <p class="m-0">
-            On iOS, the app only reaches files you open or share into it.
-          </p>
-        </section>
-
-        <section id="third-parties" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Third-Party Services
-          </h2>
-          <ul class="flex flex-col gap-3 pl-5 m-0">
-            <li>
-              <strong class="text-parchment">Logto</strong>: sign-in and
-              accounts, run on our own server.
-            </li>
-            <li>
-              <strong class="text-parchment">OpenRouter</strong> and the AI
-              model providers it routes to: generating Samwell Cloud replies.
-            </li>
-            <li>
-              <strong class="text-parchment">RevenueCat</strong>: managing
-              subscriptions.
-            </li>
-            <li>
-              <strong class="text-parchment">Google Play and the App Store</strong
-              >: processing payments, under <a
-                href="https://policies.google.com/privacy"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-gold hover:opacity-80">Google's</a
-              >
-              and <a
-                href="https://www.apple.com/legal/privacy/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-gold hover:opacity-80">Apple's</a
-              > own
-              privacy policies.
-            </li>
-            <li>
-              <strong class="text-parchment">Hugging Face</strong>: hosting the
-              on-device AI models you choose to download. These are plain file
-              downloads with no personal data attached.
-            </li>
-            <li>
-              <strong class="text-parchment">Project Gutenberg</strong>: the
-              source of the free public domain books the app can find and
-              download for you.
-            </li>
-            <li>
-              <strong class="text-parchment">Expo (650 Industries, Inc.)</strong>:
-              delivers app updates and, if you turn on Share app performance,
-              processes the performance data described above.
-            </li>
-            <li>
-              <strong class="text-parchment">Hetzner</strong>: hosts our server
-              (Samwell Cloud, accounts and plans).
-            </li>
-            <li>
-              <strong class="text-parchment">ElevenLabs</strong>: writes podcast
-              transcripts you ask for, through OpenRouter.
-            </li>
-            <li>
-              <strong class="text-parchment">Exa</strong>: web searches Samwell
-              makes, through OpenRouter.
-            </li>
-          </ul>
-          <p class="m-0">
-            <strong class="text-parchment">Blogs and podcasts.</strong> Feeds,
-            posts, artwork and episode audio are fetched by your phone directly
-            from each publisher's site, so those sites see your IP address, as
-            they would in a browser. A blog's whole post is fetched from its site
-            only if you choose to read that blog in the reader.
-          </p>
-          <p class="m-0 text-sm" style="opacity: 0.8;">
-            Note: this website (the page you're reading now) uses Vercel Web
-            Analytics to count anonymous, aggregated page views. This is
-            separate from the app and does not use cookies or collect personal
-            data.
-          </p>
-        </section>
-
-        <section id="retention" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Data Retention &amp; Deletion
-          </h2>
-          <p class="m-0">
-            Your library, notes, chats, goals, and logs live on your device. You
-            can delete books, highlights, notes, chats, and goals in the app, or
-            remove everything by uninstalling Open Citadel. We have no copy to
-            keep.
-          </p>
-          <p class="m-0">
-            To delete your account and the records our server holds about it
-            (your plan, credit balance, and usage records), open the app, go to
-            Settings, and use <strong class="text-parchment">DELETE ACCOUNT</strong>
-            on the Cloud Account card. It takes effect immediately. If you no
-            longer have the app, email us at the address below from the email on
-            your account and we will do it within 30 days.
-          </p>
-          <p class="m-0">
-            Cancel any active subscription in Google Play or the App Store
-            first, since deleting your account does not cancel it. See <a
-              href="/delete-account"
-              class="text-gold hover:opacity-80">Delete Your Account</a
-            > for the full steps and exactly what is deleted.
-          </p>
-          <p class="m-0">
-            Performance data is kept by Expo for up to 120 days and then deleted.
-            It cannot be linked back to you, so it cannot be looked up for
-            deletion; turning Share app performance off stops any more being
-            sent.
-          </p>
-        </section>
-
-        <section id="children" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Children's Privacy
-          </h2>
-          <p class="m-0">
-            Open Citadel is not directed at children under 13, and we do not
-            knowingly collect personal information from children.
-          </p>
-        </section>
-
-        <section id="changes" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Changes To This Policy
-          </h2>
-          <p class="m-0">
-            We may update this policy as the app changes. The "Last updated"
-            date at the top of this page always shows the latest revision, and
-            important changes will be called out in the app's release notes.
-          </p>
-        </section>
-
-        <section id="contact" class="flex flex-col gap-4">
-          <h2 class="font-display text-gold text-2xl font-medium m-0">
-            Contact
-          </h2>
-          <p class="m-0">
-            Questions about this policy or your data can be sent to <a
-              href="mailto:thamsanqa.dev@gmail.com"
-              class="text-gold hover:opacity-80">thamsanqa.dev@gmail.com</a
-            >. The rules for using the app are in
-            the <a href="/terms" class="text-gold hover:opacity-80"
-              >Terms of Service</a
-            >.
-          </p>
-        </section>
-      </article>
-    </div>
-  </main>
-  <Footer />
-</Layout>
+  <section id="contact">
+    <h2>
+      Contact
+    </h2>
+    <p>
+      Questions about this policy or your data can be sent to <a
+        href="mailto:thamsanqa.dev@gmail.com">thamsanqa.dev@gmail.com</a
+      >. The rules for using the app are in
+      the <a href="/terms"
+        >Terms of Service</a
+      >.
+    </p>
+  </section>
+</DocPage>

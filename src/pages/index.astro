@@ -2,21 +2,15 @@
 // The landing page is two sections: a hero that shows the whole journey, and
 // a close that lets you begin it. Light by default; the visitor can switch.
 import Layout from "../layouts/Layout.astro";
-import Masthead from "../components/landing/Masthead.astro";
+import Masthead from "../components/Masthead.astro";
 import Hero from "../components/landing/Hero.astro";
 import Close from "../components/landing/Close.astro";
 ---
 
-<Layout
-  defaultTheme="light"
-  title="Open Citadel: A sanctuary for your curiosity"
-  description="Bring together the books, podcasts and ideas that interest you. Explore them with Samwell, your personal self-development companion, and turn what you learn into meaningful change."
->
-  <div class="landing">
-    <Masthead />
-    <main>
-      <Hero />
-      <Close />
-    </main>
-  </div>
+<Layout>
+  <Masthead />
+  <main>
+    <Hero />
+    <Close />
+  </main>
 </Layout>

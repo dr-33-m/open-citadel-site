@@ -1,6 +1,18 @@
 ---
 // The smallest header that still does its job: who this is, and a way to
-// switch light and dark. The way in is the hero's one button, not a second.
+// switch light and dark. On the home page that is all; the way in is the
+// hero's one button, not a second. The document pages add a short nav
+// between themselves, with the current page marked.
+interface Props {
+  nav?: boolean;
+}
+const { nav = false } = Astro.props;
+const here = Astro.url.pathname.replace(/\/$/, "");
+const links = [
+  { label: "Support", href: "/support" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+];
 ---
 
 <header class="masthead">
@@ -10,6 +22,17 @@
       <span>Open Citadel</span>
     </a>
     <div class="right">
+      {
+        nav && (
+          <nav class="links" aria-label="Site">
+            {links.map((l) => (
+              <a href={l.href} aria-current={here === l.href ? "page" : undefined}>
+                {l.label}
+              </a>
+            ))}
+          </nav>
+        )
+      }
       <button class="theme" id="theme-toggle" type="button" aria-label="Switch light or dark">
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <circle cx="12" cy="12" r="4.5"></circle>
@@ -54,6 +77,31 @@
     display: flex;
     align-items: center;
     gap: 1.2rem;
+  }
+  .links {
+    display: flex;
+    gap: 1.4rem;
+  }
+  .links a {
+    font-family: "Manrope", sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding-block: 0.4rem;
+    border-bottom: 1px solid transparent;
+  }
+  .links a:hover,
+  .links a[aria-current="page"] {
+    color: var(--text);
+    border-bottom-color: var(--text);
+  }
+  @media (max-width: 560px) {
+    .links {
+      display: none;
+    }
   }
   .theme {
     display: grid;

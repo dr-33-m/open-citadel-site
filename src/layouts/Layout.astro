@@ -6,20 +6,18 @@ interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
-  /** The theme a first-time visitor sees. A saved choice always wins. */
-  defaultTheme?: "light" | "dark";
 }
 
 const {
-  title = "Open Citadel: Your Companion in Becoming 2.0",
-  description = "Read your books, highlight what matters, and turn it into goals you keep. Open Citadel pairs a focused reader with Samwell, a companion who helps you plan, check in, and see your progress.",
+  title = "Open Citadel: A sanctuary for your curiosity",
+  description = "Bring together the books, podcasts and ideas that interest you. Explore them with Samwell, your personal self-development companion, and turn what you learn into meaningful change.",
   noindex = false,
-  defaultTheme = "dark",
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" data-theme={defaultTheme === "light" ? "light" : undefined}>
+<!-- Light (parchment) is the site's default; a visitor's saved choice wins. -->
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,7 +49,7 @@ const {
     </script>
     <Analytics />
   </head>
-  <body class="bg-obsidian text-parchment font-body book-page">
-    <slot />
+  <body>
+    <div class="site"><slot /></div>
   </body>
 </html>

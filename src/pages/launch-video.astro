@@ -1,47 +1,45 @@
 ---
+// The launch video, on its own page for sharing. Not indexed.
 import Layout from "../layouts/Layout.astro";
+import Masthead from "../components/Masthead.astro";
 ---
 
 <Layout
-  title="Open Citadel — Launch Video"
+  title="Launch Video: Open Citadel"
   description="The Open Citadel launch video."
   noindex={true}
 >
-  <main
-    class="min-h-screen flex flex-col items-center justify-center px-6 py-16 bg-obsidian"
-  >
-    <a
-      href="/"
-      class="fixed top-6 left-6 md:top-8 md:left-8 flex items-center gap-2 no-underline"
-      aria-label="Open Citadel home"
-    >
-      <img src="/app-icon.png" alt="Open Citadel logo" class="h-8 w-8" />
-      <span
-        class="font-display text-gold text-base font-medium tracking-tight leading-none"
-      >
-        Open Citadel
-      </span>
-    </a>
-
-    <div class="w-full max-w-5xl flex flex-col items-center gap-6">
-      <div
-        class="w-full"
-        style="box-shadow: 0 0 120px rgba(212,175,55,0.18); border: 1px solid rgba(208,197,175,0.1);"
-      >
-        <video
-          src="/videos/open-citadel-launch.mp4"
-          controls
-          playsinline
-          class="w-full block bg-black"
-        >
-        </video>
-      </div>
-
-      <p
-        class="font-body text-xs font-semibold text-gold uppercase tracking-[0.12em] m-0"
-      >
-        Launch Video
-      </p>
-    </div>
+  <Masthead />
+  <main class="wrap stage">
+    <p class="eyebrow">Launch video</p>
+    <video src="/videos/open-citadel-launch.mp4" controls playsinline preload="metadata"></video>
   </main>
 </Layout>
+
+<style>
+  .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding-block: clamp(2rem, 8vh, 5rem);
+  }
+  .eyebrow {
+    margin: 0;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  video {
+    display: block;
+    width: 100%;
+    max-width: 64rem;
+    background: #000;
+    box-shadow:
+      0 0 0 1px var(--hairline),
+      var(--phone-shadow);
+  }
+</style>

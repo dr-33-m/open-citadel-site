@@ -1,7 +1,10 @@
+/* Tailwind is here for its reset (preflight) and the palette below. Pages and
+   components are styled with their own scoped CSS against the semantic tokens
+   in :root, so a theme change is one place. */
 @import "tailwindcss";
 
 @theme {
-  /* Colors */
+  /* Colors (dark, "Obsidian & Gold"; the light theme overrides them below) */
   --color-obsidian: oklch(18.674% 0.00002 271.152);
   --color-surface-low: oklch(22.324% 0.00154 16.369);
   --color-surface-mid: oklch(26.41% 0.0018 106.783);
@@ -16,51 +19,29 @@
   --font-body: "Manrope", system-ui, sans-serif;
 }
 
-/* Base */
-html {
-  background-color: var(--color-obsidian);
-  color: var(--color-parchment);
-  font-family: "Manrope", system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
-
-/* Design system rule: no border radius anywhere */
-*,
-*::before,
-*::after {
-  border-radius: 0 !important;
-}
-
-/* ─── Semantic aliases ────────────────────────────────────────
-   The components are written against short semantic names.
-   They point at the theme tokens above, so the [data-theme="light"]
-   override drives everything with no second palette to maintain. */
+/* ─── Semantic tokens ────────────────────────────────────────
+   Everything is written against these short names. They point at the
+   palette above, so [data-theme="light"] drives the whole site. */
 :root {
   --bg: var(--color-obsidian);
   --surface-low: var(--color-surface-low);
   --gold: var(--color-gold);
-  --gold-deep: var(--color-gold-deep);
   --text: var(--color-parchment);
   --text-dim: var(--color-parchment-dim);
-
-  --ink: #1a1814;
   --hairline: rgba(208, 197, 175, 0.14);
   --hairline-soft: rgba(208, 197, 175, 0.07);
-  --nav-bg: oklch(18.674% 0.00002 271.152 / 0.9);
-  --chrome-bg: var(--nav-bg);
 
   /* The reader's highlight, lifted from the app. */
   --hl-yellow: rgba(242, 202, 80, 0.26);
+
+  /* The drawn phone and the header. */
+  --masthead-h: 76px;
+  --phone-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+  --phone-rim: #3a3a3c;
+  --phone-edge: rgba(255, 255, 255, 0.12);
 }
 
-/* ─── Light theme ────────────────────────────────────────── */
+/* ─── Light theme ("Parchment & Gold"), the site's default ── */
 [data-theme="light"] {
   --color-obsidian: oklch(95.682% 0.01182 79.687);
   --color-surface-low: oklch(92.386% 0.0148 80.639);
@@ -73,17 +54,40 @@ body {
 
   --hairline: rgba(28, 21, 16, 0.14);
   --hairline-soft: rgba(28, 21, 16, 0.07);
-  --nav-bg: oklch(95.931% 0.01015 81.702 / 0.92);
-
   --hl-yellow: rgba(247, 226, 150, 0.72);
+
+  --phone-shadow: 0 28px 56px -14px rgba(28, 21, 16, 0.32);
+  --phone-rim: #1c1c1e;
+  --phone-edge: rgba(28, 21, 16, 0.5);
 }
 
-/* Ensure gold-gradient buttons always read dark */
-.text-ink {
-  color: #1a1814;
+/* ─── Base ── */
+html {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Manrope", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+}
+.site {
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: clip;
 }
 
-/* Theme toggle icon visibility */
+/* The house rule: no rounded corners anywhere. (The drawn phone is the one
+   deliberate exception, and says so with !important of its own.) */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+/* The theme switch shows the theme you would switch to. */
 .icon-sun {
   display: block;
 }
@@ -97,12 +101,9 @@ body {
   display: block;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   Shared layout and chrome
-   ═══════════════════════════════════════════════════════════════ */
-
+/* ─── Page width ── */
 .wrap {
-  max-width: 1180px;
+  max-width: 1320px;
   margin: 0 auto;
   padding-inline: 1.4rem;
 }
@@ -117,308 +118,11 @@ body {
   }
 }
 
-/* Headings are set in the serif, at book weight. */
-.book-page h1,
-.book-page h2,
-.book-page h3 {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 400;
-  margin: 0;
-  text-wrap: balance;
-}
-
-/* Utility layer: small uppercase Manrope labels */
-.label {
-  font-family: "Manrope", sans-serif;
-  font-weight: 600;
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin: 0;
-}
-
-/* ─── Running head ──────────────────────────────────────────
-   The app's own chrome, worn by the page. PROGRESS mirrors the
-   reading progress bar on a book card in the app. */
-.runhead {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 60;
-  background: var(--chrome-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--hairline-soft);
-}
-.runhead-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-block: 0.7rem;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-.brand img {
-  height: 52px;
-  width: 52px;
-}
-.brand span {
-  font-family: "Newsreader", serif;
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--gold);
-}
-.progress-meter {
-  display: none;
-  align-items: center;
-  gap: 0.7rem;
-  flex: 1;
-  max-width: 300px;
-}
-.progress-meter .label {
-  white-space: nowrap;
-}
-.progress-track {
-  flex: 1;
-  height: 2px;
-  background: var(--hairline);
-  position: relative;
-}
-.progress-fill {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 0%;
-  background: var(--gold);
-}
-.progress-pct {
-  font-family: "Manrope", sans-serif;
-  font-weight: 600;
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  color: var(--gold);
-  font-variant-numeric: tabular-nums;
-  min-width: 2.6rem;
-  text-align: right;
-}
-@media (min-width: 900px) {
-  .progress-meter {
-    display: flex;
-  }
-}
-.runhead-right {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  flex-shrink: 0;
-}
-
-.icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  background: transparent;
-  border: 1px solid var(--hairline);
-  color: var(--text);
-  cursor: pointer;
-}
-.icon-btn:hover {
-  color: var(--gold);
-  border-color: var(--gold);
-}
-.icon-btn svg {
-  width: 14px;
-  height: 14px;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.8rem 1.4rem;
-  font-family: "Newsreader", serif;
-  font-weight: 600;
-  font-size: 0.92rem;
-  color: var(--ink);
-  text-decoration: none;
-  background: linear-gradient(135deg, var(--gold), var(--gold-deep));
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: opacity 0.2s ease;
-}
-.btn:hover {
-  opacity: 0.9;
-}
-.btn svg {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-.btn-sm {
-  padding: 0.55rem 1rem;
-  font-size: 0.85rem;
-}
-.btn-sm svg {
-  width: 14px;
-  height: 14px;
-}
-.runhead .btn {
-  display: none;
-}
-@media (min-width: 620px) {
-  .runhead .btn {
-    display: inline-flex;
-  }
-}
-.menu-btn {
-  display: inline-flex;
-}
-@media (min-width: 900px) {
-  .menu-btn {
-    display: none;
-  }
-}
-
-.menu-sheet {
-  position: fixed;
-  inset: 0;
-  z-index: 70;
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1.6rem;
-  padding: 2rem;
-  /* Opaque: a full screen menu must stay legible without relying on
-     backdrop-filter, which not every browser honours. */
-  background: var(--bg);
-}
-.menu-sheet.open {
-  display: flex;
-}
-/* The chapter links only. Excluding .btn keeps this rule from outranking the
-   button's own styling, which it would otherwise win on specificity. */
-.menu-sheet a:not(.btn) {
-  font-family: "Newsreader", serif;
-  font-size: 1.9rem;
-  line-height: 1.15;
-  text-decoration: none;
-  color: var(--text);
-}
-.menu-sheet a:not(.btn):hover {
-  color: var(--gold);
-}
-.menu-sheet .btn {
-  align-self: flex-start;
-  margin-top: 0.8rem;
-}
-.menu-close {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  background: none;
-  border: none;
-  color: var(--text);
-  font-size: 1.8rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-/* ─── Imprint: who made this, the source, the small print ── */
-.imprint {
-  margin-top: 3.5rem;
-  border-top: 1px solid var(--hairline-soft);
-  padding-top: 1.6rem;
-  display: grid;
-  gap: 1.4rem;
-}
-@media (min-width: 760px) {
-  .imprint {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-}
-.imprint dl {
-  margin: 0;
-}
-.imprint dt {
-  font-family: "Manrope", sans-serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 0.45rem;
-}
-.imprint dd {
-  font-family: "Newsreader", serif;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-dim);
-  margin: 0;
-}
-.imprint a {
-  text-decoration: none;
-}
-.imprint a:hover {
-  color: var(--gold);
-}
-/* The other imprint links announce themselves in their labels ("View it on
-   GitHub", "Contact"). A name does not, so it gets a hairline rule to carry
-   the affordance, and both the text and the rule go gold on hover. */
-.imprint a.author-link {
-  color: var(--text);
-  text-decoration: underline;
-  text-decoration-color: var(--hairline);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-  transition:
-    color 0.2s ease,
-    text-decoration-color 0.2s ease;
-}
-.imprint a.author-link:hover,
-.imprint a.author-link:focus-visible {
-  color: var(--gold);
-  text-decoration-color: var(--gold);
-}
-.imprint-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   Landing (two sections). Tokens the hero and close share.
-   ═══════════════════════════════════════════════════════════════ */
-.landing {
-  --masthead-h: 76px;
-  --phone-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
-  --phone-rim: #3a3a3c;
-  --phone-edge: rgba(255, 255, 255, 0.12);
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: clip;
-}
-.landing .wrap {
-  max-width: 1320px;
-}
-[data-theme="light"] .landing {
-  --phone-shadow: 0 28px 56px -14px rgba(28, 21, 16, 0.32);
-  --phone-rim: #1c1c1e;
-  --phone-edge: rgba(28, 21, 16, 0.5);
-}
-/* The page's one motif: the app's reader highlight, drawn left to right at
-   the pace of a finger dragging across a line. Starts undrawn; a component
-   runs hl-draw on it when it should appear. */
-.landing .hl {
+/* ─── The highlight: the site's one motif ────────────────────
+   The app's reader highlight, drawn left to right at the pace of a finger
+   dragging across a line. It starts undrawn; a component runs hl-draw on it
+   when it should appear. */
+.hl {
   color: var(--text);
   background-color: transparent;
   background-image: linear-gradient(var(--hl-yellow), var(--hl-yellow));
@@ -436,19 +140,68 @@ body {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .landing .hl {
+  .hl {
     animation: none !important;
     background-size: 100% 72%;
   }
 }
 
-/* On the landing page gold is reserved for the journey's progress. */
-.landing .imprint a {
-  color: inherit;
+/* ─── Imprint: who made this, the source, the small print ──
+   Closes every page. Gold is kept for progress, so this is all ink. */
+.imprint {
+  margin-top: 3.5rem;
+  border-top: 1px solid var(--hairline-soft);
+  padding-top: 1.6rem;
+  display: grid;
+  gap: 1.4rem;
 }
-.landing .imprint a.author-link {
+@media (min-width: 760px) {
+  .imprint {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+.imprint dl {
+  margin: 0;
+}
+.imprint dt {
+  margin-bottom: 0.45rem;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.imprint dd {
+  margin: 0;
+  font-family: "Newsreader", serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+.imprint a {
+  color: inherit;
+  text-decoration: none;
+}
+.imprint a:hover {
   color: var(--text);
 }
-.landing .imprint dt {
-  color: var(--text-dim);
+/* The other links announce themselves in their labels ("View it on GitHub",
+   "Contact"). A name does not, so it carries a hairline rule. */
+.imprint a.author-link {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--hairline);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 0.2s ease;
+}
+.imprint a.author-link:hover,
+.imprint a.author-link:focus-visible {
+  text-decoration-color: var(--text);
+}
+.imprint-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
 }
